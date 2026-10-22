@@ -192,6 +192,22 @@ Strix Cloud:
     )
 
     parser.add_argument(
+        "--web",
+        action="store_true",
+        help=(
+            "Run interactive Web interface (default port 1400) and open Chrome "
+            "instead of the terminal TUI."
+        ),
+    )
+
+    parser.add_argument(
+        "--port",
+        type=int,
+        default=1400,
+        help="Port for the interactive Web interface (default: 1400).",
+    )
+
+    parser.add_argument(
         "--fail-on",
         dest="fail_on",
         type=str.lower,
@@ -342,6 +358,9 @@ Strix Cloud:
 
     if args.update:
         sys.exit(0 if self_update() else 1)
+
+    if args.web and args.non_interactive:
+        parser.error("Cannot combine --web with -n/--non-interactive.")
 
     if args.fail_on and not args.non_interactive and terminal_attached():
         # Without a terminal main() switches to headless anyway, so the

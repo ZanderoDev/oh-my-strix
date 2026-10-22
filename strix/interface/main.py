@@ -362,7 +362,12 @@ def _fall_back_to_headless(args: argparse.Namespace) -> None:
     enter a target, so stop with the fix instead. A bare ``--resume`` is left
     to the picker, which already explains itself without a terminal.
     """
-    if args.non_interactive or args.resume_picker or terminal_attached():
+    if (
+        args.non_interactive
+        or args.resume_picker
+        or terminal_attached()
+        or getattr(args, "web", False)
+    ):
         return
     if args.needs_setup:
         report_error("no_terminal_for_setup")
@@ -477,7 +482,11 @@ def main() -> None:
     _fall_back_to_headless(args)
 
     start_background_check()
-    if not args.non_interactive and prompt_update_if_available(Console()):
+    if (
+        not args.non_interactive
+        and not getattr(args, "web", False)
+        and prompt_update_if_available(Console())
+    ):
         if is_binary_install() and sys.platform != "win32":
             restart_after_update()
         sys.exit(0)
@@ -510,6 +519,11 @@ def main() -> None:
             # Headless runs have no user to quit: the agent either finished
             # (already beaconed as finished_by_tool) or stopped on its own.
             exit_reason = "agent_stopped"
+        elif getattr(args, "web", False):
+            from strix.interface.web import run_web
+
+            asyncio.run(run_web(args))
+            exit_reason = "user_exit"
         else:
             asyncio.run(run_tui(args))
     except InteractiveSetupUnavailableError as exc:

@@ -1,0 +1,1838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Strix · Autonomous AI Pentesting</title>
+  <link rel="icon" type="image/png" href="/static/logo.png">
+  <style>
+    :root {
+      --strix-bg-dark: #09090b;
+      --strix-bg-surface: #121215;
+      --strix-bg-card: #18181b;
+      --strix-bg-card-hover: #222226;
+      --strix-bg-input: #101013;
+      --strix-border: rgba(255, 255, 255, 0.1);
+      --strix-border-focus: rgba(34, 197, 94, 0.5);
+      --strix-emerald: #22c55e;
+      --strix-emerald-dark: #16a34a;
+      --strix-emerald-glow: rgba(34, 197, 94, 0.2);
+      --strix-cyan: #06b6d4;
+      --strix-amber: #f59e0b;
+      --strix-red: #ef4444;
+      --strix-purple: #a855f7;
+      --strix-blue: #3b82f6;
+      --strix-text: #f4f4f5;
+      --strix-text-dim: #a1a1aa;
+      --strix-text-muted: #71717a;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--strix-bg-dark);
+      color: var(--strix-text);
+      font-family: var(--font-sans);
+      font-size: 14px;
+      line-height: 1.5;
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    /* Common utilities */
+    a { color: var(--strix-cyan); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    button {
+      cursor: pointer;
+      font-family: inherit;
+      border: 1px solid var(--strix-border);
+      border-radius: 6px;
+      padding: 7px 14px;
+      background: var(--strix-bg-card);
+      color: var(--strix-text);
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 500;
+    }
+    button:hover {
+      background: var(--strix-bg-card-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      color: #fff;
+    }
+    button.btn-primary {
+      background: var(--strix-emerald);
+      color: #052e16;
+      font-weight: 700;
+      border-color: var(--strix-emerald-dark);
+      box-shadow: 0 0 15px var(--strix-emerald-glow);
+    }
+    button.btn-primary:hover {
+      background: #4ade80;
+      color: #000;
+      box-shadow: 0 0 25px rgba(34, 197, 94, 0.35);
+    }
+    button.btn-danger {
+      background: rgba(239, 68, 68, 0.15);
+      color: var(--strix-red);
+      border-color: rgba(239, 68, 68, 0.4);
+    }
+    button.btn-danger:hover {
+      background: rgba(239, 68, 68, 0.3);
+      color: #fff;
+    }
+    button:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    input, textarea, select {
+      background: var(--strix-bg-input);
+      border: 1px solid var(--strix-border);
+      border-radius: 6px;
+      color: var(--strix-text);
+      font-family: inherit;
+      font-size: 13px;
+      padding: 9px 12px;
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--strix-border-focus);
+      box-shadow: 0 0 0 1px var(--strix-emerald);
+    }
+
+    /* Badges */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 2px 8px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .badge-running { background: rgba(34, 197, 94, 0.15); color: var(--strix-emerald); border: 1px solid rgba(34, 197, 94, 0.3); }
+    .badge-waiting { background: rgba(245, 158, 11, 0.15); color: var(--strix-amber); border: 1px solid rgba(245, 158, 11, 0.3); }
+    .badge-completed { background: rgba(59, 130, 246, 0.15); color: var(--strix-blue); border: 1px solid rgba(59, 130, 246, 0.3); }
+    .badge-stopped { background: rgba(113, 113, 122, 0.15); color: var(--strix-text-dim); border: 1px solid var(--strix-border); }
+    .badge-failed { background: rgba(239, 68, 68, 0.15); color: var(--strix-red); border: 1px solid rgba(239, 68, 68, 0.3); }
+
+    .badge-critical { background: rgba(239, 68, 68, 0.2); color: #fca5a5; border: 1px solid var(--strix-red); }
+    .badge-high { background: rgba(249, 115, 22, 0.2); color: #fdba74; border: 1px solid #f97316; }
+    .badge-medium { background: rgba(234, 179, 8, 0.2); color: #fde047; border: 1px solid #eab308; }
+    .badge-low { background: rgba(59, 130, 246, 0.2); color: #93c5fd; border: 1px solid #3b82f6; }
+    .badge-info { background: rgba(113, 113, 122, 0.2); color: #d4d4d8; border: 1px solid var(--strix-border); }
+
+    .pulse-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--strix-emerald);
+      display: inline-block;
+      box-shadow: 0 0 8px var(--strix-emerald);
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.25); opacity: 1; }
+      100% { transform: scale(0.95); opacity: 0.8; }
+    }
+
+    /* Main Shell */
+    #app {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      width: 100vw;
+      overflow: hidden;
+      background-color: var(--strix-bg-dark);
+    }
+
+    /* Top Nav Bar */
+    header.top-nav {
+      height: 54px;
+      border-bottom: 1px solid var(--strix-border);
+      background: var(--strix-bg-surface);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 18px;
+      flex-shrink: 0;
+      z-index: 10;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand img {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+    }
+    .brand-title {
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      font-size: 16px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .brand-title span.tag {
+      font-size: 10px;
+      padding: 2px 7px;
+      background: rgba(34, 197, 94, 0.15);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      color: var(--strix-emerald);
+      border-radius: 4px;
+      font-weight: 700;
+    }
+
+    .nav-center {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .stat-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--strix-bg-card);
+      border: 1px solid var(--strix-border);
+      border-radius: 6px;
+      padding: 5px 12px;
+      font-size: 12px;
+    }
+    .stat-label {
+      color: var(--strix-text-muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+    .stat-value {
+      font-weight: 600;
+      color: var(--strix-text);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* Setup View Container */
+    #setup-view {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 36px 20px;
+      background: radial-gradient(circle at 50% 10%, rgba(34, 197, 94, 0.07), transparent 60%), var(--strix-bg-dark);
+    }
+
+    .setup-card {
+      width: 100%;
+      max-width: 800px;
+      background: var(--strix-bg-surface);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 14px;
+      padding: 30px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7), 0 0 35px rgba(34, 197, 94, 0.05);
+      margin-bottom: 40px;
+    }
+
+    .setup-header {
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 1px solid var(--strix-border);
+      padding-bottom: 18px;
+    }
+    .setup-header h2 {
+      font-size: 22px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .setup-header p {
+      color: var(--strix-text-dim);
+      font-size: 13px;
+      margin-top: 4px;
+    }
+
+    .form-group {
+      margin-bottom: 22px;
+    }
+    .form-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--strix-text-dim);
+      margin-bottom: 8px;
+    }
+
+    .target-input-row {
+      display: flex;
+      gap: 10px;
+    }
+    .target-input-row input {
+      flex: 1;
+    }
+
+    .targets-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .target-chip {
+      background: var(--strix-bg-card);
+      border: 1px solid rgba(34, 197, 94, 0.4);
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-family: var(--font-mono);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #fff;
+    }
+    .target-chip button.remove-btn {
+      background: none;
+      border: none;
+      color: var(--strix-text-dim);
+      padding: 0;
+      font-size: 15px;
+      line-height: 1;
+      cursor: pointer;
+    }
+    .target-chip button.remove-btn:hover {
+      color: var(--strix-red);
+    }
+
+    .quick-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 10px;
+    }
+    .quick-chip {
+      background: var(--strix-bg-card);
+      border: 1px dashed var(--strix-border);
+      font-size: 11px;
+      padding: 4px 10px;
+      color: var(--strix-text-dim);
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .quick-chip:hover {
+      border-color: var(--strix-emerald);
+      color: var(--strix-emerald);
+      background: rgba(34, 197, 94, 0.05);
+    }
+
+    .mode-pills {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .mode-pill {
+      background: var(--strix-bg-card);
+      border: 1px solid var(--strix-border);
+      border-radius: 8px;
+      padding: 14px;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.15s;
+    }
+    .mode-pill:hover {
+      background: var(--strix-bg-card-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+    .mode-pill.active {
+      border-color: var(--strix-emerald);
+      background: rgba(34, 197, 94, 0.08);
+      box-shadow: 0 0 15px rgba(34, 197, 94, 0.1);
+    }
+    .mode-pill-title {
+      font-weight: 700;
+      font-size: 14px;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+    .mode-pill-desc {
+      font-size: 11px;
+      color: var(--strix-text-dim);
+      line-height: 1.4;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .setup-log {
+      margin-top: 20px;
+      background: #000;
+      border: 1px solid var(--strix-border);
+      border-radius: 6px;
+      padding: 12px 14px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      max-height: 110px;
+      overflow-y: auto;
+      color: var(--strix-text-dim);
+      line-height: 1.6;
+    }
+
+    /* Live Scan Layout */
+    #live-view {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+      background-color: var(--strix-bg-dark);
+    }
+
+    /* Left Sidebar: Agents */
+    aside.agent-sidebar {
+      width: 270px;
+      background: var(--strix-bg-surface);
+      border-right: 1px solid var(--strix-border);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+    }
+    .sidebar-header {
+      padding: 14px 16px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--strix-text-muted);
+      border-bottom: 1px solid var(--strix-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .agent-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 10px;
+    }
+    .agent-item {
+      padding: 10px 12px;
+      border-radius: 6px;
+      margin-bottom: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 1px solid transparent;
+      background: transparent;
+      transition: all 0.15s;
+    }
+    .agent-item:hover {
+      background: var(--strix-bg-card);
+    }
+    .agent-item.selected {
+      background: var(--strix-bg-card);
+      border-color: rgba(34, 197, 94, 0.4);
+    }
+    .agent-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+    .agent-name {
+      font-weight: 600;
+      font-size: 13px;
+      color: #fff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .agent-sub {
+      font-size: 11px;
+      color: var(--strix-text-muted);
+      font-family: var(--font-mono);
+    }
+
+    /* Center Feed & Transcript */
+    main.transcript-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: var(--strix-bg-dark);
+      overflow: hidden;
+      position: relative;
+    }
+    .feed-header {
+      height: 48px;
+      border-bottom: 1px solid var(--strix-border);
+      padding: 0 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--strix-bg-surface);
+      font-size: 12px;
+      flex-shrink: 0;
+    }
+    .feed-title {
+      font-weight: 600;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .event-feed {
+      flex: 1;
+      overflow-y: auto;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* Event Cards */
+    .event-card {
+      border: 1px solid var(--strix-border);
+      border-radius: 8px;
+      background: var(--strix-bg-surface);
+      padding: 14px 18px;
+      max-width: 100%;
+      word-break: break-word;
+    }
+
+    /* User Chat Card */
+    .event-card.chat-user {
+      border-color: rgba(59, 130, 246, 0.4);
+      background: rgba(59, 130, 246, 0.05);
+      border-left: 4px solid var(--strix-blue);
+    }
+
+    /* Assistant Chat Card */
+    .event-card.chat-assistant {
+      border-color: rgba(34, 197, 94, 0.3);
+      background: rgba(34, 197, 94, 0.03);
+      border-left: 4px solid var(--strix-emerald);
+    }
+
+    /* Tool Call Card */
+    .event-card.tool-card {
+      background: var(--strix-bg-card);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+    .tool-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      user-select: none;
+    }
+    .tool-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 600;
+      color: #fff;
+    }
+    .tool-name-badge {
+      background: rgba(6, 182, 212, 0.15);
+      color: var(--strix-cyan);
+      border: 1px solid rgba(6, 182, 212, 0.3);
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-size: 11px;
+    }
+    .tool-args-preview {
+      color: var(--strix-text-dim);
+      font-size: 12px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 480px;
+    }
+    .tool-body {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--strix-border);
+      font-size: 12px;
+    }
+    .tool-output-block {
+      background: #000;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 6px;
+      padding: 12px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: #d4d4d8;
+      max-height: 380px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      line-height: 1.5;
+    }
+
+    /* Thinking Collapsible */
+    .thinking-box {
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      background: rgba(168, 85, 247, 0.05);
+      border-radius: 6px;
+      padding: 8px 12px;
+      margin-bottom: 10px;
+    }
+    .thinking-header {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #c084fc;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .thinking-content {
+      margin-top: 8px;
+      font-size: 12px;
+      color: var(--strix-text-dim);
+      font-style: italic;
+      white-space: pre-wrap;
+      line-height: 1.5;
+    }
+
+    /* Steer Composer (Bottom) */
+    .steer-bar {
+      border-top: 1px solid var(--strix-border);
+      background: var(--strix-bg-surface);
+      padding: 12px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .steer-target-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--strix-text-muted);
+    }
+    .steer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: flex-end;
+    }
+    .steer-input-row textarea {
+      flex: 1;
+      height: 48px;
+      min-height: 44px;
+      max-height: 140px;
+      resize: vertical;
+    }
+
+    /* Right Sidebar: Findings & Metrics */
+    aside.findings-sidebar {
+      width: 330px;
+      background: var(--strix-bg-surface);
+      border-left: 1px solid var(--strix-border);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+    }
+    .tabs-header {
+      display: flex;
+      border-bottom: 1px solid var(--strix-border);
+    }
+    .tab-btn {
+      flex: 1;
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      border-radius: 0;
+      padding: 12px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--strix-text-muted);
+    }
+    .tab-btn.active {
+      color: #fff;
+      border-bottom-color: var(--strix-emerald);
+      background: rgba(34, 197, 94, 0.05);
+    }
+
+    .tab-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 14px;
+    }
+
+    /* Vulnerability cards */
+    .vuln-item {
+      background: var(--strix-bg-card);
+      border: 1px solid var(--strix-border);
+      border-radius: 6px;
+      padding: 12px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .vuln-item:hover {
+      border-color: rgba(255, 255, 255, 0.25);
+      background: var(--strix-bg-card-hover);
+    }
+    .vuln-title {
+      font-weight: 600;
+      font-size: 13px;
+      color: #fff;
+      margin-top: 6px;
+      line-height: 1.4;
+    }
+    .vuln-meta {
+      font-size: 11px;
+      color: var(--strix-text-dim);
+      margin-top: 4px;
+      font-family: var(--font-mono);
+    }
+
+    /* Modals */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(5px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 20px;
+    }
+    .modal-box {
+      background: var(--strix-bg-surface);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      width: 100%;
+      max-width: 680px;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 24px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85);
+      position: relative;
+    }
+    .modal-box.large {
+      max-width: 840px;
+    }
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      border-bottom: 1px solid var(--strix-border);
+      padding-bottom: 14px;
+    }
+    .modal-header h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    /* Image zoom lightbox */
+    .lightbox-img {
+      max-width: 100%;
+      max-height: 80vh;
+      object-fit: contain;
+      border-radius: 8px;
+      border: 1px solid var(--strix-border);
+    }
+
+    /* Markdown render styling */
+    .markdown-body pre {
+      background: #000;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 6px;
+      padding: 12px;
+      overflow-x: auto;
+      margin: 10px 0;
+      font-family: var(--font-mono);
+      font-size: 12px;
+    }
+    .markdown-body code {
+      background: rgba(255, 255, 255, 0.08);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+    }
+    .markdown-body p { margin-bottom: 8px; }
+    .markdown-body ul, .markdown-body ol { margin-left: 20px; margin-bottom: 8px; }
+
+    /* Scroll to bottom button */
+    .scroll-down-btn {
+      position: absolute;
+      bottom: 80px;
+      right: 24px;
+      background: var(--strix-bg-card);
+      border: 1px solid var(--strix-emerald);
+      color: var(--strix-emerald);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+      border-radius: 20px;
+      padding: 6px 14px;
+      font-size: 11px;
+      font-weight: 600;
+      z-index: 5;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <!-- Top Nav Header -->
+    <header class="top-nav">
+      <div class="brand">
+        <img src="/static/logo.png" alt="Strix Logo" onerror="this.style.display='none'">
+        <div class="brand-title">
+          STRIX
+          <span class="tag">AI PENTEST</span>
+        </div>
+      </div>
+
+      <div class="nav-center" id="nav-center-stats" style="display: none;">
+        <!-- Status -->
+        <div id="scan-status-badge" class="badge badge-running">
+          <span class="pulse-dot"></span>
+          <span id="scan-status-text">RUNNING</span>
+        </div>
+
+        <!-- Budget / Cost -->
+        <div class="stat-pill">
+          <span class="stat-label">Cost:</span>
+          <span class="stat-value" id="stat-cost">$0.00</span>
+          <span class="stat-label" id="stat-budget-max"></span>
+        </div>
+
+        <!-- Turns -->
+        <div class="stat-pill">
+          <span class="stat-label">Turns:</span>
+          <span class="stat-value" id="stat-turns">0</span>
+        </div>
+
+        <!-- Findings count -->
+        <div class="stat-pill" style="cursor: pointer;" onclick="app.switchTab('vulns')">
+          <span class="stat-label">Findings:</span>
+          <span class="stat-value" id="stat-vuln-count" style="color: var(--strix-red);">0</span>
+        </div>
+      </div>
+
+      <div class="nav-actions">
+        <span id="ws-status" style="font-size: 11px; color: var(--strix-emerald); display: flex; align-items: center; gap: 4px;">
+          <span class="pulse-dot" style="width: 5px; height: 5px;"></span> Live
+        </span>
+        <button id="btn-caido" style="display: none;" onclick="app.openCaido()">
+          Proxy (Caido)
+        </button>
+        <button id="btn-stop-scan" class="btn-danger" style="display: none;" onclick="app.confirmStopScan()">
+          Stop Scan
+        </button>
+      </div>
+    </header>
+
+    <!-- SETUP VIEW -->
+    <div id="setup-view" style="display: none;">
+      <div class="setup-card">
+        <div class="setup-header">
+          <div>
+            <h2>Start New Penetration Test</h2>
+            <p>Target a website, domain, API spec, or repository for autonomous multi-agent testing.</p>
+          </div>
+          <div id="model-status-chip" class="stat-pill">
+            <span class="stat-label">Model:</span>
+            <span class="stat-value" id="setup-model-name">Checking...</span>
+          </div>
+        </div>
+
+        <form id="setup-form" onsubmit="app.onSetupSubmit(event)">
+          <!-- Target Input -->
+          <div class="form-group">
+            <label class="form-label">Target Assets</label>
+            <div class="target-input-row">
+              <input type="text" id="target-input" placeholder="e.g. https://example.com, 192.168.1.1, or ./source-repo" autocomplete="off">
+              <button type="button" onclick="app.addTargetFromInput()">Add Target</button>
+            </div>
+            <div class="targets-list" id="targets-list"></div>
+            <div class="quick-chips">
+              <span style="font-size: 11px; color: var(--strix-text-muted); align-self: center;">Examples:</span>
+              <button type="button" class="quick-chip" onclick="app.addQuickTarget('https://example.com')">https://example.com</button>
+              <button type="button" class="quick-chip" onclick="app.addQuickTarget('http://localhost:8080')">http://localhost:8080</button>
+              <button type="button" class="quick-chip" onclick="app.addQuickTarget('./')">./ (Local Code)</button>
+              <button type="button" class="quick-chip" onclick="app.addQuickTarget('openapi.yaml')">openapi.yaml</button>
+            </div>
+          </div>
+
+          <!-- Instructions -->
+          <div class="form-group">
+            <label class="form-label">Instructions / Focus Areas</label>
+            <textarea id="instruction-input" rows="3" placeholder="Custom instructions, testing focus, test accounts/credentials, or target endpoints..."></textarea>
+            <div class="quick-chips">
+              <span style="font-size: 11px; color: var(--strix-text-muted); align-self: center;">Focus:</span>
+              <button type="button" class="quick-chip" onclick="app.appendInstruction('Focus on authentication bypass and IDOR vulnerabilities.')">Auth & IDOR</button>
+              <button type="button" class="quick-chip" onclick="app.appendInstruction('Test thoroughly for OWASP Top 10 web vulnerabilities.')">OWASP Top 10</button>
+              <button type="button" class="quick-chip" onclick="app.appendInstruction('Perform detailed API fuzzing and parameter tampering.')">API Fuzzing</button>
+              <button type="button" class="quick-chip" onclick="app.appendInstruction('Test for SQL injection and command execution.')">Injection Flaws</button>
+            </div>
+          </div>
+
+          <!-- Scan Tuning -->
+          <div class="form-group">
+            <label class="form-label">Scan Depth Mode</label>
+            <div class="mode-pills">
+              <div class="mode-pill" id="mode-quick" onclick="app.setScanMode('quick')">
+                <div class="mode-pill-title">Quick</div>
+                <div class="mode-pill-desc">Fast CI/CD checks & surface discovery</div>
+              </div>
+              <div class="mode-pill" id="mode-standard" onclick="app.setScanMode('standard')">
+                <div class="mode-pill-title">Standard</div>
+                <div class="mode-pill-desc">Routine penetration assessment</div>
+              </div>
+              <div class="mode-pill active" id="mode-deep" onclick="app.setScanMode('deep')">
+                <div class="mode-pill-title">Deep</div>
+                <div class="mode-pill-desc">Thorough multi-stage agent review</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Budget & Turns -->
+          <div class="grid-2 form-group">
+            <div>
+              <label class="form-label">Max Budget ($ USD)</label>
+              <input type="number" id="budget-input" placeholder="No limit (e.g. 10.00)" step="0.5" min="0.5">
+            </div>
+            <div>
+              <label class="form-label">Max Turns</label>
+              <input type="number" id="turns-input" value="100" min="10" max="1000">
+            </div>
+          </div>
+
+          <div style="margin-top: 24px; display: flex; justify-content: space-between; align-items: center;">
+            <div style="font-size: 12px; color: var(--strix-text-muted);">
+              Press <kbd style="background: var(--strix-bg-card); padding: 2px 6px; border-radius: 4px; border: 1px solid var(--strix-border);">Ctrl+Enter</kbd> to start
+            </div>
+            <button type="submit" class="btn-primary" id="btn-start-scan" style="padding: 10px 24px; font-size: 14px;">
+              Launch Penetration Test
+            </button>
+          </div>
+
+          <!-- Setup preflight log -->
+          <div class="setup-log" id="setup-log-content">
+            <div>[STRIX] Initializing interactive setup environment...</div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- LIVE VIEW -->
+    <div id="live-view" style="display: none;">
+      <!-- Agent Hierarchy Sidebar -->
+      <aside class="agent-sidebar">
+        <div class="sidebar-header">
+          <span>Agent Swarm (<span id="agent-count-badge">0</span>)</span>
+        </div>
+        <div class="agent-list" id="agents-tree-container">
+          <div class="agent-item selected" onclick="app.selectAgent('all')">
+            <div class="agent-info">
+              <span class="agent-name">All Agents</span>
+              <span class="agent-sub">Unified live feed</span>
+            </div>
+          </div>
+          <div id="dynamic-agent-list"></div>
+        </div>
+      </aside>
+
+      <!-- Center Live Feed -->
+      <main class="transcript-main">
+        <div class="feed-header">
+          <div class="feed-title">
+            <span id="current-filter-title">All Agents Stream</span>
+            <span class="badge badge-running" id="feed-status-badge">LIVE</span>
+          </div>
+          <div style="color: var(--strix-text-dim); font-size: 11px;">
+            Target: <span id="feed-target-text" style="color: #fff; font-weight: 600;">-</span>
+          </div>
+        </div>
+
+        <!-- Scrollable Feed -->
+        <div class="event-feed" id="event-feed" onscroll="app.onFeedScroll()">
+          <!-- Events injected here -->
+        </div>
+
+        <button class="scroll-down-btn" id="scroll-down-btn" style="display: none;" onclick="app.scrollToBottom(true)">
+          ↓ Jump to latest
+        </button>
+
+        <!-- Steer Bar -->
+        <div class="steer-bar">
+          <div class="steer-target-row">
+            <span>Guide agent: <strong id="steer-target-label" style="color: var(--strix-emerald);">Root Agent</strong></span>
+            <span><kbd>Ctrl+Enter</kbd> to submit</span>
+          </div>
+          <div class="steer-input-row">
+            <textarea id="steer-textarea" placeholder="Give instructions, test credentials, or redirect the agent..." onkeydown="app.onSteerKeyDown(event)"></textarea>
+            <button class="btn-primary" onclick="app.sendSteerMessage()">Send</button>
+          </div>
+        </div>
+      </main>
+
+      <!-- Right Sidebar: Findings & Metrics -->
+      <aside class="findings-sidebar">
+        <div class="tabs-header">
+          <button class="tab-btn active" id="tab-btn-vulns" onclick="app.switchTab('vulns')">
+            Findings (<span id="tab-vuln-count">0</span>)
+          </button>
+          <button class="tab-btn" id="tab-btn-metrics" onclick="app.switchTab('metrics')">
+            Metrics & MCP
+          </button>
+        </div>
+
+        <!-- Vulnerabilities Tab -->
+        <div class="tab-content" id="tab-content-vulns">
+          <div id="vulns-list">
+            <div style="color: var(--strix-text-muted); text-align: center; margin-top: 40px; font-style: italic;">
+              No vulnerabilities identified yet.<br>Agents are exploring targets...
+            </div>
+          </div>
+        </div>
+
+        <!-- Metrics & MCP Tab -->
+        <div class="tab-content" id="tab-content-metrics" style="display: none;">
+          <div class="form-group">
+            <label class="form-label">LLM Token Usage</label>
+            <div style="background: var(--strix-bg-card); padding: 12px; border-radius: 6px; font-family: var(--font-mono); font-size: 12px; border: 1px solid var(--strix-border);">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                <span style="color: var(--strix-text-dim);">Prompt Tokens:</span>
+                <span id="metric-prompt-tokens">0</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                <span style="color: var(--strix-text-dim);">Completion:</span>
+                <span id="metric-comp-tokens">0</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; font-weight: 700; border-top: 1px solid var(--strix-border); padding-top: 4px;">
+                <span style="color: #fff;">Total Tokens:</span>
+                <span id="metric-total-tokens">0</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">MCP Server Roster</label>
+            <div id="mcp-roster-list" style="display: flex; flex-direction: column; gap: 6px;">
+              <div style="color: var(--strix-text-muted); font-size: 12px;">No custom MCP servers configured.</div>
+            </div>
+          </div>
+
+          <div class="form-group" id="caido-info-group" style="display: none;">
+            <label class="form-label">Interception Proxy (Caido)</label>
+            <div style="background: var(--strix-bg-card); padding: 10px; border-radius: 6px; border: 1px solid var(--strix-border); font-size: 12px;">
+              <p style="margin-bottom: 6px; color: var(--strix-text-dim);">Traffic is being routed through Caido.</p>
+              <a href="#" id="caido-direct-link" target="_blank" style="font-weight: 600;">Open Caido Web Dashboard →</a>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- MODAL: Mount Confirmation -->
+    <div id="mount-modal" class="modal-backdrop" style="display: none;">
+      <div class="modal-box">
+        <div class="modal-header">
+          <h3>Mount Working Directory?</h3>
+        </div>
+        <p style="color: var(--strix-text-dim); margin-bottom: 16px;">
+          No target URL or repository was specified. Would you like to mount your current working directory (<code id="mount-dir-path"></code>) as the workspace for the agent to inspect?
+        </p>
+        <div style="display: flex; justify-content: flex-end; gap: 10px;">
+          <button onclick="app.resolveMount(false)">Run Without Mount</button>
+          <button class="btn-primary" onclick="app.resolveMount(true)">Approve & Mount Workspace</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL: Vulnerability Detail -->
+    <div id="vuln-modal" class="modal-backdrop" style="display: none;">
+      <div class="modal-box large">
+        <div class="modal-header">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span class="badge badge-critical" id="vuln-modal-badge">CRITICAL</span>
+            <h3 id="vuln-modal-title">Vulnerability Detail</h3>
+          </div>
+          <button onclick="app.closeVulnModal()">✕</button>
+        </div>
+        <div style="margin-bottom: 12px; font-size: 12px; color: var(--strix-text-dim);" id="vuln-modal-location"></div>
+        <div class="markdown-body" id="vuln-modal-body" style="font-size: 13px; color: #e4e4e7;"></div>
+        <div style="margin-top: 20px; display: flex; justify-content: flex-end; gap: 10px;">
+          <button onclick="app.copyVulnMarkdown()">Copy Markdown</button>
+          <button class="btn-primary" onclick="app.closeVulnModal()">Close</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL: Image Lightbox -->
+    <div id="lightbox-modal" class="modal-backdrop" style="display: none;" onclick="app.closeLightbox()">
+      <img id="lightbox-img" class="lightbox-img" src="" alt="Screenshot">
+    </div>
+
+    <!-- MODAL: Stop Confirmation -->
+    <div id="stop-modal" class="modal-backdrop" style="display: none;">
+      <div class="modal-box" style="max-width: 420px;">
+        <div class="modal-header">
+          <h3>Stop Penetration Test?</h3>
+          <button onclick="app.closeStopModal()">✕</button>
+        </div>
+        <p style="color: var(--strix-text-dim); margin-bottom: 20px;">
+          Stopping will gracefully cancel all running agents, compile final vulnerability reports, and finalize the scan session.
+        </p>
+        <div style="display: flex; justify-content: flex-end; gap: 10px;">
+          <button onclick="app.closeStopModal()">Resume</button>
+          <button class="btn-danger" onclick="app.executeStopScan()">Stop Scan</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    class StrixApp {
+      constructor() {
+        this.state = null;
+        this.agents = [];
+        this.vulnerabilities = [];
+        this.events = [];
+        this.eventCursor = 0;
+        this.selectedAgentId = "all";
+        this.currentVuln = null;
+        this.ws = null;
+        this.wsConnected = false;
+        this.pollTimer = null;
+        this.autoScroll = true;
+        this.scanMode = "deep";
+        this.targets = [];
+
+        this.init();
+      }
+
+      init() {
+        this.connectWebSocket();
+        this.fetchFullState();
+
+        // Keyboard shortcuts
+        window.addEventListener("keydown", (e) => {
+          if (e.key === "Escape") {
+            this.closeAllModals();
+          }
+          if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+            if (this.state && this.state.setup_mode) {
+              const startBtn = document.getElementById("btn-start-scan");
+              if (startBtn && !startBtn.disabled) startBtn.click();
+            } else {
+              this.sendSteerMessage();
+            }
+          }
+        });
+      }
+
+      connectWebSocket() {
+        const proto = window.location.protocol === "https:" ? "wss:" : "ws:";
+        const wsUrl = `${proto}//${window.location.host}/ws`;
+
+        try {
+          this.ws = new WebSocket(wsUrl);
+
+          this.ws.onopen = () => {
+            this.wsConnected = true;
+            document.getElementById("ws-status").innerHTML = `<span class="pulse-dot" style="width: 5px; height: 5px;"></span> Live`;
+          };
+
+          this.ws.onmessage = (event) => {
+            try {
+              const msg = JSON.parse(event.data);
+              this.handleServerMessage(msg);
+            } catch (err) {
+              console.error("Failed to parse WS msg", err);
+            }
+          };
+
+          this.ws.onclose = () => {
+            this.wsConnected = false;
+            document.getElementById("ws-status").innerHTML = `<span style="color: var(--strix-amber);">●</span> Reconnecting`;
+            setTimeout(() => this.connectWebSocket(), 2000);
+          };
+
+          this.ws.onerror = (err) => {
+            console.debug("WS error, fallback polling active", err);
+          };
+        } catch (e) {
+          console.error("WS connection error", e);
+        }
+
+        // Background polling fallback
+        if (!this.pollTimer) {
+          this.pollTimer = setInterval(() => {
+            if (!this.wsConnected) {
+              this.fetchIncrementalEvents();
+              this.fetchFullState();
+            }
+          }, 2500);
+        }
+      }
+
+      async fetchFullState() {
+        try {
+          const res = await fetch("/api/state");
+          if (!res.ok) return;
+          const data = await res.json();
+          this.applyState(data.state);
+          this.applyAgents(data.agents);
+          this.applyVulnerabilities(data.vulnerabilities);
+          if (data.event_cursor && data.event_cursor > this.eventCursor) {
+            this.fetchIncrementalEvents();
+          }
+        } catch (e) {
+          console.debug("Error fetching state", e);
+        }
+      }
+
+      async fetchIncrementalEvents() {
+        try {
+          const res = await fetch(`/api/events?cursor=${this.eventCursor}`);
+          if (!res.ok) return;
+          const data = await res.json();
+          if (data.events && data.events.length > 0) {
+            this.appendEvents(data.events);
+            this.eventCursor = data.cursor || this.eventCursor;
+          }
+        } catch (e) {
+          console.debug("Error fetching events", e);
+        }
+      }
+
+      handleServerMessage(msg) {
+        if (msg.type === "init") {
+          this.applyState(msg.state);
+          this.applyAgents(msg.agents);
+          this.applyVulnerabilities(msg.vulnerabilities);
+          this.eventCursor = msg.event_cursor || 0;
+          this.events = [];
+          if (msg.events) {
+            this.appendEvents(msg.events);
+          }
+        } else if (msg.type === "state_update") {
+          this.applyState(msg.state);
+          this.applyAgents(msg.agents);
+          this.applyVulnerabilities(msg.vulnerabilities);
+        } else if (msg.type === "events") {
+          this.eventCursor = msg.cursor || this.eventCursor;
+          this.appendEvents(msg.events);
+        }
+      }
+
+      applyState(state) {
+        if (!state) return;
+        this.state = state;
+
+        // Setup vs Live Mode switch
+        const isSetup = Boolean(state.setup_mode && !state.scan_started);
+        document.getElementById("setup-view").style.display = isSetup ? "flex" : "none";
+        document.getElementById("live-view").style.display = isSetup ? "none" : "flex";
+        document.getElementById("nav-center-stats").style.display = isSetup ? "none" : "flex";
+        document.getElementById("btn-stop-scan").style.display = isSetup ? "none" : "inline-flex";
+
+        // Setup Mode UI state
+        if (isSetup) {
+          document.getElementById("setup-model-name").innerText = state.model || "Default Model";
+          if (state.targets && this.targets.length === 0) {
+            this.targets = [...state.targets];
+            this.renderTargetChips();
+          }
+          if (state.instruction && !document.getElementById("instruction-input").value) {
+            document.getElementById("instruction-input").value = state.instruction;
+          }
+          if (state.messages && state.messages.length > 0) {
+            const logBox = document.getElementById("setup-log-content");
+            logBox.innerHTML = state.messages.map(m => `<div>[${m.level.toUpperCase()}] ${this.escapeHtml(m.text)}</div>`).join("");
+            logBox.scrollTop = logBox.scrollHeight;
+          }
+          return;
+        }
+
+        // Mount Confirmation Check
+        if (state.pending_mount) {
+          document.getElementById("mount-dir-path").innerText = state.pending_mount;
+          document.getElementById("mount-modal").style.display = "flex";
+        } else {
+          document.getElementById("mount-modal").style.display = "none";
+        }
+
+        // Live Scan Header Stats
+        const scanStatusText = document.getElementById("scan-status-text");
+        const scanStatusBadge = document.getElementById("scan-status-badge");
+        const status = state.scan_state ? state.scan_state.toUpperCase() : "RUNNING";
+        scanStatusText.innerText = status;
+        scanStatusBadge.className = "badge badge-" + (state.scan_state || "running");
+
+        // Cost & Usage
+        const costVal = state.usage?.cost != null ? `$${Number(state.usage.cost).toFixed(2)}` : "$0.00";
+        document.getElementById("stat-cost").innerText = costVal;
+        if (state.max_budget_usd) {
+          document.getElementById("stat-budget-max").innerText = `/ $${Number(state.max_budget_usd).toFixed(2)}`;
+        }
+
+        // Turns
+        const turnsVal = state.usage?.turns != null ? state.usage.turns : (state.usage?.total_turns || 0);
+        document.getElementById("stat-turns").innerText = state.max_turns ? `${turnsVal} / ${state.max_turns}` : turnsVal;
+
+        // Feed target title
+        const targetStr = (state.targets && state.targets.length > 0) ? state.targets.join(", ") : state.working_dir || "-";
+        document.getElementById("feed-target-text").innerText = targetStr;
+
+        // Caido Proxy link
+        if (state.caido_url) {
+          document.getElementById("btn-caido").style.display = "inline-flex";
+          document.getElementById("caido-info-group").style.display = "block";
+          document.getElementById("caido-direct-link").href = state.caido_url;
+        }
+
+        // Metrics Tab data
+        if (state.usage) {
+          document.getElementById("metric-prompt-tokens").innerText = (state.usage.prompt_tokens || 0).toLocaleString();
+          document.getElementById("metric-comp-tokens").innerText = (state.usage.completion_tokens || 0).toLocaleString();
+          document.getElementById("metric-total-tokens").innerText = (state.usage.total_tokens || 0).toLocaleString();
+        }
+
+        // MCP Roster
+        if (state.connections && state.connections.length > 0) {
+          const mcpContainer = document.getElementById("mcp-roster-list");
+          mcpContainer.innerHTML = state.connections.map(c => `
+            <div style="background: var(--strix-bg-card); padding: 10px 12px; border-radius: 6px; border: 1px solid var(--strix-border); display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <strong style="color: #fff; font-size: 13px;">${this.escapeHtml(c.name)}</strong>
+                <div style="font-size: 11px; color: var(--strix-text-dim); margin-top: 2px;">${c.tool_count} tools available</div>
+              </div>
+              <span class="badge ${c.dead ? 'badge-failed' : 'badge-running'}">${c.dead ? 'DISCONNECTED' : 'ACTIVE'}</span>
+            </div>
+          `).join("");
+        }
+      }
+
+      applyAgents(agents) {
+        if (!agents) return;
+        this.agents = agents;
+        document.getElementById("agent-count-badge").innerText = agents.length;
+
+        const container = document.getElementById("dynamic-agent-list");
+        container.innerHTML = agents.map(agent => {
+          const isSelected = this.selectedAgentId === agent.id;
+          const status = agent.status || "running";
+          return `
+            <div class="agent-item ${isSelected ? 'selected' : ''}" onclick="app.selectAgent('${agent.id}')">
+              <div class="agent-info">
+                <span class="agent-name">${this.escapeHtml(agent.name || agent.id)}</span>
+                <span class="agent-sub">ID: ${this.escapeHtml(agent.id.slice(0, 8))}</span>
+              </div>
+              <span class="badge badge-${status}">${status}</span>
+            </div>
+          `;
+        }).join("");
+      }
+
+      applyVulnerabilities(vulns) {
+        if (!vulns) return;
+        this.vulnerabilities = vulns;
+        document.getElementById("stat-vuln-count").innerText = vulns.length;
+        document.getElementById("tab-vuln-count").innerText = vulns.length;
+
+        const container = document.getElementById("vulns-list");
+        if (vulns.length === 0) {
+          container.innerHTML = `
+            <div style="color: var(--strix-text-muted); text-align: center; margin-top: 40px; font-style: italic;">
+              No vulnerabilities identified yet.<br>Agents are exploring targets...
+            </div>
+          `;
+          return;
+        }
+
+        container.innerHTML = vulns.map(v => {
+          const sev = (v.severity || "info").toLowerCase();
+          return `
+            <div class="vuln-item" onclick="app.openVulnModal('${v.id}')">
+              <span class="badge badge-${sev}">${sev.toUpperCase()}</span>
+              <div class="vuln-title">${this.escapeHtml(v.title || "Unnamed Finding")}</div>
+              <div class="vuln-meta">${this.escapeHtml(v.target || v.component || "")}</div>
+            </div>
+          `;
+        }).join("");
+      }
+
+      appendEvents(newEvents) {
+        if (!newEvents || newEvents.length === 0) return;
+
+        for (const evt of newEvents) {
+          const existingIdx = this.events.findIndex(e => e.id === evt.id);
+          if (existingIdx >= 0) {
+            this.events[existingIdx] = evt;
+            this.updateEventInDOM(evt);
+          } else {
+            this.events.push(evt);
+            this.renderSingleEvent(evt);
+          }
+        }
+
+        if (this.autoScroll) {
+          this.scrollToBottom();
+        }
+      }
+
+      renderSingleEvent(evt) {
+        if (this.selectedAgentId !== "all" && evt.agent_id !== this.selectedAgentId) {
+          return;
+        }
+
+        const container = document.getElementById("event-feed");
+        const el = document.createElement("div");
+        el.id = `event-node-${evt.id}`;
+        el.className = "event-wrapper";
+        el.innerHTML = this.formatEventHtml(evt);
+        container.appendChild(el);
+      }
+
+      updateEventInDOM(evt) {
+        const el = document.getElementById(`event-node-${evt.id}`);
+        if (!el) {
+          this.renderSingleEvent(evt);
+          return;
+        }
+        if (this.selectedAgentId !== "all" && evt.agent_id !== this.selectedAgentId) {
+          el.remove();
+          return;
+        }
+        el.innerHTML = this.formatEventHtml(evt);
+      }
+
+      formatEventHtml(evt) {
+        if (evt.type === "chat") {
+          const role = evt.data?.role || "assistant";
+          const rawContent = evt.data?.content || "";
+
+          let thinkingHtml = "";
+          let cleanContent = rawContent;
+          const thinkMatch = rawContent.match(/<thinking>([\s\S]*?)<\/thinking>/);
+          if (thinkMatch) {
+            thinkingHtml = `
+              <div class="thinking-box">
+                <div class="thinking-header" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'">
+                  🧠 Thinking Process (click to toggle)
+                </div>
+                <div class="thinking-content" style="display: none;">${this.escapeHtml(thinkMatch[1].trim())}</div>
+              </div>
+            `;
+            cleanContent = rawContent.replace(/<thinking>[\s\S]*?<\/thinking>/, "").trim();
+          }
+
+          const parsedMarkdown = this.renderMarkdown(cleanContent);
+          const isUser = role === "user";
+          return `
+            <div class="event-card ${isUser ? 'chat-user' : 'chat-assistant'}">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 11px; color: var(--strix-text-dim);">
+                <strong style="color: ${isUser ? 'var(--strix-blue)' : 'var(--strix-emerald)'};">${isUser ? 'USER' : 'STRIX AGENT'}</strong>
+                <span>${new Date(evt.timestamp).toLocaleTimeString()}</span>
+              </div>
+              ${thinkingHtml}
+              <div class="markdown-body">${parsedMarkdown}</div>
+            </div>
+          `;
+        }
+
+        if (evt.type === "tool") {
+          const toolName = evt.data?.tool_name || "tool";
+          const args = evt.data?.args || {};
+          const status = evt.data?.status || "running";
+          const result = evt.data?.result;
+          const isRunning = status === "running";
+
+          let argsPreview = "";
+          try {
+            argsPreview = JSON.stringify(args);
+          } catch(e) {}
+
+          let resultHtml = "";
+          if (result != null) {
+            if (typeof result === "string" && result.startsWith("data:image/")) {
+              resultHtml = `
+                <div style="margin-top: 8px;">
+                  <img src="${result}" style="max-height: 220px; border-radius: 4px; cursor: pointer; border: 1px solid var(--strix-border);" onclick="app.openLightbox('${result}')">
+                </div>
+              `;
+            } else {
+              const resStr = typeof result === "object" ? JSON.stringify(result, null, 2) : String(result);
+              resultHtml = `
+                <div class="tool-output-block">${this.escapeHtml(resStr)}</div>
+              `;
+            }
+          }
+
+          return `
+            <div class="event-card tool-card">
+              <div class="tool-header" onclick="app.toggleToolBody('${evt.id}')">
+                <div class="tool-title">
+                  <span class="tool-name-badge">${this.escapeHtml(toolName)}</span>
+                  <span class="tool-args-preview">${this.escapeHtml(argsPreview)}</span>
+                </div>
+                <span class="badge ${isRunning ? 'badge-waiting' : (status === 'error' ? 'badge-failed' : 'badge-completed')}">
+                  ${isRunning ? 'RUNNING' : status.toUpperCase()}
+                </span>
+              </div>
+              <div class="tool-body" id="tool-body-${evt.id}">
+                <div style="color: var(--strix-text-muted); font-size: 11px; margin-bottom: 4px;">Arguments:</div>
+                <pre style="background: #000; padding: 8px; border-radius: 4px; overflow-x: auto; font-family: var(--font-mono); font-size: 11px; margin-bottom: 8px; border: 1px solid var(--strix-border);">${this.escapeHtml(JSON.stringify(args, null, 2))}</pre>
+                ${result != null ? '<div style="color: var(--strix-text-muted); font-size: 11px; margin-bottom: 4px;">Output:</div>' + resultHtml : ''}
+              </div>
+            </div>
+          `;
+        }
+
+        return "";
+      }
+
+      toggleToolBody(id) {
+        const body = document.getElementById(`tool-body-${id}`);
+        if (body) {
+          body.style.display = body.style.display === "none" ? "block" : "none";
+        }
+      }
+
+      selectAgent(agentId) {
+        this.selectedAgentId = agentId;
+        const targetLabel = document.getElementById("steer-target-label");
+        const filterTitle = document.getElementById("current-filter-title");
+
+        if (agentId === "all") {
+          targetLabel.innerText = "Root Agent";
+          filterTitle.innerText = "All Agents Stream";
+        } else {
+          const agent = this.agents.find(a => a.id === agentId);
+          const name = agent ? (agent.name || agent.id) : agentId;
+          targetLabel.innerText = name;
+          filterTitle.innerText = `Agent: ${name}`;
+        }
+
+        const container = document.getElementById("event-feed");
+        container.innerHTML = "";
+        for (const evt of this.events) {
+          if (this.selectedAgentId === "all" || evt.agent_id === this.selectedAgentId) {
+            this.renderSingleEvent(evt);
+          }
+        }
+        this.applyAgents(this.agents);
+        this.scrollToBottom();
+      }
+
+      onFeedScroll() {
+        const feed = document.getElementById("event-feed");
+        const isNearBottom = feed.scrollHeight - feed.scrollTop - feed.clientHeight < 80;
+        this.autoScroll = isNearBottom;
+        document.getElementById("scroll-down-btn").style.display = isNearBottom ? "none" : "block";
+      }
+
+      scrollToBottom(force = false) {
+        const feed = document.getElementById("event-feed");
+        if (feed) {
+          feed.scrollTop = feed.scrollHeight;
+        }
+        if (force) {
+          this.autoScroll = true;
+          document.getElementById("scroll-down-btn").style.display = "none";
+        }
+      }
+
+      async sendSteerMessage() {
+        const txt = document.getElementById("steer-textarea");
+        const message = txt.value.trim();
+        if (!message) return;
+
+        let targetId = this.selectedAgentId;
+        if (targetId === "all" || !targetId) {
+          const root = this.agents.find(a => !a.parent_id) || this.agents[0];
+          targetId = root ? root.id : "";
+        }
+
+        if (!targetId) {
+          alert("No agent is currently active to receive instructions.");
+          return;
+        }
+
+        txt.value = "";
+        try {
+          await this.sendCommand("agent.send_message", {
+            agent_id: targetId,
+            message: message
+          });
+        } catch (e) {
+          alert("Failed to send message: " + e.message);
+        }
+      }
+
+      onSteerKeyDown(e) {
+        if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+          e.preventDefault();
+          this.sendSteerMessage();
+        }
+      }
+
+      addTargetFromInput() {
+        const inp = document.getElementById("target-input");
+        const val = inp.value.trim();
+        if (val && !this.targets.includes(val)) {
+          this.targets.push(val);
+          inp.value = "";
+          this.renderTargetChips();
+          this.sendCommand("setup.add_target", { target: val });
+        }
+      }
+
+      addQuickTarget(target) {
+        if (!this.targets.includes(target)) {
+          this.targets.push(target);
+          this.renderTargetChips();
+          this.sendCommand("setup.add_target", { target });
+        }
+      }
+
+      removeTarget(target) {
+        this.targets = this.targets.filter(t => t !== target);
+        this.renderTargetChips();
+        this.sendCommand("setup.remove_target", { target });
+      }
+
+      renderTargetChips() {
+        const list = document.getElementById("targets-list");
+        list.innerHTML = this.targets.map(t => `
+          <div class="target-chip">
+            <span>${this.escapeHtml(t)}</span>
+            <button type="button" class="remove-btn" onclick="app.removeTarget('${this.escapeHtml(t)}')">×</button>
+          </div>
+        `).join("");
+      }
+
+      appendInstruction(text) {
+        const inp = document.getElementById("instruction-input");
+        inp.value = (inp.value ? inp.value.trim() + "\n" : "") + text;
+      }
+
+      setScanMode(mode) {
+        this.scanMode = mode;
+        document.querySelectorAll(".mode-pill").forEach(el => el.classList.remove("active"));
+        const active = document.getElementById(`mode-${mode}`);
+        if (active) active.classList.add("active");
+        this.sendCommand("setup.set_config", { scan_mode: mode });
+      }
+
+      async onSetupSubmit(e) {
+        e.preventDefault();
+        const startBtn = document.getElementById("btn-start-scan");
+        startBtn.disabled = true;
+        startBtn.innerText = "Launching...";
+
+        const instruction = document.getElementById("instruction-input").value.trim();
+        const budgetRaw = document.getElementById("budget-input").value;
+        const turnsRaw = document.getElementById("turns-input").value;
+
+        try {
+          if (instruction) {
+            await this.sendCommand("setup.set_instruction", { instruction });
+          }
+          await this.sendCommand("setup.set_config", {
+            scan_mode: this.scanMode,
+            max_budget_usd: budgetRaw ? parseFloat(budgetRaw) : null,
+            max_turns: turnsRaw ? parseInt(turnsRaw) : 100
+          });
+
+          const mountWorkingDir = this.targets.length === 0;
+          const res = await this.sendCommand("setup.start", { mount_working_dir: mountWorkingDir });
+          if (res && res.started && !mountWorkingDir) {
+            setTimeout(() => { window.location.reload(); }, 600);
+          }
+        } catch (err) {
+          alert("Could not start scan: " + err.message);
+          startBtn.disabled = false;
+          startBtn.innerText = "Launch Penetration Test";
+        }
+      }
+
+      async resolveMount(approved) {
+        document.getElementById("mount-modal").style.display = "none";
+        try {
+          await this.sendCommand("setup.confirm_mount", { approved });
+          setTimeout(() => { window.location.reload(); }, 600);
+        } catch (e) {
+          alert("Mount confirmation failed: " + e.message);
+        }
+      }
+
+      openVulnModal(id) {
+        const vuln = this.vulnerabilities.find(v => v.id === id);
+        if (!vuln) return;
+        this.currentVuln = vuln;
+
+        const sev = (vuln.severity || "info").toLowerCase();
+        const badge = document.getElementById("vuln-modal-badge");
+        badge.className = `badge badge-${sev}`;
+        badge.innerText = sev.toUpperCase();
+
+        document.getElementById("vuln-modal-title").innerText = vuln.title || "Vulnerability";
+        document.getElementById("vuln-modal-location").innerText = vuln.target || vuln.url || vuln.component || "";
+
+        const bodyContent = vuln.description || vuln.details || vuln.markdown || "No description provided.";
+        document.getElementById("vuln-modal-body").innerHTML = this.renderMarkdown(bodyContent);
+        document.getElementById("vuln-modal").style.display = "flex";
+      }
+
+      closeVulnModal() {
+        document.getElementById("vuln-modal").style.display = "none";
+      }
+
+      copyVulnMarkdown() {
+        if (!this.currentVuln) return;
+        const text = `# ${this.currentVuln.title}\nSeverity: ${this.currentVuln.severity}\n\n${this.currentVuln.description || ""}`;
+        navigator.clipboard.writeText(text);
+        alert("Copied finding to clipboard!");
+      }
+
+      openLightbox(src) {
+        document.getElementById("lightbox-img").src = src;
+        document.getElementById("lightbox-modal").style.display = "flex";
+      }
+
+      closeLightbox() {
+        document.getElementById("lightbox-modal").style.display = "none";
+      }
+
+      confirmStopScan() {
+        document.getElementById("stop-modal").style.display = "flex";
+      }
+
+      closeStopModal() {
+        document.getElementById("stop-modal").style.display = "none";
+      }
+
+      async executeStopScan() {
+        this.closeStopModal();
+        try {
+          await this.sendCommand("app.quit", {});
+        } catch (e) {
+          alert("Failed to stop scan: " + e.message);
+        }
+      }
+
+      closeAllModals() {
+        document.getElementById("vuln-modal").style.display = "none";
+        document.getElementById("lightbox-modal").style.display = "none";
+        document.getElementById("stop-modal").style.display = "none";
+        document.getElementById("mount-modal").style.display = "none";
+      }
+
+      switchTab(tab) {
+        document.getElementById("tab-btn-vulns").classList.toggle("active", tab === "vulns");
+        document.getElementById("tab-btn-metrics").classList.toggle("active", tab === "metrics");
+        document.getElementById("tab-content-vulns").style.display = tab === "vulns" ? "block" : "none";
+        document.getElementById("tab-content-metrics").style.display = tab === "metrics" ? "block" : "none";
+      }
+
+      openCaido() {
+        if (this.state && this.state.caido_url) {
+          window.open(this.state.caido_url, "_blank");
+        }
+      }
+
+      async sendCommand(command, payload = {}) {
+        if (this.wsConnected && this.ws.readyState === WebSocket.OPEN) {
+          const id = "cmd_" + Math.random().toString(36).substring(2, 9);
+          this.ws.send(JSON.stringify({ type: "command", id, command, payload }));
+          return;
+        }
+
+        const res = await fetch("/api/command", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ command, payload })
+        });
+        const data = await res.json();
+        if (!data.ok) throw new Error(data.error || "Command execution failed");
+        return data.result;
+      }
+
+      escapeHtml(str) {
+        if (str == null) return "";
+        return String(str)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+      }
+
+      renderMarkdown(md) {
+        if (!md) return "";
+        let html = this.escapeHtml(md);
+
+        // Code blocks
+        html = html.replace(/```([a-z0-9_-]*)\n([\s\S]*?)```/g, (match, lang, code) => {
+          return `<pre><code class="language-${lang}">${code}</code></pre>`;
+        });
+
+        // Inline code
+        html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+
+        // Bold & Italic
+        html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+        html = html.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+
+        // Headers
+        html = html.replace(/^### (.*$)/gim, '<h4 style="color:#fff; margin:10px 0 4px 0;">$1</h4>');
+        html = html.replace(/^## (.*$)/gim, '<h3 style="color:#fff; margin:12px 0 6px 0;">$1</h3>');
+        html = html.replace(/^# (.*$)/gim, '<h2 style="color:#fff; margin:14px 0 8px 0;">$1</h2>');
+
+        // Lists
+        html = html.replace(/^\- (.*$)/gim, '<li>$1</li>');
+        html = html.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
+
+        // Paragraph line breaks
+        html = html.replace(/\n\n/g, '<p></p>');
+
+        return html;
+      }
+    }
+
+    const app = new StrixApp();
+  </script>
+</body>
+</html>

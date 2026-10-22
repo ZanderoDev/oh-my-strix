@@ -330,6 +330,9 @@ ignore = [
 "strix/interface/interactive.py" = ["PLC0415"]
 "strix/interface/tui/runtime.py" = ["PLC0415"]
 "strix/interface/tui/backend/controller.py" = ["PLC0415"]
+"strix/interface/web/runtime.py" = ["PLC0415", "BLE001", "PLR0912", "PLR0915"]
+"strix/interface/web/server.py" = ["PLC0415", "BLE001"]
+"strix/interface/web/browser.py" = ["BLE001", "PLR0912", "S603"]
 
 [tool.ruff.lint.isort]
 force-single-line = false

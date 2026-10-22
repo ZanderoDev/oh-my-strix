@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import asyncio
 import contextlib
+import ipaddress
 import math
 import webbrowser
 from collections.abc import Awaitable, Callable
@@ -33,6 +34,42 @@ if TYPE_CHECKING:
 
 
 _STOPPABLE_AGENT_STATUSES = frozenset({"running", "waiting", "budget_paused"})
+
+
+def looks_like_target(token: str) -> bool:
+    if not token:
+        return False
+    if "://" in token or token.endswith(".git"):
+        return True
+    if token.startswith(("/", "./", "~/", "../")):
+        return True
+    with contextlib.suppress(ValueError):
+        ipaddress.ip_address(token)
+        return True
+    if "." in token and not token.endswith(".") and not token.startswith("."):
+        parts = token.split(":")
+        host = parts[0]
+        if host == "localhost" or any(
+            host.endswith(tld)
+            for tld in (
+                ".com",
+                ".org",
+                ".net",
+                ".io",
+                ".dev",
+                ".id",
+                ".local",
+                ".ai",
+                ".co",
+                ".app",
+                ".xyz",
+                ".gov",
+                ".edu",
+            )
+        ):
+            return True
+    return False
+
 
 ChangeCallback = Callable[[], None]
 StartCallback = Callable[[], Awaitable[None]]
@@ -285,13 +322,16 @@ class TuiController:
     async def handle(self, command: str, payload: dict[str, Any]) -> dict[str, Any]:
         handlers = {
             "setup.add_target": self._add_target,
+            "setup.remove_target": self._remove_target,
             "setup.set_instruction": self._set_instruction,
+            "setup.set_config": self._set_config,
             "setup.start": self._start,
             "setup.confirm_mount": self._confirm_mount,
             "agent.send_message": self._send_message,
             "agent.stop": self._stop_agent,
             "viewer.open": self._open_viewer,
             "app.quit": self._quit,
+            "chat.send": self._chat_send,
         }
         handler = handlers.get(command)
         if handler is None:
@@ -306,6 +346,42 @@ class TuiController:
         if target not in self.targets:
             self.targets.append(target)
         return {"target": target, "total": len(self.targets)}
+
+    async def _remove_target(self, payload: dict[str, Any]) -> dict[str, Any]:
+        self._require_setup_mutable()
+        target = self._required_string(payload, "target")
+        if target in self.targets:
+            self.targets.remove(target)
+        return {"target": target, "total": len(self.targets)}
+
+    async def _set_config(self, payload: dict[str, Any]) -> dict[str, Any]:
+        self._require_setup_mutable()
+        if "scan_mode" in payload:
+            mode = str(payload["scan_mode"])
+            if mode in SCAN_MODES:
+                self.scan_mode = mode
+        if "max_budget_usd" in payload:
+            raw = payload["max_budget_usd"]
+            with contextlib.suppress(ValueError, TypeError):
+                self.max_budget_usd = float(raw) if raw is not None and float(raw) > 0 else None
+        if "max_turns" in payload:
+            raw = payload["max_turns"]
+            with contextlib.suppress(ValueError, TypeError):
+                self.max_turns = int(raw) if raw is not None and int(raw) > 0 else DEFAULT_MAX_TURNS
+        if "scope_mode" in payload:
+            scope = str(payload["scope_mode"])
+            if scope in SCOPE_MODES:
+                self.scope_mode = scope
+        if "diff_base" in payload:
+            diff = payload["diff_base"]
+            self.diff_base = str(diff).strip() if diff else None
+        return {
+            "scan_mode": self.scan_mode,
+            "max_budget_usd": self.max_budget_usd,
+            "max_turns": self.max_turns,
+            "scope_mode": self.scope_mode,
+            "diff_base": self.diff_base,
+        }
 
     async def _set_instruction(self, payload: dict[str, Any]) -> dict[str, Any]:
         self._require_setup_mutable()
@@ -414,6 +490,32 @@ class TuiController:
             raise RuntimeError("Message could not be delivered")
         self.live_view.upsert_agent(agent_id, status="waiting", error_message=None)
         return {"sent": True}
+
+    async def _chat_send(self, payload: dict[str, Any]) -> dict[str, Any]:
+        message = self._required_string(payload, "message")
+        if not self.scan_started:
+            for field in message.split():
+                token = field.strip(",;()[]\"'<>")
+                if looks_like_target(token) and token not in self.targets:
+                    self.targets.append(token)
+            self.instruction = message
+            if not self.targets:
+                self.workspace_mount = str(Path.cwd())
+            await self._verify_model()
+            await self._begin_scan()
+            return {"started": True, "message": message}
+
+        target_id = payload.get("agent_id")
+        if not target_id:
+            roots = [
+                agent_id
+                for agent_id, agent in self.live_view.agents.items()
+                if agent.get("parent_id") is None
+            ]
+            target_id = roots[0] if roots else next(iter(self.live_view.agents.keys()), "")
+        if not target_id:
+            raise RuntimeError("No active agent available to receive messages")
+        return await self._send_message({"agent_id": target_id, "message": message})
 
     async def _stop_agent(self, payload: dict[str, Any]) -> dict[str, Any]:
         agent_id = self._required_string(payload, "agent_id")
