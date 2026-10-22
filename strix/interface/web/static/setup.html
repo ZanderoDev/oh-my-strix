@@ -1,291 +1,916 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id" data-theme="emerald">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Strix · Autonomous AI Pentesting</title>
-  <link rel="icon" type="image/png" href="/static/logo.png">
+  <meta name="color-scheme" content="dark">
+  <title>Strix AI Agent · Autonomous Penetration Testing</title>
+  <link rel="icon" type="image/png" href="data:image/png;base64,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">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
   <style>
+    /* ==========================================================================
+       1. DARK THEME ARCHITECTURE (ZERO-BUG DARK MODE VARIABLES)
+       ========================================================================== */
     :root {
-      --strix-bg-dark: #09090b;
-      --strix-bg-surface: #121215;
-      --strix-bg-card: #18181b;
-      --strix-bg-card-hover: #222226;
-      --strix-bg-input: #101013;
-      --strix-border: rgba(255, 255, 255, 0.1);
-      --strix-border-focus: rgba(34, 197, 94, 0.5);
-      --strix-emerald: #22c55e;
-      --strix-emerald-dark: #16a34a;
-      --strix-emerald-glow: rgba(34, 197, 94, 0.2);
-      --strix-cyan: #06b6d4;
-      --strix-amber: #f59e0b;
-      --strix-red: #ef4444;
-      --strix-purple: #a855f7;
-      --strix-blue: #3b82f6;
-      --strix-text: #f4f4f5;
-      --strix-text-dim: #a1a1aa;
-      --strix-text-muted: #71717a;
-      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color-scheme: dark;
+      --strix-bg-base: #07080c;
+      --strix-bg-surface: #0d0f17;
+      --strix-bg-elevated: #121520;
+      --strix-bg-card: #161926;
+      --strix-bg-card-hover: #1c2030;
+      --strix-bg-input: #0a0c12;
+      --strix-bg-code: #050609;
+      --strix-bg-glass: rgba(13, 15, 23, 0.82);
+
+      --strix-border-subtle: rgba(255, 255, 255, 0.06);
+      --strix-border-default: rgba(255, 255, 255, 0.10);
+      --strix-border-strong: rgba(255, 255, 255, 0.18);
+
+      --strix-text-primary: #f4f5f8;
+      --strix-text-secondary: #a1a7b8;
+      --strix-text-muted: #697086;
+
+      /* Default Theme Accent: Cyber Emerald */
+      --strix-accent: #10b981;
+      --strix-accent-bright: #34d399;
+      --strix-accent-dim: rgba(16, 185, 129, 0.14);
+      --strix-accent-border: rgba(16, 185, 129, 0.38);
+      --strix-accent-glow: rgba(16, 185, 129, 0.22);
+      --strix-accent-contrast: #022c1e;
+
+      /* Semantic Status Colors */
+      --cyan: #06b6d4;
+      --cyan-dim: rgba(6, 182, 212, 0.14);
+      --cyan-border: rgba(6, 182, 212, 0.35);
+
+      --purple: #a855f7;
+      --purple-bright: #c084fc;
+      --purple-dim: rgba(168, 85, 247, 0.12);
+      --purple-border: rgba(168, 85, 247, 0.32);
+
+      --blue: #3b82f6;
+      --blue-bright: #60a5fa;
+      --blue-dim: rgba(59, 130, 246, 0.12);
+      --blue-border: rgba(59, 130, 246, 0.32);
+
+      --amber: #f59e0b;
+      --amber-bright: #fbbf24;
+      --amber-dim: rgba(245, 158, 11, 0.14);
+      --amber-border: rgba(245, 158, 11, 0.35);
+
+      --red: #ef4444;
+      --red-bright: #f87171;
+      --red-dim: rgba(239, 68, 68, 0.14);
+      --red-border: rgba(239, 68, 68, 0.38);
+
+      --orange: #f97316;
+      --orange-bright: #fb923c;
+      --orange-dim: rgba(249, 115, 22, 0.15);
+      --orange-border: rgba(249, 115, 22, 0.38);
+
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --radius-xl: 18px;
+
+      --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.35);
+      --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.5);
+      --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.75);
+      --transition-fast: 0.16s cubic-bezier(0.16, 1, 0.3, 1);
+      --transition-smooth: 0.28s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    * {
+    html[data-theme="cyan"] {
+      --strix-accent: #06b6d4;
+      --strix-accent-bright: #22d3ee;
+      --strix-accent-dim: rgba(6, 182, 212, 0.14);
+      --strix-accent-border: rgba(6, 182, 212, 0.42);
+      --strix-accent-glow: rgba(6, 182, 212, 0.24);
+      --strix-accent-contrast: #02252e;
+    }
+
+    html[data-theme="violet"] {
+      --strix-accent: #8b5cf6;
+      --strix-accent-bright: #a78bfa;
+      --strix-accent-dim: rgba(139, 92, 246, 0.15);
+      --strix-accent-border: rgba(139, 92, 246, 0.42);
+      --strix-accent-glow: rgba(139, 92, 246, 0.25);
+      --strix-accent-contrast: #ffffff;
+    }
+
+    /* Reset & Anti-White-Flash Safeguards */
+    *, *::before, *::after {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
 
-    body {
-      background-color: var(--strix-bg-dark);
-      color: var(--strix-text);
+    html, body {
+      background-color: var(--strix-bg-base);
+      color: var(--strix-text-primary);
       font-family: var(--font-sans);
-      font-size: 14px;
-      line-height: 1.5;
-      overflow: hidden;
+      font-size: 13.5px;
+      line-height: 1.55;
       height: 100vh;
       width: 100vw;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      color-scheme: dark;
     }
 
-    /* Common utilities */
-    a { color: var(--strix-cyan); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    button {
-      cursor: pointer;
-      font-family: inherit;
-      border: 1px solid var(--strix-border);
-      border-radius: 6px;
-      padding: 7px 14px;
-      background: var(--strix-bg-card);
-      color: var(--strix-text);
-      transition: all 0.15s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 13px;
-      font-weight: 500;
-    }
-    button:hover {
-      background: var(--strix-bg-card-hover);
-      border-color: rgba(255, 255, 255, 0.25);
-      color: #fff;
-    }
-    button.btn-primary {
-      background: var(--strix-emerald);
-      color: #052e16;
-      font-weight: 700;
-      border-color: var(--strix-emerald-dark);
-      box-shadow: 0 0 15px var(--strix-emerald-glow);
-    }
-    button.btn-primary:hover {
-      background: #4ade80;
-      color: #000;
-      box-shadow: 0 0 25px rgba(34, 197, 94, 0.35);
-    }
-    button.btn-danger {
-      background: rgba(239, 68, 68, 0.15);
-      color: var(--strix-red);
-      border-color: rgba(239, 68, 68, 0.4);
-    }
-    button.btn-danger:hover {
-      background: rgba(239, 68, 68, 0.3);
-      color: #fff;
-    }
-    button:disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-    }
-
-    input, textarea, select {
-      background: var(--strix-bg-input);
-      border: 1px solid var(--strix-border);
-      border-radius: 6px;
-      color: var(--strix-text);
-      font-family: inherit;
-      font-size: 13px;
-      padding: 9px 12px;
-      outline: none;
-      transition: border-color 0.15s, box-shadow 0.15s;
-    }
-    input:focus, textarea:focus, select:focus {
-      border-color: var(--strix-border-focus);
-      box-shadow: 0 0 0 1px var(--strix-emerald);
-    }
-
-    /* Badges */
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      padding: 2px 8px;
-      border-radius: 9999px;
-      font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-    .badge-running { background: rgba(34, 197, 94, 0.15); color: var(--strix-emerald); border: 1px solid rgba(34, 197, 94, 0.3); }
-    .badge-waiting { background: rgba(245, 158, 11, 0.15); color: var(--strix-amber); border: 1px solid rgba(245, 158, 11, 0.3); }
-    .badge-completed { background: rgba(59, 130, 246, 0.15); color: var(--strix-blue); border: 1px solid rgba(59, 130, 246, 0.3); }
-    .badge-stopped { background: rgba(113, 113, 122, 0.15); color: var(--strix-text-dim); border: 1px solid var(--strix-border); }
-    .badge-failed { background: rgba(239, 68, 68, 0.15); color: var(--strix-red); border: 1px solid rgba(239, 68, 68, 0.3); }
-
-    .badge-critical { background: rgba(239, 68, 68, 0.2); color: #fca5a5; border: 1px solid var(--strix-red); }
-    .badge-high { background: rgba(249, 115, 22, 0.2); color: #fdba74; border: 1px solid #f97316; }
-    .badge-medium { background: rgba(234, 179, 8, 0.2); color: #fde047; border: 1px solid #eab308; }
-    .badge-low { background: rgba(59, 130, 246, 0.2); color: #93c5fd; border: 1px solid #3b82f6; }
-    .badge-info { background: rgba(113, 113, 122, 0.2); color: #d4d4d8; border: 1px solid var(--strix-border); }
-
-    .pulse-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--strix-emerald);
-      display: inline-block;
-      box-shadow: 0 0 8px var(--strix-emerald);
-      animation: pulse 1.5s infinite;
-    }
-    @keyframes pulse {
-      0% { transform: scale(0.95); opacity: 0.8; }
-      50% { transform: scale(1.25); opacity: 1; }
-      100% { transform: scale(0.95); opacity: 0.8; }
-    }
-
-    /* Main Shell */
-    #app {
+    body {
       display: flex;
       flex-direction: column;
-      height: 100vh;
-      width: 100vw;
-      overflow: hidden;
-      background-color: var(--strix-bg-dark);
+      position: relative;
+      background-image:
+        radial-gradient(circle at 18% 0%, var(--strix-accent-dim), transparent 42%),
+        radial-gradient(circle at 85% 100%, rgba(59, 130, 246, 0.07), transparent 45%),
+        linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 32px 32px, 32px 32px;
     }
 
-    /* Top Nav Bar */
-    header.top-nav {
-      height: 54px;
-      border-bottom: 1px solid var(--strix-border);
-      background: var(--strix-bg-surface);
+    ::selection {
+      background: var(--strix-accent-border);
+      color: #ffffff;
+    }
+
+    /* Fix Browser Autofill White/Yellow Box Bug in Dark Mode */
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    textarea:-webkit-autofill,
+    select:-webkit-autofill {
+      -webkit-text-fill-color: var(--strix-text-primary) !important;
+      -webkit-box-shadow: 0 0 0 1000px var(--strix-bg-input) inset !important;
+      transition: background-color 5000s ease-in-out 0s;
+      caret-color: var(--strix-text-primary);
+    }
+
+    /* Custom Dark Scrollbars */
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, 0.14) transparent;
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.14);
+      border-radius: 999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.28);
+    }
+    ::-webkit-scrollbar-corner {
+      background: transparent;
+    }
+
+    /* ==========================================================================
+       2. KEYFRAME ANIMATIONS
+       ========================================================================== */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(10px) scale(0.99);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes modalPop {
+      from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.96);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes pulseRing {
+      0% {
+        box-shadow: 0 0 0 0 var(--strix-accent-glow);
+      }
+      70% {
+        box-shadow: 0 0 0 7px rgba(16, 185, 129, 0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+      }
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes scanLaser {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    @keyframes floatShield {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-4px); }
+    }
+
+    @keyframes shimmerBar {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(250%); }
+    }
+
+    @keyframes toastSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(14px) scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* ==========================================================================
+       3. TOP HEADER & ACTIVITY LASER BAR
+       ========================================================================== */
+    header.strix-header {
+      height: 56px;
+      background: var(--strix-bg-glass);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--strix-border-default);
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 0 18px;
       flex-shrink: 0;
-      z-index: 10;
+      z-index: 30;
+      gap: 12px;
+      position: relative;
     }
 
-    .brand {
+    /* Animated Scan Activity Progress Line */
+    .scan-laser-bar {
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent 0%, var(--strix-accent) 35%, var(--cyan) 50%, var(--strix-accent) 65%, transparent 100%);
+      background-size: 200% 100%;
+      animation: scanLaser 2.4s linear infinite;
+      opacity: 0;
+      transition: opacity var(--transition-smooth);
+      pointer-events: none;
+    }
+    .scan-laser-bar.active {
+      opacity: 1;
+    }
+
+    .brand-section {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 11px;
+      min-width: 0;
     }
-    .brand img {
-      width: 28px;
-      height: 28px;
-      border-radius: 6px;
+
+    .brand-logo {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--strix-bg-card) 0%, var(--strix-bg-input) 100%);
+      border: 1px solid var(--strix-accent-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 16px var(--strix-accent-glow);
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+      flex-shrink: 0;
     }
-    .brand-title {
+    .brand-logo:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 22px var(--strix-accent-glow);
+    }
+    .brand-logo img {
+      width: 20px;
+      height: 20px;
+      object-fit: contain;
+    }
+
+    .brand-text {
       font-weight: 800;
-      letter-spacing: 0.08em;
-      font-size: 16px;
-      color: #fff;
+      font-size: 15px;
+      letter-spacing: 0.07em;
+      color: var(--strix-text-primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+
+    .brand-badge {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: var(--strix-accent-dim);
+      border: 1px solid var(--strix-accent-border);
+      color: var(--strix-accent-bright);
+      letter-spacing: 0.05em;
+    }
+
+    .conn-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 10.5px;
+      font-weight: 600;
+      font-family: var(--font-mono);
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--strix-border-subtle);
+      color: var(--strix-text-secondary);
+    }
+
+    /* Center Header Stats */
+    .header-stats {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: nowrap;
+    }
+
+    .stat-pill {
+      background: var(--strix-bg-card);
+      border: 1px solid var(--strix-border-default);
+      padding: 5px 11px;
+      border-radius: var(--radius-sm);
+      font-size: 11.5px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--strix-text-primary);
+      transition: border-color var(--transition-fast), background var(--transition-fast), transform var(--transition-fast);
+      white-space: nowrap;
+    }
+    .stat-pill.clickable {
+      cursor: pointer;
+    }
+    .stat-pill.clickable:hover {
+      border-color: var(--strix-accent-border);
+      background: var(--strix-bg-card-hover);
+      transform: translateY(-1px);
+    }
+    .stat-pill .label {
+      color: var(--strix-text-muted);
+      font-size: 10.5px;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+    .stat-pill .val {
+      font-weight: 700;
+      color: var(--strix-text-primary);
+      font-family: var(--font-mono);
+    }
+
+    .pulse-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--strix-accent);
+      box-shadow: 0 0 8px var(--strix-accent);
+      display: inline-block;
+      animation: pulseRing 2s infinite;
+      flex-shrink: 0;
+    }
+    .pulse-dot.waiting {
+      background: var(--amber);
+      box-shadow: 0 0 8px var(--amber);
+    }
+    .pulse-dot.stopped {
+      background: var(--strix-text-muted);
+      box-shadow: none;
+      animation: none;
+    }
+    .pulse-dot.failed {
+      background: var(--red);
+      box-shadow: 0 0 8px var(--red);
+    }
+
+    /* Right Header Controls */
+    .header-controls {
       display: flex;
       align-items: center;
       gap: 8px;
     }
-    .brand-title span.tag {
-      font-size: 10px;
-      padding: 2px 7px;
-      background: rgba(34, 197, 94, 0.15);
-      border: 1px solid rgba(34, 197, 94, 0.3);
-      color: var(--strix-emerald);
-      border-radius: 4px;
-      font-weight: 700;
-    }
 
-    .nav-center {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .stat-pill {
+    .model-tag {
+      background: var(--purple-dim);
+      border: 1px solid var(--purple-border);
+      color: var(--purple-bright);
+      padding: 5px 10px;
+      border-radius: var(--radius-sm);
+      font-size: 11px;
+      font-family: var(--font-mono);
+      font-weight: 600;
       display: flex;
       align-items: center;
       gap: 6px;
-      background: var(--strix-bg-card);
-      border: 1px solid var(--strix-border);
-      border-radius: 6px;
-      padding: 5px 12px;
-      font-size: 12px;
-    }
-    .stat-label {
-      color: var(--strix-text-muted);
-      font-size: 11px;
-      text-transform: uppercase;
-      font-weight: 600;
-    }
-    .stat-value {
-      font-weight: 600;
-      color: var(--strix-text);
+      max-width: 240px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    .nav-actions {
+    .btn-header {
+      background: var(--strix-bg-card);
+      border: 1px solid var(--strix-border-default);
+      color: var(--strix-text-primary);
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: 11.5px;
+      padding: 6px 11px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all var(--transition-fast);
+      white-space: nowrap;
+    }
+    .btn-header:hover {
+      background: var(--strix-bg-card-hover);
+      border-color: var(--strix-border-strong);
+      transform: translateY(-1px);
+    }
+    .btn-header.active {
+      background: var(--strix-accent-dim);
+      border-color: var(--strix-accent-border);
+      color: var(--strix-accent-bright);
+    }
+
+    .btn-stop {
+      background: var(--red-dim);
+      border: 1px solid var(--red-border);
+      color: var(--red-bright);
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: 11.5px;
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all var(--transition-fast);
+      white-space: nowrap;
+    }
+    .btn-stop:hover {
+      background: rgba(239, 68, 68, 0.28);
+      color: #ffffff;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(239, 68, 68, 0.25);
+    }
+
+    /* Theme Dot Switcher */
+    .theme-Cluster {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 5px;
+      background: var(--strix-bg-card);
+      border: 1px solid var(--strix-border-default);
+      padding: 4px 7px;
+      border-radius: var(--radius-sm);
+    }
+    .theme-dot-btn {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: transform var(--transition-fast), border-color var(--transition-fast);
+      padding: 0;
+    }
+    .theme-dot-btn:hover {
+      transform: scale(1.18);
+    }
+    .theme-dot-btn.active {
+      border-color: #ffffff;
+      transform: scale(1.12);
+    }
+    .theme-dot-btn.emerald { background: #10b981; }
+    .theme-dot-btn.cyan { background: #06b6d4; }
+    .theme-dot-btn.violet { background: #8b5cf6; }
+
+    /* ==========================================================================
+       4. MAIN WORKSPACE & 3-COLUMN LAYOUT
+       ========================================================================== */
+    .workspace {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+      position: relative;
     }
 
-    /* Setup View Container */
-    #setup-view {
+    .pane-title {
+      padding: 13px 15px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--strix-text-secondary);
+      border-bottom: 1px solid var(--strix-border-default);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(13, 15, 23, 0.55);
+      flex-shrink: 0;
+    }
+
+    /* Left Sidebar: Agent Swarm */
+    aside.agent-tree {
+      width: 268px;
+      background: var(--strix-bg-surface);
+      border-right: 1px solid var(--strix-border-default);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      z-index: 10;
+    }
+
+    .sidebar-search-box {
+      padding: 10px 10px 4px 10px;
+    }
+    .sidebar-search-input {
+      width: 100%;
+      background: var(--strix-bg-input);
+      border: 1px solid var(--strix-border-default);
+      border-radius: var(--radius-sm);
+      color: var(--strix-text-primary);
+      font-family: var(--font-sans);
+      font-size: 12px;
+      padding: 7px 10px;
+      outline: none;
+      transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+    }
+    .sidebar-search-input:focus {
+      border-color: var(--strix-accent-border);
+      box-shadow: 0 0 0 2px var(--strix-accent-dim);
+    }
+
+    .agent-items-scroll {
       flex: 1;
       overflow-y: auto;
+      padding: 8px 10px;
       display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .agent-card {
+      padding: 10px 12px;
+      border-radius: var(--radius-md);
+      background: var(--strix-bg-card);
+      border: 1px solid var(--strix-border-subtle);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      transition: all var(--transition-fast);
+      color: var(--strix-text-primary);
+      position: relative;
+      overflow: hidden;
+    }
+    .agent-card::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: var(--strix-accent);
+      opacity: 0;
+      transition: opacity var(--transition-fast);
+    }
+    .agent-card:hover {
+      background: var(--strix-bg-card-hover);
+      border-color: var(--strix-border-strong);
+      transform: translateX(2px);
+    }
+    .agent-card.active {
+      background: var(--strix-bg-card-hover);
+      border-color: var(--strix-accent-border);
+      box-shadow: 0 4px 18px var(--strix-accent-dim);
+    }
+    .agent-card.active::before {
+      opacity: 1;
+    }
+
+    .agent-card-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+      flex: 1;
+    }
+    .agent-icon-box {
+      width: 28px;
+      height: 28px;
+      border-radius: 7px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--strix-border-default);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      flex-shrink: 0;
+    }
+    .agent-card.active .agent-icon-box {
+      background: var(--strix-accent-dim);
+      border-color: var(--strix-accent-border);
+      color: var(--strix-accent-bright);
+    }
+
+    .agent-card-name {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--strix-text-primary);
+      display: block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .agent-card-id {
+      font-size: 10.5px;
+      color: var(--strix-text-muted);
+      font-family: var(--font-mono);
+      display: block;
+      margin-top: 1px;
+    }
+
+    /* Sidebar Target Summary Footer */
+    .sidebar-footer {
+      padding: 12px;
+      border-top: 1px solid var(--strix-border-default);
+      background: rgba(9, 10, 15, 0.6);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .scope-box {
+      background: var(--strix-bg-card);
+      border: 1px solid var(--strix-border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 8px 10px;
+      font-size: 11.5px;
+    }
+    .scope-box-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--strix-text-muted);
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+    }
+    .scope-target-val {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--strix-text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* ==========================================================================
+       5. CENTER ZONE: CHAT STREAM & INTERACTIVE SETUP VIEW
+       ========================================================================== */
+    main.chat-zone {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: transparent;
+      overflow: hidden;
+      position: relative;
+      min-width: 0;
+    }
+
+    /* Top Stream Subheader */
+    .stream-subheader {
+      height: 42px;
+      padding: 0 22px;
+      border-bottom: 1px solid var(--strix-border-subtle);
+      background: rgba(13, 15, 23, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      flex-shrink: 0;
+    }
+    .stream-subheader-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      color: var(--strix-text-primary);
+    }
+    .stream-subheader-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11.5px;
+      color: var(--strix-text-secondary);
+    }
+
+    .feed-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      scroll-behavior: smooth;
+    }
+
+    /* Hero Welcome Card */
+    .hero-welcome {
+      max-width: 720px;
+      width: 100%;
+      margin: auto;
+      text-align: center;
+      padding: 32px 28px;
+      background: linear-gradient(180deg, rgba(22, 25, 38, 0.9) 0%, rgba(13, 15, 23, 0.95) 100%);
+      border: 1px solid var(--strix-border-default);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-lg), 0 0 40px var(--strix-accent-dim);
+      animation: fadeInUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-welcome::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 15%;
+      right: 15%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--strix-accent), transparent);
+    }
+
+    .hero-icon {
+      width: 56px;
+      height: 56px;
+      margin: 0 auto 16px auto;
+      border-radius: 16px;
+      background: var(--strix-accent-dim);
+      border: 1px solid var(--strix-accent-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 28px var(--strix-accent-glow);
+      animation: floatShield 3.6s ease-in-out infinite;
+    }
+    .hero-icon svg {
+      width: 28px;
+      height: 28px;
+      stroke: var(--strix-accent-bright);
+      fill: none;
+    }
+
+    .hero-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--strix-text-primary);
+      margin-bottom: 6px;
+      letter-spacing: -0.02em;
+    }
+    .hero-desc {
+      font-size: 13.5px;
+      color: var(--strix-text-secondary);
+      line-height: 1.55;
+      max-width: 520px;
+      margin: 0 auto 24px auto;
+    }
+
+    .prompt-suggestions {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      text-align: left;
+    }
+
+    .prompt-chip {
+      background: var(--strix-bg-card);
+      border: 1px solid var(--strix-border-default);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      cursor: pointer;
+      transition: all var(--transition-smooth);
+      color: var(--strix-text-primary);
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      position: relative;
+      overflow: hidden;
+    }
+    .prompt-chip:hover {
+      background: var(--strix-bg-card-hover);
+      border-color: var(--strix-accent-border);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 0 20px var(--strix-accent-dim);
+    }
+    .prompt-chip-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--strix-text-primary);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .prompt-chip-tag {
+      font-size: 10px;
+      font-family: var(--font-mono);
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: var(--strix-accent-dim);
+      color: var(--strix-accent-bright);
+    }
+    .prompt-chip-desc {
+      font-size: 11.5px;
+      color: var(--strix-text-secondary);
+      line-height: 1.4;
+    }
+
+    /* Setup View Panel (Inline Toggleable) */
+    .setup-panel-container {
+      flex: 1;
+      overflow-y: auto;
+      padding: 28px 30px;
+      display: none;
       justify-content: center;
       align-items: flex-start;
-      padding: 36px 20px;
-      background: radial-gradient(circle at 50% 10%, rgba(34, 197, 94, 0.07), transparent 60%), var(--strix-bg-dark);
     }
-
     .setup-card {
       width: 100%;
-      max-width: 800px;
+      max-width: 780px;
       background: var(--strix-bg-surface);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 14px;
-      padding: 30px;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7), 0 0 35px rgba(34, 197, 94, 0.05);
-      margin-bottom: 40px;
+      border: 1px solid var(--strix-border-default);
+      border-radius: var(--radius-xl);
+      padding: 28px;
+      box-shadow: var(--shadow-lg);
+      animation: fadeInUp 0.25s ease;
     }
-
     .setup-header {
-      margin-bottom: 24px;
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      border-bottom: 1px solid var(--strix-border);
       padding-bottom: 18px;
+      margin-bottom: 22px;
+      border-bottom: 1px solid var(--strix-border-default);
+      gap: 12px;
     }
     .setup-header h2 {
-      font-size: 22px;
-      font-weight: 700;
-      color: #fff;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--strix-text-primary);
     }
     .setup-header p {
-      color: var(--strix-text-dim);
       font-size: 13px;
+      color: var(--strix-text-secondary);
       margin-top: 4px;
     }
 
     .form-group {
-      margin-bottom: 22px;
+      margin-bottom: 20px;
     }
     .form-label {
       display: block;
-      font-size: 12px;
-      font-weight: 600;
+      font-size: 11.5px;
+      font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--strix-text-dim);
+      letter-spacing: 0.06em;
+      color: var(--strix-text-secondary);
       margin-bottom: 8px;
     }
 
@@ -293,8 +918,22 @@
       display: flex;
       gap: 10px;
     }
-    .target-input-row input {
+    .strix-input {
       flex: 1;
+      width: 100%;
+      background: var(--strix-bg-input);
+      border: 1px solid var(--strix-border-default);
+      border-radius: var(--radius-sm);
+      color: var(--strix-text-primary);
+      font-family: var(--font-sans);
+      font-size: 13px;
+      padding: 9px 13px;
+      outline: none;
+      transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+    }
+    .strix-input:focus {
+      border-color: var(--strix-accent);
+      box-shadow: 0 0 0 2px var(--strix-accent-dim);
     }
 
     .targets-list {
@@ -305,48 +944,51 @@
     }
     .target-chip {
       background: var(--strix-bg-card);
-      border: 1px solid rgba(34, 197, 94, 0.4);
-      padding: 5px 12px;
-      border-radius: 6px;
+      border: 1px solid var(--strix-accent-border);
+      padding: 5px 11px;
+      border-radius: var(--radius-sm);
       font-size: 12px;
       font-family: var(--font-mono);
-      display: flex;
+      display: inline-flex;
       align-items: center;
       gap: 8px;
-      color: #fff;
+      color: var(--strix-text-primary);
+      animation: fadeInUp 0.18s ease;
     }
     .target-chip button.remove-btn {
       background: none;
       border: none;
-      color: var(--strix-text-dim);
-      padding: 0;
-      font-size: 15px;
-      line-height: 1;
+      color: var(--strix-text-secondary);
       cursor: pointer;
+      font-size: 14px;
+      line-height: 1;
+      padding: 0 2px;
     }
     .target-chip button.remove-btn:hover {
-      color: var(--strix-red);
+      color: var(--red-bright);
     }
 
     .quick-chips {
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
-      margin-top: 10px;
+      margin-top: 9px;
+      align-items: center;
     }
     .quick-chip {
       background: var(--strix-bg-card);
-      border: 1px dashed var(--strix-border);
+      border: 1px dashed var(--strix-border-strong);
       font-size: 11px;
       padding: 4px 10px;
-      color: var(--strix-text-dim);
-      border-radius: 4px;
+      color: var(--strix-text-secondary);
+      border-radius: var(--radius-sm);
       cursor: pointer;
+      transition: all var(--transition-fast);
     }
     .quick-chip:hover {
-      border-color: var(--strix-emerald);
-      color: var(--strix-emerald);
-      background: rgba(34, 197, 94, 0.05);
+      border-color: var(--strix-accent);
+      color: var(--strix-accent-bright);
+      background: var(--strix-accent-dim);
     }
 
     .mode-pills {
@@ -356,936 +998,1486 @@
     }
     .mode-pill {
       background: var(--strix-bg-card);
-      border: 1px solid var(--strix-border);
-      border-radius: 8px;
+      border: 1px solid var(--strix-border-default);
+      border-radius: var(--radius-md);
       padding: 14px;
       cursor: pointer;
       text-align: left;
-      transition: all 0.15s;
+      transition: all var(--transition-fast);
     }
     .mode-pill:hover {
       background: var(--strix-bg-card-hover);
-      border-color: rgba(255, 255, 255, 0.25);
+      border-color: var(--strix-border-strong);
     }
     .mode-pill.active {
-      border-color: var(--strix-emerald);
-      background: rgba(34, 197, 94, 0.08);
-      box-shadow: 0 0 15px rgba(34, 197, 94, 0.1);
+      border-color: var(--strix-accent);
+      background: var(--strix-accent-dim);
+      box-shadow: 0 0 18px var(--strix-accent-dim);
     }
     .mode-pill-title {
       font-weight: 700;
-      font-size: 14px;
-      color: #fff;
+      font-size: 13.5px;
+      color: var(--strix-text-primary);
       margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
     .mode-pill-desc {
-      font-size: 11px;
-      color: var(--strix-text-dim);
+      font-size: 11.5px;
+      color: var(--strix-text-secondary);
       line-height: 1.4;
     }
 
     .grid-2 {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
+      gap: 14px;
     }
 
     .setup-log {
-      margin-top: 20px;
-      background: #000;
-      border: 1px solid var(--strix-border);
-      border-radius: 6px;
-      padding: 12px 14px;
+      margin-top: 18px;
+      background: var(--strix-bg-code);
+      border: 1px solid var(--strix-border-default);
+      border-radius: var(--radius-sm);
+      padding: 10px 13px;
       font-family: var(--font-mono);
-      font-size: 12px;
-      max-height: 110px;
+      font-size: 11.5px;
+      max-height: 100px;
       overflow-y: auto;
-      color: var(--strix-text-dim);
-      line-height: 1.6;
+      color: var(--strix-text-secondary);
+      line-height: 1.55;
     }
 
-    /* Live Scan Layout */
-    #live-view {
-      flex: 1;
+    /* Message Rows */
+    .msg-row {
       display: flex;
-      overflow: hidden;
-      background-color: var(--strix-bg-dark);
+      gap: 13px;
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .msg-row.animate-in {
+      animation: fadeInUp 0.24s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* Left Sidebar: Agents */
-    aside.agent-sidebar {
-      width: 270px;
-      background: var(--strix-bg-surface);
-      border-right: 1px solid var(--strix-border);
+    .msg-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 9px;
       display: flex;
-      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       flex-shrink: 0;
-    }
-    .sidebar-header {
-      padding: 14px 16px;
+      font-weight: 800;
       font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--strix-text-muted);
-      border-bottom: 1px solid var(--strix-border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      letter-spacing: 0.02em;
     }
-    .agent-list {
+    .msg-avatar.user {
+      background: var(--blue-dim);
+      border: 1px solid var(--blue-border);
+      color: var(--blue-bright);
+    }
+    .msg-avatar.agent {
+      background: var(--strix-accent-dim);
+      border: 1px solid var(--strix-accent-border);
+      color: var(--strix-accent-bright);
+      box-shadow: 0 0 14px var(--strix-accent-dim);
+    }
+    .msg-avatar.tool {
+      background: var(--cyan-dim);
+      border: 1px solid var(--cyan-border);
+      color: var(--cyan);
+    }
+
+    .msg-content-wrapper {
       flex: 1;
-      overflow-y: auto;
-      padding: 10px;
-    }
-    .agent-item {
-      padding: 10px 12px;
-      border-radius: 6px;
-      margin-bottom: 6px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border: 1px solid transparent;
-      background: transparent;
-      transition: all 0.15s;
-    }
-    .agent-item:hover {
-      background: var(--strix-bg-card);
-    }
-    .agent-item.selected {
-      background: var(--strix-bg-card);
-      border-color: rgba(34, 197, 94, 0.4);
-    }
-    .agent-info {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
       min-width: 0;
     }
-    .agent-name {
-      font-weight: 600;
-      font-size: 13px;
-      color: #fff;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+    .msg-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 5px;
     }
-    .agent-sub {
-      font-size: 11px;
+    .msg-sender {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--strix-text-primary);
+    }
+    .msg-agent-tag {
+      font-size: 10px;
+      font-family: var(--font-mono);
+      padding: 1px 6px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--strix-text-secondary);
+    }
+    .msg-time {
+      font-size: 10.5px;
       color: var(--strix-text-muted);
       font-family: var(--font-mono);
     }
 
-    /* Center Feed & Transcript */
-    main.transcript-main {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      background: var(--strix-bg-dark);
+    .msg-bubble {
+      background: var(--strix-bg-surface);
+      border: 1px solid var(--strix-border-default);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      font-size: 13.5px;
+      line-height: 1.6;
+      word-break: break-word;
+      color: var(--strix-text-primary);
+      box-shadow: var(--shadow-sm);
+    }
+    .msg-row.user .msg-bubble {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.11) 0%, rgba(59, 130, 246, 0.05) 100%);
+      border-color: var(--blue-border);
+    }
+
+    /* Tool Execution Cards (macOS Terminal Style) */
+    .tool-box {
+      background: var(--strix-bg-surface);
+      border: 1px solid var(--strix-border-default);
+      border-radius: var(--radius-md);
       overflow: hidden;
+      margin: 4px 0;
+      box-shadow: var(--shadow-sm);
+      transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
       position: relative;
     }
-    .feed-header {
-      height: 48px;
-      border-bottom: 1px solid var(--strix-border);
-      padding: 0 18px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: var(--strix-bg-surface);
-      font-size: 12px;
-      flex-shrink: 0;
+    .tool-box:hover {
+      border-color: var(--strix-border-strong);
     }
-    .feed-title {
-      font-weight: 600;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+    .tool-box.running {
+      border-color: var(--strix-accent-border);
+      box-shadow: 0 0 22px var(--strix-accent-dim);
     }
 
-    .event-feed {
-      flex: 1;
-      overflow-y: auto;
-      padding: 18px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
+    .tool-shimmer {
+      height: 2px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.03);
+      overflow: hidden;
+      position: relative;
+      display: none;
+    }
+    .tool-box.running .tool-shimmer {
+      display: block;
+    }
+    .tool-shimmer::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 40%;
+      background: linear-gradient(90deg, transparent, var(--strix-accent-bright), transparent);
+      animation: shimmerBar 1.5s infinite;
     }
 
-    /* Event Cards */
-    .event-card {
-      border: 1px solid var(--strix-border);
-      border-radius: 8px;
-      background: var(--strix-bg-surface);
-      padding: 14px 18px;
-      max-width: 100%;
-      word-break: break-word;
-    }
-
-    /* User Chat Card */
-    .event-card.chat-user {
-      border-color: rgba(59, 130, 246, 0.4);
-      background: rgba(59, 130, 246, 0.05);
-      border-left: 4px solid var(--strix-blue);
-    }
-
-    /* Assistant Chat Card */
-    .event-card.chat-assistant {
-      border-color: rgba(34, 197, 94, 0.3);
-      background: rgba(34, 197, 94, 0.03);
-      border-left: 4px solid var(--strix-emerald);
-    }
-
-    /* Tool Call Card */
-    .event-card.tool-card {
-      background: var(--strix-bg-card);
-      border-color: rgba(255, 255, 255, 0.1);
-    }
-    .tool-header {
+    .tool-header-btn {
+      width: 100%;
+      background: var(--strix-bg-elevated);
+      border: none;
+      padding: 10px 14px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       cursor: pointer;
+      text-align: left;
       user-select: none;
+      color: var(--strix-text-primary);
+      gap: 10px;
+      transition: background var(--transition-fast);
     }
-    .tool-title {
+    .tool-header-btn:hover {
+      background: var(--strix-bg-card);
+    }
+    .tool-header-left {
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-family: var(--font-mono);
-      font-size: 12px;
-      font-weight: 600;
-      color: #fff;
+      gap: 9px;
+      min-width: 0;
+      flex: 1;
     }
-    .tool-name-badge {
-      background: rgba(6, 182, 212, 0.15);
-      color: var(--strix-cyan);
-      border: 1px solid rgba(6, 182, 212, 0.3);
+    .window-dots {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      flex-shrink: 0;
+    }
+    .window-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.16);
+      transition: background var(--transition-fast);
+    }
+    .tool-box.running .window-dot:nth-child(1) { background: #ef4444; }
+    .tool-box.running .window-dot:nth-child(2) { background: #f59e0b; }
+    .tool-box.running .window-dot:nth-child(3) { background: #22c55e; }
+
+    .tool-badge {
+      background: var(--cyan-dim);
+      border: 1px solid var(--cyan-border);
+      color: var(--cyan);
       padding: 2px 7px;
       border-radius: 4px;
-      font-size: 11px;
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      flex-shrink: 0;
     }
-    .tool-args-preview {
-      color: var(--strix-text-dim);
-      font-size: 12px;
+    .tool-cmd-preview {
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      color: var(--strix-text-secondary);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      max-width: 480px;
+      flex: 1;
     }
-    .tool-body {
-      margin-top: 12px;
-      padding-top: 12px;
-      border-top: 1px solid var(--strix-border);
-      font-size: 12px;
-    }
-    .tool-output-block {
-      background: #000;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 6px;
-      padding: 12px;
+    .tool-status-pill {
+      font-size: 10.5px;
+      font-weight: 700;
       font-family: var(--font-mono);
-      font-size: 12px;
-      color: #d4d4d8;
-      max-height: 380px;
-      overflow-y: auto;
-      white-space: pre-wrap;
-      line-height: 1.5;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      flex-shrink: 0;
+    }
+    .tool-status-pill.running {
+      color: var(--strix-accent-bright);
+      background: var(--strix-accent-dim);
+      border: 1px solid var(--strix-accent-border);
+    }
+    .tool-status-pill.completed {
+      color: var(--strix-text-secondary);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--strix-border-subtle);
+    }
+    .tool-status-pill.error, .tool-status-pill.failed {
+      color: var(--red-bright);
+      background: var(--red-dim);
+      border: 1px solid var(--red-border);
     }
 
-    /* Thinking Collapsible */
-    .thinking-box {
-      border: 1px solid rgba(168, 85, 247, 0.3);
-      background: rgba(168, 85, 247, 0.05);
-      border-radius: 6px;
-      padding: 8px 12px;
-      margin-bottom: 10px;
+    .tool-drawer {
+      padding: 12px 14px;
+      border-top: 1px solid var(--strix-border-subtle);
+      background: var(--strix-bg-code);
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      color: var(--strix-text-primary);
+      max-height: 360px;
+      overflow-y: auto;
+      line-height: 1.55;
     }
-    .thinking-header {
+    .tool-section-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 5px;
+    }
+    .tool-section-title {
+      color: var(--strix-text-muted);
+      font-size: 10px;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+    }
+    .copy-mini-btn {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--strix-border-subtle);
+      color: var(--strix-text-secondary);
+      font-family: var(--font-sans);
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 4px;
       cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+    .copy-mini-btn:hover {
+      background: var(--strix-accent-dim);
+      border-color: var(--strix-accent-border);
+      color: var(--strix-accent-bright);
+    }
+
+    /* Thinking Collapsible Accordion */
+    .think-accordion {
+      border: 1px solid var(--purple-border);
+      background: var(--purple-dim);
+      border-radius: var(--radius-sm);
+      padding: 8px 12px;
+      margin-bottom: 8px;
+      transition: background var(--transition-fast);
+    }
+    .think-head {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--purple-bright);
+      user-select: none;
+    }
+    .think-title-row {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .think-body {
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid rgba(168, 85, 247, 0.2);
+      font-size: 12px;
+      color: var(--strix-text-secondary);
+      font-style: italic;
+      white-space: pre-wrap;
+      line-height: 1.55;
+    }
+
+    /* Rich Markdown Styling */
+    .markdown pre {
+      background: var(--strix-bg-code);
+      border: 1px solid var(--strix-border-default);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      overflow-x: auto;
+      margin: 10px 0;
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      color: #e2e8f0;
+      position: relative;
+    }
+    .markdown code {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--strix-accent-bright);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+    }
+    .markdown pre code {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+    }
+    .markdown p { margin-bottom: 8px; }
+    .markdown p:last-child { margin-bottom: 0; }
+    .markdown ul, .markdown ol { margin-left: 20px; margin-bottom: 8px; }
+    .markdown li { margin-bottom: 3px; }
+    .markdown blockquote {
+      border-left: 3px solid var(--strix-accent);
+      background: rgba(255, 255, 255, 0.03);
+      padding: 8px 12px;
+      border-radius: 0 6px 6px 0;
+      color: var(--strix-text-secondary);
+      margin: 8px 0;
+    }
+    .markdown a {
+      color: var(--cyan);
+      text-decoration: none;
+    }
+    .markdown a:hover {
+      text-decoration: underline;
+    }
+
+    /* Jump to Latest Floating Button */
+    .scroll-latest-btn {
+      position: absolute;
+      bottom: 118px;
+      right: 28px;
+      background: var(--strix-bg-elevated);
+      border: 1px solid var(--strix-accent-border);
+      color: var(--strix-accent-bright);
+      box-shadow: var(--shadow-md);
+      border-radius: 999px;
+      padding: 7px 14px;
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+      z-index: 15;
+      display: none;
+      align-items: center;
+      gap: 6px;
+      transition: all var(--transition-fast);
+    }
+    .scroll-latest-btn:hover {
+      background: var(--strix-accent);
+      color: var(--strix-accent-contrast);
+      transform: translateY(-2px);
+    }
+
+    /* Bottom Prompt Composer */
+    .composer-zone {
+      padding: 10px 28px 16px 28px;
+      background: linear-gradient(180deg, transparent 0%, var(--strix-bg-base) 40%);
+      flex-shrink: 0;
+      max-width: 920px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .composer-quick-bar {
       display: flex;
       align-items: center;
       gap: 6px;
-      font-size: 11px;
-      font-weight: 600;
-      color: #c084fc;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+      overflow-x: auto;
+      padding-bottom: 2px;
     }
-    .thinking-content {
-      margin-top: 8px;
-      font-size: 12px;
-      color: var(--strix-text-dim);
-      font-style: italic;
-      white-space: pre-wrap;
-      line-height: 1.5;
+    .composer-mini-pill {
+      background: rgba(22, 25, 38, 0.85);
+      border: 1px solid var(--strix-border-default);
+      color: var(--strix-text-secondary);
+      font-size: 11px;
+      font-weight: 500;
+      padding: 4px 10px;
+      border-radius: 999px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all var(--transition-fast);
+    }
+    .composer-mini-pill:hover {
+      border-color: var(--strix-accent-border);
+      color: var(--strix-accent-bright);
+      background: var(--strix-accent-dim);
     }
 
-    /* Steer Composer (Bottom) */
-    .steer-bar {
-      border-top: 1px solid var(--strix-border);
+    .composer-card {
       background: var(--strix-bg-surface);
-      padding: 12px 18px;
+      border: 1px solid var(--strix-border-default);
+      border-radius: var(--radius-lg);
+      padding: 12px 15px;
+      box-shadow: var(--shadow-md);
       display: flex;
       flex-direction: column;
-      gap: 8px;
-      flex-shrink: 0;
+      gap: 9px;
+      transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
     }
-    .steer-target-row {
+    .composer-card:focus-within {
+      border-color: var(--strix-accent-border);
+      box-shadow: 0 0 28px var(--strix-accent-dim);
+    }
+    .composer-card textarea {
+      width: 100%;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--strix-text-primary);
+      font-family: var(--font-sans);
+      font-size: 13.5px;
+      line-height: 1.5;
+      resize: none;
+      height: 42px;
+      max-height: 150px;
+    }
+    .composer-card textarea::placeholder {
+      color: var(--strix-text-muted);
+    }
+
+    .composer-actions {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      font-size: 12px;
-      color: var(--strix-text-muted);
-    }
-    .steer-input-row {
-      display: flex;
+      border-top: 1px solid var(--strix-border-subtle);
+      padding-top: 8px;
       gap: 10px;
-      align-items: flex-end;
     }
-    .steer-input-row textarea {
-      flex: 1;
-      height: 48px;
-      min-height: 44px;
-      max-height: 140px;
-      resize: vertical;
-    }
-
-    /* Right Sidebar: Findings & Metrics */
-    aside.findings-sidebar {
-      width: 330px;
-      background: var(--strix-bg-surface);
-      border-left: 1px solid var(--strix-border);
+    .composer-target-info {
+      font-size: 11.5px;
+      color: var(--strix-text-secondary);
       display: flex;
-      flex-direction: column;
-      flex-shrink: 0;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
     }
-    .tabs-header {
-      display: flex;
-      border-bottom: 1px solid var(--strix-border);
-    }
-    .tab-btn {
-      flex: 1;
-      background: none;
-      border: none;
-      border-bottom: 2px solid transparent;
-      border-radius: 0;
-      padding: 12px;
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--strix-text-muted);
-    }
-    .tab-btn.active {
-      color: #fff;
-      border-bottom-color: var(--strix-emerald);
-      background: rgba(34, 197, 94, 0.05);
-    }
-
-    .tab-content {
-      flex: 1;
-      overflow-y: auto;
-      padding: 14px;
-    }
-
-    /* Vulnerability cards */
-    .vuln-item {
-      background: var(--strix-bg-card);
-      border: 1px solid var(--strix-border);
-      border-radius: 6px;
-      padding: 12px;
-      margin-bottom: 10px;
-      cursor: pointer;
-      transition: all 0.15s;
-    }
-    .vuln-item:hover {
-      border-color: rgba(255, 255, 255, 0.25);
-      background: var(--strix-bg-card-hover);
-    }
-    .vuln-title {
-      font-weight: 600;
-      font-size: 13px;
-      color: #fff;
-      margin-top: 6px;
-      line-height: 1.4;
-    }
-    .vuln-meta {
-      font-size: 11px;
-      color: var(--strix-text-dim);
-      margin-top: 4px;
+    .composer-target-info strong {
+      color: var(--strix-accent-bright);
       font-family: var(--font-mono);
     }
 
-    /* Modals */
-    .modal-backdrop {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.75);
-      backdrop-filter: blur(5px);
+    button.send-btn {
+      background: var(--strix-accent);
+      color: var(--strix-accent-contrast);
+      border: 1px solid var(--strix-accent-bright);
+      font-family: var(--font-sans);
+      font-weight: 700;
+      font-size: 12.5px;
+      padding: 7px 16px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 0 16px var(--strix-accent-glow);
+      transition: all var(--transition-fast);
+    }
+    button.send-btn:hover {
+      background: var(--strix-accent-bright);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 20px var(--strix-accent-glow);
+    }
+    button.send-btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* ==========================================================================
+       6. RIGHT SIDEBAR: FINDINGS & TELEMETRY TABS
+       ========================================================================== */
+    aside.findings-pane {
+      width: 325px;
+      background: var(--strix-bg-surface);
+      border-left: 1px solid var(--strix-border-default);
       display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      z-index: 10;
+    }
+
+    .right-tabs-bar {
+      display: flex;
+      border-bottom: 1px solid var(--strix-border-default);
+      background: rgba(13, 15, 23, 0.55);
+      flex-shrink: 0;
+    }
+    .right-tab-btn {
+      flex: 1;
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      color: var(--strix-text-secondary);
+      font-family: var(--font-sans);
+      font-size: 11.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 12px 10px;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .right-tab-btn:hover {
+      color: var(--strix-text-primary);
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .right-tab-btn.active {
+      color: var(--strix-accent-bright);
+      border-bottom-color: var(--strix-accent);
+      background: var(--strix-accent-dim);
+    }
+
+    /* Severity Filter Pills Row */
+    .sev-summary-bar {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 5px;
+      padding: 10px 12px 6px 12px;
+      border-bottom: 1px solid var(--strix-border-subtle);
+    }
+    .sev-pill {
+      background: var(--strix-bg-card);
+      border: 1px solid var(--strix-border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 5px 4px;
+      text-align: center;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+    .sev-pill:hover, .sev-pill.active {
+      border-color: var(--strix-border-strong);
+      transform: translateY(-1px);
+    }
+    .sev-pill .sev-num {
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      font-weight: 800;
+      display: block;
+    }
+    .sev-pill .sev-lbl {
+      font-size: 9px;
+      text-transform: uppercase;
+      color: var(--strix-text-muted);
+      font-weight: 700;
+    }
+    .sev-pill.crit .sev-num { color: var(--red-bright); }
+    .sev-pill.high .sev-num { color: var(--orange-bright); }
+    .sev-pill.med .sev-num { color: var(--amber-bright); }
+    .sev-pill.low .sev-num { color: var(--blue-bright); }
+    .sev-pill.all .sev-num { color: var(--strix-accent-bright); }
+
+    .findings-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .finding-card {
+      background: var(--strix-bg-card);
+      border: 1px solid var(--strix-border-default);
+      border-radius: var(--radius-md);
+      padding: 12px 13px;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      color: var(--strix-text-primary);
+      animation: fadeInUp 0.22s ease;
+    }
+    .finding-card:hover {
+      background: var(--strix-bg-card-hover);
+      border-color: var(--strix-border-strong);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .finding-badge {
+      display: inline-flex;
+      align-items: center;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      padding: 2px 7px;
+      border-radius: 4px;
+      margin-bottom: 6px;
+      letter-spacing: 0.05em;
+      font-family: var(--font-mono);
+    }
+    .finding-badge.critical { background: var(--red-dim); color: #fca5a5; border: 1px solid var(--red-border); }
+    .finding-badge.high { background: var(--orange-dim); color: #fdba74; border: 1px solid var(--orange-border); }
+    .finding-badge.medium { background: var(--amber-dim); color: #fde047; border: 1px solid var(--amber-border); }
+    .finding-badge.low { background: var(--blue-dim); color: #93c5fd; border: 1px solid var(--blue-border); }
+    .finding-badge.info { background: rgba(255, 255, 255, 0.08); color: #d4d4d8; border: 1px solid var(--strix-border-default); }
+
+    .finding-title {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--strix-text-primary);
+      line-height: 1.4;
+    }
+    .finding-loc {
+      font-size: 11px;
+      color: var(--strix-text-muted);
+      font-family: var(--font-mono);
+      margin-top: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Telemetry Tab Cards */
+    .telemetry-card {
+      background: var(--strix-bg-card);
+      border: 1px solid var(--strix-border-default);
+      border-radius: var(--radius-md);
+      padding: 13px;
+      margin-bottom: 10px;
+    }
+    .telemetry-title {
+      font-size: 10.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--strix-text-secondary);
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .telemetry-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      padding: 4px 0;
+      color: var(--strix-text-secondary);
+    }
+    .telemetry-row strong {
+      font-family: var(--font-mono);
+      color: var(--strix-text-primary);
+    }
+
+    /* ==========================================================================
+       7. MODALS & TOAST NOTIFICATIONS (ZERO WHITE POPUPS)
+       ========================================================================== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(3, 4, 7, 0.82);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      display: none;
       align-items: center;
       justify-content: center;
       z-index: 100;
       padding: 20px;
     }
-    .modal-box {
+    .modal-window {
       background: var(--strix-bg-surface);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 12px;
+      border: 1px solid var(--strix-border-strong);
+      border-radius: var(--radius-xl);
       width: 100%;
-      max-width: 680px;
-      max-height: 85vh;
+      max-width: 720px;
+      max-height: 86vh;
       overflow-y: auto;
       padding: 24px;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85);
-      position: relative;
+      box-shadow: var(--shadow-lg);
+      animation: modalPop 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+      color: var(--strix-text-primary);
     }
-    .modal-box.large {
-      max-width: 840px;
+    .modal-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 16px;
+      border-bottom: 1px solid var(--strix-border-default);
+      padding-bottom: 14px;
+      gap: 12px;
     }
-    .modal-header {
+    .modal-close-btn {
+      background: var(--strix-bg-card);
+      border: 1px solid var(--strix-border-default);
+      color: var(--strix-text-secondary);
+      width: 30px;
+      height: 30px;
+      border-radius: 7px;
+      cursor: pointer;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      margin-bottom: 16px;
-      border-bottom: 1px solid var(--strix-border);
-      padding-bottom: 14px;
+      justify-content: center;
+      font-size: 14px;
+      transition: all var(--transition-fast);
     }
-    .modal-header h3 {
-      font-size: 18px;
-      font-weight: 700;
-      color: #fff;
-    }
-
-    /* Image zoom lightbox */
-    .lightbox-img {
-      max-width: 100%;
-      max-height: 80vh;
-      object-fit: contain;
-      border-radius: 8px;
-      border: 1px solid var(--strix-border);
+    .modal-close-btn:hover {
+      background: var(--red-dim);
+      color: var(--red-bright);
+      border-color: var(--red-border);
     }
 
-    /* Markdown render styling */
-    .markdown-body pre {
-      background: #000;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 6px;
-      padding: 12px;
-      overflow-x: auto;
-      margin: 10px 0;
-      font-family: var(--font-mono);
-      font-size: 12px;
+    /* Toast Container */
+    .toast-stack {
+      position: fixed;
+      bottom: 22px;
+      right: 22px;
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      pointer-events: none;
     }
-    .markdown-body code {
-      background: rgba(255, 255, 255, 0.08);
-      padding: 2px 6px;
-      border-radius: 4px;
-      font-family: var(--font-mono);
-      font-size: 12px;
-    }
-    .markdown-body p { margin-bottom: 8px; }
-    .markdown-body ul, .markdown-body ol { margin-left: 20px; margin-bottom: 8px; }
-
-    /* Scroll to bottom button */
-    .scroll-down-btn {
-      position: absolute;
-      bottom: 80px;
-      right: 24px;
-      background: var(--strix-bg-card);
-      border: 1px solid var(--strix-emerald);
-      color: var(--strix-emerald);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-      border-radius: 20px;
-      padding: 6px 14px;
-      font-size: 11px;
+    .strix-toast {
+      background: var(--strix-bg-elevated);
+      border: 1px solid var(--strix-accent-border);
+      color: var(--strix-text-primary);
+      padding: 10px 15px;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-md);
+      font-size: 12.5px;
       font-weight: 600;
-      z-index: 5;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      animation: toastSlideIn 0.22s ease;
+      pointer-events: auto;
+    }
+    .strix-toast.error {
+      border-color: var(--red-border);
+      color: #fca5a5;
+    }
+
+    .spinner-svg {
+      animation: spin 0.9s linear infinite;
+      width: 12px;
+      height: 12px;
+    }
+
+    /* Responsive Breakpoints */
+    @media (max-width: 1120px) {
+      aside.findings-pane { width: 270px; }
+      aside.agent-tree { width: 220px; }
+    }
+    @media (max-width: 860px) {
+      aside.agent-tree { display: none; }
+      aside.findings-pane { display: none; }
+      .header-stats { display: none; }
+      .prompt-suggestions { grid-template-columns: 1fr; }
+      .mode-pills { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
-  <div id="app">
-    <!-- Top Nav Header -->
-    <header class="top-nav">
-      <div class="brand">
-        <img src="/static/logo.png" alt="Strix Logo" onerror="this.style.display='none'">
-        <div class="brand-title">
-          STRIX
-          <span class="tag">AI PENTEST</span>
+  <!-- Top Navigation Header -->
+  <header class="strix-header">
+    <div class="scan-laser-bar" id="scan-laser-bar"></div>
+
+    <div class="brand-section">
+      <div class="brand-logo">
+        <img src="data:image/png;base64,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" alt="Strix Logo">
+      </div>
+      <div class="brand-text">
+        STRIX
+        <span class="brand-badge">AI AGENT</span>
+      </div>
+      <div class="conn-pill" id="ws-status">
+        <span class="pulse-dot" id="ws-dot" style="width: 5px; height: 5px;"></span>
+        <span id="ws-text">LIVE</span>
+      </div>
+    </div>
+
+    <div class="header-stats" id="nav-center-stats">
+      <div class="stat-pill" id="pill-status">
+        <span class="pulse-dot" id="main-status-dot"></span>
+        <span class="val" id="val-status">READY</span>
+      </div>
+      <div class="stat-pill">
+        <span class="label">Cost:</span>
+        <span class="val" id="val-cost">$0.00</span>
+        <span class="label" id="stat-budget-max"></span>
+      </div>
+      <div class="stat-pill">
+        <span class="label">Turns:</span>
+        <span class="val" id="val-turns">0</span>
+      </div>
+      <div class="stat-pill clickable" onclick="app.switchRightTab('vulns')">
+        <span class="label">Findings:</span>
+        <span class="val" id="val-vulns" style="color: var(--red-bright);">0</span>
+      </div>
+    </div>
+
+    <div class="header-controls">
+      <div class="theme-Cluster" title="Pilih Aksen Tema Gelap">
+        <button type="button" class="theme-dot-btn emerald active" id="theme-emerald" onclick="app.setTheme('emerald')" title="Cyber Emerald"></button>
+        <button type="button" class="theme-dot-btn cyan" id="theme-cyan" onclick="app.setTheme('cyan')" title="Sentinel Cyan"></button>
+        <button type="button" class="theme-dot-btn violet" id="theme-violet" onclick="app.setTheme('violet')" title="Phantom Violet"></button>
+      </div>
+
+      <div class="model-tag" title="Active LLM Reasoning Engine">
+        <span>⚡</span>
+        <span id="header-model-name">claude-sonnet-4-6(high)</span>
+      </div>
+
+      <button type="button" class="btn-header" id="btn-toggle-setup" onclick="app.toggleSetupView()">
+        <span>⚙️</span>
+        <span>Setup Scan</span>
+      </button>
+
+      <button type="button" class="btn-header" id="btn-sim-demo" onclick="app.runDemoSimulation()">
+        <span>▶</span>
+        <span>Simulasi</span>
+      </button>
+
+      <button type="button" class="btn-header" id="btn-caido" style="display: none;" onclick="app.openCaido()">
+        <span>🌐</span>
+        <span>Caido Proxy</span>
+      </button>
+
+      <button type="button" class="btn-stop" id="btn-stop-scan" onclick="app.confirmStop()">
+        <span>■</span>
+        <span>Stop Agent</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main 3-Column Workspace -->
+  <div class="workspace" id="live-view">
+    <!-- Left Sidebar: Agent Swarm -->
+    <aside class="agent-tree">
+      <div class="pane-title">
+        <span>Agent Swarm (<span id="agent-count">0</span>)</span>
+        <span style="font-family: var(--font-mono); font-size: 10px; color: var(--strix-accent-bright);" id="swarm-state-label">ACTIVE</span>
+      </div>
+
+      <div class="sidebar-search-box">
+        <input
+          type="text"
+          id="agent-search-input"
+          class="sidebar-search-input"
+          placeholder="Cari agent di swarm..."
+          oninput="app.filterAgentList()"
+        >
+      </div>
+
+      <div class="agent-items-scroll" id="agent-list">
+        <div class="agent-card active" onclick="app.selectAgent('all')">
+          <div class="agent-card-left">
+            <div class="agent-icon-box">🕸️</div>
+            <div style="min-width: 0;">
+              <span class="agent-card-name">Unified Stream</span>
+              <span class="agent-card-id">Semua Aktivitas Swarm</span>
+            </div>
+          </div>
+          <span class="pulse-dot" style="width: 6px; height: 6px;"></span>
         </div>
       </div>
 
-      <div class="nav-center" id="nav-center-stats" style="display: none;">
-        <!-- Status -->
-        <div id="scan-status-badge" class="badge badge-running">
-          <span class="pulse-dot"></span>
-          <span id="scan-status-text">RUNNING</span>
+      <div class="sidebar-footer">
+        <div class="scope-box">
+          <div class="scope-box-header">
+            <span>Target Aktif</span>
+            <span id="sidebar-mode-badge" style="color: var(--strix-accent-bright);">DEEP</span>
+          </div>
+          <div class="scope-target-val" id="feed-target-text">Belum ada target spesifik</div>
         </div>
+      </div>
+    </aside>
 
-        <!-- Budget / Cost -->
-        <div class="stat-pill">
-          <span class="stat-label">Cost:</span>
-          <span class="stat-value" id="stat-cost">$0.00</span>
-          <span class="stat-label" id="stat-budget-max"></span>
+    <!-- Center Zone: Live Chat Stream OR Setup View -->
+    <main class="chat-zone">
+      <!-- Subheader bar -->
+      <div class="stream-subheader">
+        <div class="stream-subheader-left">
+          <span id="current-filter-title">Unified Agent Stream</span>
+          <span class="brand-badge" id="feed-status-badge">LIVE</span>
         </div>
-
-        <!-- Turns -->
-        <div class="stat-pill">
-          <span class="stat-label">Turns:</span>
-          <span class="stat-value" id="stat-turns">0</span>
-        </div>
-
-        <!-- Findings count -->
-        <div class="stat-pill" style="cursor: pointer;" onclick="app.switchTab('vulns')">
-          <span class="stat-label">Findings:</span>
-          <span class="stat-value" id="stat-vuln-count" style="color: var(--strix-red);">0</span>
+        <div class="stream-subheader-right">
+          <button type="button" class="copy-mini-btn" onclick="app.clearFeedView()">Bersihkan Layar</button>
         </div>
       </div>
 
-      <div class="nav-actions">
-        <span id="ws-status" style="font-size: 11px; color: var(--strix-emerald); display: flex; align-items: center; gap: 4px;">
-          <span class="pulse-dot" style="width: 5px; height: 5px;"></span> Live
-        </span>
-        <button id="btn-caido" style="display: none;" onclick="app.openCaido()">
-          Proxy (Caido)
-        </button>
-        <button id="btn-stop-scan" class="btn-danger" style="display: none;" onclick="app.confirmStopScan()">
-          Stop Scan
-        </button>
-      </div>
-    </header>
-
-    <!-- SETUP VIEW -->
-    <div id="setup-view" style="display: none;">
-      <div class="setup-card">
-        <div class="setup-header">
-          <div>
-            <h2>Start New Penetration Test</h2>
-            <p>Target a website, domain, API spec, or repository for autonomous multi-agent testing.</p>
-          </div>
-          <div id="model-status-chip" class="stat-pill">
-            <span class="stat-label">Model:</span>
-            <span class="stat-value" id="setup-model-name">Checking...</span>
-          </div>
-        </div>
-
-        <form id="setup-form" onsubmit="app.onSetupSubmit(event)">
-          <!-- Target Input -->
-          <div class="form-group">
-            <label class="form-label">Target Assets</label>
-            <div class="target-input-row">
-              <input type="text" id="target-input" placeholder="e.g. https://example.com, 192.168.1.1, or ./source-repo" autocomplete="off">
-              <button type="button" onclick="app.addTargetFromInput()">Add Target</button>
-            </div>
-            <div class="targets-list" id="targets-list"></div>
-            <div class="quick-chips">
-              <span style="font-size: 11px; color: var(--strix-text-muted); align-self: center;">Examples:</span>
-              <button type="button" class="quick-chip" onclick="app.addQuickTarget('https://example.com')">https://example.com</button>
-              <button type="button" class="quick-chip" onclick="app.addQuickTarget('http://localhost:8080')">http://localhost:8080</button>
-              <button type="button" class="quick-chip" onclick="app.addQuickTarget('./')">./ (Local Code)</button>
-              <button type="button" class="quick-chip" onclick="app.addQuickTarget('openapi.yaml')">openapi.yaml</button>
-            </div>
-          </div>
-
-          <!-- Instructions -->
-          <div class="form-group">
-            <label class="form-label">Instructions / Focus Areas</label>
-            <textarea id="instruction-input" rows="3" placeholder="Custom instructions, testing focus, test accounts/credentials, or target endpoints..."></textarea>
-            <div class="quick-chips">
-              <span style="font-size: 11px; color: var(--strix-text-muted); align-self: center;">Focus:</span>
-              <button type="button" class="quick-chip" onclick="app.appendInstruction('Focus on authentication bypass and IDOR vulnerabilities.')">Auth & IDOR</button>
-              <button type="button" class="quick-chip" onclick="app.appendInstruction('Test thoroughly for OWASP Top 10 web vulnerabilities.')">OWASP Top 10</button>
-              <button type="button" class="quick-chip" onclick="app.appendInstruction('Perform detailed API fuzzing and parameter tampering.')">API Fuzzing</button>
-              <button type="button" class="quick-chip" onclick="app.appendInstruction('Test for SQL injection and command execution.')">Injection Flaws</button>
-            </div>
-          </div>
-
-          <!-- Scan Tuning -->
-          <div class="form-group">
-            <label class="form-label">Scan Depth Mode</label>
-            <div class="mode-pills">
-              <div class="mode-pill" id="mode-quick" onclick="app.setScanMode('quick')">
-                <div class="mode-pill-title">Quick</div>
-                <div class="mode-pill-desc">Fast CI/CD checks & surface discovery</div>
-              </div>
-              <div class="mode-pill" id="mode-standard" onclick="app.setScanMode('standard')">
-                <div class="mode-pill-title">Standard</div>
-                <div class="mode-pill-desc">Routine penetration assessment</div>
-              </div>
-              <div class="mode-pill active" id="mode-deep" onclick="app.setScanMode('deep')">
-                <div class="mode-pill-title">Deep</div>
-                <div class="mode-pill-desc">Thorough multi-stage agent review</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Budget & Turns -->
-          <div class="grid-2 form-group">
+      <!-- Setup View Container (Toggleable or Automatic on Setup Mode) -->
+      <div class="setup-panel-container" id="setup-view">
+        <div class="setup-card">
+          <div class="setup-header">
             <div>
-              <label class="form-label">Max Budget ($ USD)</label>
-              <input type="number" id="budget-input" placeholder="No limit (e.g. 10.00)" step="0.5" min="0.5">
+              <h2>Konfigurasi Penetration Test Baru</h2>
+              <p>Tentukan target URL, repositori lokal, spesifikasi API, dan kedalaman eksplorasi multi-agent.</p>
             </div>
-            <div>
-              <label class="form-label">Max Turns</label>
-              <input type="number" id="turns-input" value="100" min="10" max="1000">
+            <div class="stat-pill">
+              <span class="label">Model:</span>
+              <span class="val" id="setup-model-name">claude-sonnet-4-6</span>
             </div>
           </div>
 
-          <div style="margin-top: 24px; display: flex; justify-content: space-between; align-items: center;">
-            <div style="font-size: 12px; color: var(--strix-text-muted);">
-              Press <kbd style="background: var(--strix-bg-card); padding: 2px 6px; border-radius: 4px; border: 1px solid var(--strix-border);">Ctrl+Enter</kbd> to start
+          <form id="setup-form" onsubmit="app.onSetupSubmit(event)">
+            <div class="form-group">
+              <label class="form-label">Target Assets (URL / IP / Repo Lokal)</label>
+              <div class="target-input-row">
+                <input type="text" id="target-input" class="strix-input" placeholder="Contoh: https://example.com, 192.168.1.10, atau ./repo-lokal" autocomplete="off">
+                <button type="button" class="btn-header" onclick="app.addTargetFromInput()">+ Tambah Target</button>
+              </div>
+              <div class="targets-list" id="targets-list"></div>
+              <div class="quick-chips">
+                <span style="font-size: 11px; color: var(--strix-text-muted);">Contoh Cepat:</span>
+                <button type="button" class="quick-chip" onclick="app.addQuickTarget('https://example.com')">https://example.com</button>
+                <button type="button" class="quick-chip" onclick="app.addQuickTarget('http://localhost:8080')">http://localhost:8080</button>
+                <button type="button" class="quick-chip" onclick="app.addQuickTarget('./')">./ (Workspace Lokal)</button>
+                <button type="button" class="quick-chip" onclick="app.addQuickTarget('openapi.yaml')">openapi.yaml</button>
+              </div>
             </div>
-            <button type="submit" class="btn-primary" id="btn-start-scan" style="padding: 10px 24px; font-size: 14px;">
-              Launch Penetration Test
+
+            <div class="form-group">
+              <label class="form-label">Instruksi Khusus & Fokus Pengujian</label>
+              <textarea id="instruction-input" class="strix-input" rows="3" placeholder="Berikan kredensial uji, fokus kerentanan (IDOR, SQLi, SSRF), atau batasan scope..."></textarea>
+              <div class="quick-chips">
+                <span style="font-size: 11px; color: var(--strix-text-muted);">Preset Fokus:</span>
+                <button type="button" class="quick-chip" onclick="app.appendInstruction('Fokus pada celah Authentication Bypass, Broken Access Control, dan IDOR.')">Auth & IDOR</button>
+                <button type="button" class="quick-chip" onclick="app.appendInstruction('Lakukan audit menyeluruh untuk kategori OWASP Top 10 beserta bukti PoC.')">OWASP Top 10</button>
+                <button type="button" class="quick-chip" onclick="app.appendInstruction('Lakukan API fuzzing, uji rate limit, dan manipulasi parameter JSON/JWT.')">API Security</button>
+                <button type="button" class="quick-chip" onclick="app.appendInstruction('Uji celah SQL Injection, SSTI, dan Remote Code Execution - RCE.')">Injeksi & RCE</button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Kedalaman Scan (Scan Mode)</label>
+              <div class="mode-pills">
+                <div class="mode-pill" id="mode-quick" onclick="app.setScanMode('quick')">
+                  <div class="mode-pill-title">
+                    <span>⚡ Quick</span>
+                  </div>
+                  <div class="mode-pill-desc">Pemeriksaan cepat permukaan aplikasi & CI/CD</div>
+                </div>
+                <div class="mode-pill" id="mode-standard" onclick="app.setScanMode('standard')">
+                  <div class="mode-pill-title">
+                    <span>🛡️ Standard</span>
+                  </div>
+                  <div class="mode-pill-desc">Penilaian penetrasi seimbang & komprehensif</div>
+                </div>
+                <div class="mode-pill active" id="mode-deep" onclick="app.setScanMode('deep')">
+                  <div class="mode-pill-title">
+                    <span>🔬 Deep</span>
+                  </div>
+                  <div class="mode-pill-desc">Eksplorasi multi-tahap mendalam & verifikasi PoC</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="grid-2 form-group">
+              <div>
+                <label class="form-label">Batas Biaya Maksimal ($ USD)</label>
+                <input type="number" id="budget-input" class="strix-input" placeholder="Tanpa batas (misal: 10.00)" step="0.5" min="0.5">
+              </div>
+              <div>
+                <label class="form-label">Maksimal Giliran (Max Turns)</label>
+                <input type="number" id="turns-input" class="strix-input" value="100" min="10" max="1000">
+              </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 22px; gap: 12px;">
+              <button type="button" class="btn-header" onclick="app.toggleSetupView(false)">← Kembali ke Stream</button>
+              <button type="submit" class="send-btn" id="btn-start-scan" style="padding: 10px 22px; font-size: 13.5px;">
+                🚀 Mulai Penetration Test
+              </button>
+            </div>
+
+            <div class="setup-log" id="setup-log-content">
+              <div>[STRIX] Interactive dark environment siap. Pilih target atau langsung kirim perintah di chat.</div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Main Chat & Event Feed -->
+      <div class="feed-scroll" id="chat-feed" onscroll="app.onFeedScroll()">
+        <!-- Welcoming Hero when no messages -->
+        <div class="hero-welcome" id="hero-welcome">
+          <div class="hero-icon">
+            <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+          <h1 class="hero-title">Strix Autonomous AI Pentester</h1>
+          <p class="hero-desc">
+            Masukkan target URL, endpoint API, atau direktori kode di bawah untuk memulai orkestrasi multi-agent secara real-time.
+          </p>
+
+          <div class="prompt-suggestions">
+            <div class="prompt-chip" onclick="app.usePrompt('Test https://example.com untuk celah IDOR, Broken Access Control, dan Auth Bypass')">
+              <div class="prompt-chip-title">
+                <span>🌐 Web App Pentest</span>
+                <span class="prompt-chip-tag">OWASP</span>
+              </div>
+              <div class="prompt-chip-desc">Uji IDOR, bypass autentikasi, session manajemen, dan OWASP Top 10</div>
+            </div>
+            <div class="prompt-chip" onclick="app.usePrompt('Review keamanan source code di direktori lokal ini untuk mencari hardcoded secret dan celah injeksi')">
+              <div class="prompt-chip-title">
+                <span>📦 Audit Source Code Lokal</span>
+                <span class="prompt-chip-tag">SAST</span>
+              </div>
+              <div class="prompt-chip-desc">Analisis statis & dinamis repositori lokal untuk menemukan celah kode</div>
+            </div>
+            <div class="prompt-chip" onclick="app.usePrompt('Test keamanan REST API endpoint https://api.example.com/v1 dengan fuzzing parameter')">
+              <div class="prompt-chip-title">
+                <span>🔌 API Security & Fuzzing</span>
+                <span class="prompt-chip-tag">API</span>
+              </div>
+              <div class="prompt-chip-desc">Pemeriksaan BOLA, mass assignment, rate limit, dan manipulasi token JWT</div>
+            </div>
+            <div class="prompt-chip" onclick="app.usePrompt('Cari bug SQL Injection, XSS, dan SSRF beserta bukti Proof of Concept yang terverifikasi')">
+              <div class="prompt-chip-title">
+                <span>💥 Injeksi & Verifikasi PoC</span>
+                <span class="prompt-chip-tag">EXPLOIT</span>
+              </div>
+              <div class="prompt-chip-desc">Verifikasi temuan secara otomatis menggunakan payload aman dan bukti nyata</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Floating Jump to Bottom Button -->
+      <button type="button" class="scroll-latest-btn" id="scroll-down-btn" onclick="app.scrollToBottom(true)">
+        <span>↓</span>
+        <span>Lompat ke Terbaru</span>
+      </button>
+
+      <!-- Bottom Chat & Steer Composer -->
+      <div class="composer-zone" id="composer-zone">
+        <div class="composer-quick-bar">
+          <button type="button" class="composer-mini-pill" onclick="app.insertQuickText('Fokuskan enumerasi pada endpoint autentikasi dan hak akses role. ')">🎯 Fokus Auth & Role</button>
+          <button type="button" class="composer-mini-pill" onclick="app.insertQuickText('Buat skrip Proof of Concept untuk memvalidasi temuan terakhir. ')">🧪 Validasi PoC</button>
+          <button type="button" class="composer-mini-pill" onclick="app.insertQuickText('Periksa konfigurasi CORS, CSP, dan security headers pada target. ')">🛡️ Cek Security Headers</button>
+          <button type="button" class="composer-mini-pill" onclick="app.insertQuickText('Rangkum seluruh temuan sejauh ini beserta rekomendasi remediasi. ')">📋 Ringkas Temuan</button>
+        </div>
+
+        <div class="composer-card">
+          <textarea
+            id="chat-input"
+            placeholder="Ketik target atau instruksi ke agent (contoh: scan https://example.com)... Tekan Enter untuk kirim"
+            rows="1"
+            onkeydown="app.handleKeyDown(event)"
+            oninput="app.autoResizeInput(this)"
+          ></textarea>
+          <div class="composer-actions">
+            <div class="composer-target-info">
+              <span>Mengirim ke:</span>
+              <strong id="current-target-agent">Root Agent</strong>
+              <span style="color: var(--strix-text-muted); font-size: 11px;">· Enter untuk kirim, Shift+Enter baris baru</span>
+            </div>
+            <button type="button" class="send-btn" id="btn-send" onclick="app.sendChatMessage()">
+              <span>Kirim Instruksi</span>
+              <span>↗</span>
             </button>
           </div>
-
-          <!-- Setup preflight log -->
-          <div class="setup-log" id="setup-log-content">
-            <div>[STRIX] Initializing interactive setup environment...</div>
-          </div>
-        </form>
+        </div>
       </div>
-    </div>
+    </main>
 
-    <!-- LIVE VIEW -->
-    <div id="live-view" style="display: none;">
-      <!-- Agent Hierarchy Sidebar -->
-      <aside class="agent-sidebar">
-        <div class="sidebar-header">
-          <span>Agent Swarm (<span id="agent-count-badge">0</span>)</span>
-        </div>
-        <div class="agent-list" id="agents-tree-container">
-          <div class="agent-item selected" onclick="app.selectAgent('all')">
-            <div class="agent-info">
-              <span class="agent-name">All Agents</span>
-              <span class="agent-sub">Unified live feed</span>
-            </div>
-          </div>
-          <div id="dynamic-agent-list"></div>
-        </div>
-      </aside>
-
-      <!-- Center Live Feed -->
-      <main class="transcript-main">
-        <div class="feed-header">
-          <div class="feed-title">
-            <span id="current-filter-title">All Agents Stream</span>
-            <span class="badge badge-running" id="feed-status-badge">LIVE</span>
-          </div>
-          <div style="color: var(--strix-text-dim); font-size: 11px;">
-            Target: <span id="feed-target-text" style="color: #fff; font-weight: 600;">-</span>
-          </div>
-        </div>
-
-        <!-- Scrollable Feed -->
-        <div class="event-feed" id="event-feed" onscroll="app.onFeedScroll()">
-          <!-- Events injected here -->
-        </div>
-
-        <button class="scroll-down-btn" id="scroll-down-btn" style="display: none;" onclick="app.scrollToBottom(true)">
-          ↓ Jump to latest
+    <!-- Right Sidebar: Findings & Telemetry Tabs -->
+    <aside class="findings-pane">
+      <div class="right-tabs-bar">
+        <button type="button" class="right-tab-btn active" id="tab-btn-vulns" onclick="app.switchRightTab('vulns')">
+          <span>🛡️ Findings (<span id="findings-count">0</span>)</span>
         </button>
+        <button type="button" class="right-tab-btn" id="tab-btn-metrics" onclick="app.switchRightTab('metrics')">
+          <span>📊 Telemetry & MCP</span>
+        </button>
+      </div>
 
-        <!-- Steer Bar -->
-        <div class="steer-bar">
-          <div class="steer-target-row">
-            <span>Guide agent: <strong id="steer-target-label" style="color: var(--strix-emerald);">Root Agent</strong></span>
-            <span><kbd>Ctrl+Enter</kbd> to submit</span>
+      <!-- Tab 1: Vulnerabilities -->
+      <div id="tab-content-vulns" style="display: flex; flex-direction: column; flex: 1; overflow: hidden;">
+        <div class="sev-summary-bar">
+          <div class="sev-pill all active" id="sev-filter-all" onclick="app.setSeverityFilter('all')">
+            <span class="sev-num" id="count-sev-all">0</span>
+            <span class="sev-lbl">Semua</span>
           </div>
-          <div class="steer-input-row">
-            <textarea id="steer-textarea" placeholder="Give instructions, test credentials, or redirect the agent..." onkeydown="app.onSteerKeyDown(event)"></textarea>
-            <button class="btn-primary" onclick="app.sendSteerMessage()">Send</button>
+          <div class="sev-pill crit" id="sev-filter-critical" onclick="app.setSeverityFilter('critical')">
+            <span class="sev-num" id="count-sev-critical">0</span>
+            <span class="sev-lbl">Crit</span>
           </div>
-        </div>
-      </main>
-
-      <!-- Right Sidebar: Findings & Metrics -->
-      <aside class="findings-sidebar">
-        <div class="tabs-header">
-          <button class="tab-btn active" id="tab-btn-vulns" onclick="app.switchTab('vulns')">
-            Findings (<span id="tab-vuln-count">0</span>)
-          </button>
-          <button class="tab-btn" id="tab-btn-metrics" onclick="app.switchTab('metrics')">
-            Metrics & MCP
-          </button>
-        </div>
-
-        <!-- Vulnerabilities Tab -->
-        <div class="tab-content" id="tab-content-vulns">
-          <div id="vulns-list">
-            <div style="color: var(--strix-text-muted); text-align: center; margin-top: 40px; font-style: italic;">
-              No vulnerabilities identified yet.<br>Agents are exploring targets...
-            </div>
+          <div class="sev-pill high" id="sev-filter-high" onclick="app.setSeverityFilter('high')">
+            <span class="sev-num" id="count-sev-high">0</span>
+            <span class="sev-lbl">High</span>
+          </div>
+          <div class="sev-pill med" id="sev-filter-medium" onclick="app.setSeverityFilter('medium')">
+            <span class="sev-num" id="count-sev-medium">0</span>
+            <span class="sev-lbl">Med</span>
+          </div>
+          <div class="sev-pill low" id="sev-filter-low" onclick="app.setSeverityFilter('low')">
+            <span class="sev-num" id="count-sev-low">0</span>
+            <span class="sev-lbl">Low</span>
           </div>
         </div>
 
-        <!-- Metrics & MCP Tab -->
-        <div class="tab-content" id="tab-content-metrics" style="display: none;">
-          <div class="form-group">
-            <label class="form-label">LLM Token Usage</label>
-            <div style="background: var(--strix-bg-card); padding: 12px; border-radius: 6px; font-family: var(--font-mono); font-size: 12px; border: 1px solid var(--strix-border);">
-              <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-                <span style="color: var(--strix-text-dim);">Prompt Tokens:</span>
-                <span id="metric-prompt-tokens">0</span>
-              </div>
-              <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-                <span style="color: var(--strix-text-dim);">Completion:</span>
-                <span id="metric-comp-tokens">0</span>
-              </div>
-              <div style="display: flex; justify-content: space-between; font-weight: 700; border-top: 1px solid var(--strix-border); padding-top: 4px;">
-                <span style="color: #fff;">Total Tokens:</span>
-                <span id="metric-total-tokens">0</span>
-              </div>
-            </div>
+        <div class="findings-scroll" id="findings-list">
+          <div style="text-align: center; color: var(--strix-text-muted); margin-top: 48px; font-size: 12.5px; padding: 0 14px;">
+            <div style="font-size: 26px; margin-bottom: 8px; opacity: 0.5;">🛡️</div>
+            Belum ada kerentanan ditemukan.<br>Agent akan menampilkan laporan temuan secara otomatis saat scanning berlangsung.
           </div>
-
-          <div class="form-group">
-            <label class="form-label">MCP Server Roster</label>
-            <div id="mcp-roster-list" style="display: flex; flex-direction: column; gap: 6px;">
-              <div style="color: var(--strix-text-muted); font-size: 12px;">No custom MCP servers configured.</div>
-            </div>
-          </div>
-
-          <div class="form-group" id="caido-info-group" style="display: none;">
-            <label class="form-label">Interception Proxy (Caido)</label>
-            <div style="background: var(--strix-bg-card); padding: 10px; border-radius: 6px; border: 1px solid var(--strix-border); font-size: 12px;">
-              <p style="margin-bottom: 6px; color: var(--strix-text-dim);">Traffic is being routed through Caido.</p>
-              <a href="#" id="caido-direct-link" target="_blank" style="font-weight: 600;">Open Caido Web Dashboard →</a>
-            </div>
-          </div>
-        </div>
-      </aside>
-    </div>
-
-    <!-- MODAL: Mount Confirmation -->
-    <div id="mount-modal" class="modal-backdrop" style="display: none;">
-      <div class="modal-box">
-        <div class="modal-header">
-          <h3>Mount Working Directory?</h3>
-        </div>
-        <p style="color: var(--strix-text-dim); margin-bottom: 16px;">
-          No target URL or repository was specified. Would you like to mount your current working directory (<code id="mount-dir-path"></code>) as the workspace for the agent to inspect?
-        </p>
-        <div style="display: flex; justify-content: flex-end; gap: 10px;">
-          <button onclick="app.resolveMount(false)">Run Without Mount</button>
-          <button class="btn-primary" onclick="app.resolveMount(true)">Approve & Mount Workspace</button>
         </div>
       </div>
-    </div>
 
-    <!-- MODAL: Vulnerability Detail -->
-    <div id="vuln-modal" class="modal-backdrop" style="display: none;">
-      <div class="modal-box large">
-        <div class="modal-header">
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <span class="badge badge-critical" id="vuln-modal-badge">CRITICAL</span>
-            <h3 id="vuln-modal-title">Vulnerability Detail</h3>
+      <!-- Tab 2: Telemetry & MCP -->
+      <div id="tab-content-metrics" class="findings-scroll" style="display: none;">
+        <div class="telemetry-card">
+          <div class="telemetry-title">
+            <span>Konsumsi Token LLM</span>
+            <span style="color: var(--strix-accent-bright);">REAL-TIME</span>
           </div>
-          <button onclick="app.closeVulnModal()">✕</button>
+          <div class="telemetry-row">
+            <span>Prompt Tokens</span>
+            <strong id="metric-prompt-tokens">0</strong>
+          </div>
+          <div class="telemetry-row">
+            <span>Completion Tokens</span>
+            <strong id="metric-comp-tokens">0</strong>
+          </div>
+          <div class="telemetry-row" style="border-top: 1px solid var(--strix-border-subtle); margin-top: 6px; padding-top: 8px;">
+            <span>Total Tokens</span>
+            <strong id="metric-total-tokens" style="color: var(--strix-accent-bright);">0</strong>
+          </div>
         </div>
-        <div style="margin-bottom: 12px; font-size: 12px; color: var(--strix-text-dim);" id="vuln-modal-location"></div>
-        <div class="markdown-body" id="vuln-modal-body" style="font-size: 13px; color: #e4e4e7;"></div>
-        <div style="margin-top: 20px; display: flex; justify-content: flex-end; gap: 10px;">
-          <button onclick="app.copyVulnMarkdown()">Copy Markdown</button>
-          <button class="btn-primary" onclick="app.closeVulnModal()">Close</button>
+
+        <div class="telemetry-card">
+          <div class="telemetry-title">
+            <span>MCP Server Roster</span>
+          </div>
+          <div id="mcp-roster-list" style="display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: var(--strix-text-muted);">
+            <div>Built-in Strix Security Sandbox aktif.</div>
+          </div>
+        </div>
+
+        <div class="telemetry-card" id="caido-info-group" style="display: none;">
+          <div class="telemetry-title">
+            <span>Interception Proxy (Caido)</span>
+          </div>
+          <p style="font-size: 12px; color: var(--strix-text-secondary); margin-bottom: 8px;">
+            Trafik HTTP/HTTPS diarahkan melalui proxy Caido.
+          </p>
+          <a href="http://127.0.0.1:8080" id="caido-direct-link" target="_blank" rel="noopener noreferrer" style="color: var(--strix-accent-bright); font-size: 12px; font-weight: 700;">Buka Dashboard Caido →</a>
         </div>
       </div>
-    </div>
+    </aside>
+  </div>
 
-    <!-- MODAL: Image Lightbox -->
-    <div id="lightbox-modal" class="modal-backdrop" style="display: none;" onclick="app.closeLightbox()">
-      <img id="lightbox-img" class="lightbox-img" src="" alt="Screenshot">
-    </div>
-
-    <!-- MODAL: Stop Confirmation -->
-    <div id="stop-modal" class="modal-backdrop" style="display: none;">
-      <div class="modal-box" style="max-width: 420px;">
-        <div class="modal-header">
-          <h3>Stop Penetration Test?</h3>
-          <button onclick="app.closeStopModal()">✕</button>
+  <!-- MODAL 1: Vulnerability Detail -->
+  <div class="modal-overlay" id="vuln-modal" onclick="app.closeModal(event)">
+    <div class="modal-window" onclick="event.stopPropagation()">
+      <div class="modal-header-row">
+        <div>
+          <span class="finding-badge critical" id="modal-sev">CRITICAL</span>
+          <h2 id="modal-title" style="font-size: 18px; color: var(--strix-text-primary); margin-top: 6px;">Detail Temuan</h2>
+          <div id="modal-loc" style="font-size: 12px; color: var(--strix-text-muted); font-family: var(--font-mono); margin-top: 4px;"></div>
         </div>
-        <p style="color: var(--strix-text-dim); margin-bottom: 20px;">
-          Stopping will gracefully cancel all running agents, compile final vulnerability reports, and finalize the scan session.
-        </p>
-        <div style="display: flex; justify-content: flex-end; gap: 10px;">
-          <button onclick="app.closeStopModal()">Resume</button>
-          <button class="btn-danger" onclick="app.executeStopScan()">Stop Scan</button>
-        </div>
+        <button type="button" class="modal-close-btn" onclick="app.closeVulnModal()">✕</button>
+      </div>
+      <div class="markdown" id="modal-body" style="font-size: 13.5px; color: var(--strix-text-primary); line-height: 1.65;"></div>
+      <div style="margin-top: 20px; padding-top: 14px; border-top: 1px solid var(--strix-border-default); display: flex; justify-content: flex-end; gap: 10px;">
+        <button type="button" class="btn-header" onclick="app.copyVulnMarkdown()">📋 Salin Markdown</button>
+        <button type="button" class="send-btn" onclick="app.closeVulnModal()">Tutup</button>
       </div>
     </div>
   </div>
 
+  <!-- MODAL 2: Stop Scan Confirmation (Replaces White Native confirm()) -->
+  <div class="modal-overlay" id="stop-modal" onclick="app.closeStopModal()">
+    <div class="modal-window" style="max-width: 440px;" onclick="event.stopPropagation()">
+      <div class="modal-header-row">
+        <h3 style="font-size: 17px; font-weight: 700;">Hentikan Penetration Test?</h3>
+        <button type="button" class="modal-close-btn" onclick="app.closeStopModal()">✕</button>
+      </div>
+      <p style="color: var(--strix-text-secondary); font-size: 13px; margin-bottom: 20px; line-height: 1.55;">
+        Menghentikan sesi akan membatalkan seluruh agent yang sedang berjalan secara aman dan menyimpan laporan kerentanan yang telah ditemukan.
+      </p>
+      <div style="display: flex; justify-content: flex-end; gap: 10px;">
+        <button type="button" class="btn-header" onclick="app.closeStopModal()">Batal</button>
+        <button type="button" class="btn-stop" onclick="app.executeStopScan()">Ya, Hentikan Agent</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 3: Mount Working Directory Confirmation -->
+  <div class="modal-overlay" id="mount-modal">
+    <div class="modal-window" style="max-width: 500px;">
+      <div class="modal-header-row">
+        <h3 style="font-size: 17px; font-weight: 700;">Mount Direktori Kerja Lokal?</h3>
+      </div>
+      <p style="color: var(--strix-text-secondary); font-size: 13px; margin-bottom: 20px; line-height: 1.55;">
+        Tidak ada URL eksternal yang ditentukan. Apakah Anda ingin mengizinkan Strix Agent memeriksa direktori kerja saat ini (<code id="mount-dir-path" style="color: var(--strix-accent-bright); font-family: var(--font-mono);">./workspace</code>)?
+      </p>
+      <div style="display: flex; justify-content: flex-end; gap: 10px;">
+        <button type="button" class="btn-header" onclick="app.resolveMount(false)">Jalankan Tanpa Mount</button>
+        <button type="button" class="send-btn" onclick="app.resolveMount(true)">Setujui & Mount Direktori</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 4: Image Screenshot Lightbox -->
+  <div class="modal-overlay" id="lightbox-modal" onclick="app.closeLightbox()">
+    <img id="lightbox-img" src="data:image/png;base64,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" alt="Bukti Screenshot" style="max-width: 92vw; max-height: 86vh; border-radius: 10px; border: 1px solid var(--strix-border-strong); box-shadow: var(--shadow-lg);">
+  </div>
+
+  <!-- Toast Stack -->
+  <div class="toast-stack" id="toast-stack"></div>
+
   <script>
-    class StrixApp {
+    class StrixAgentApp {
       constructor() {
-        this.state = null;
-        this.agents = [];
-        this.vulnerabilities = [];
         this.events = [];
+        this.agents = [];
+        this.vulns = [];
+        this.selectedAgent = "all";
+        this.severityFilter = "all";
+        this.isScanning = false;
         this.eventCursor = 0;
-        this.selectedAgentId = "all";
-        this.currentVuln = null;
         this.ws = null;
         this.wsConnected = false;
-        this.pollTimer = null;
         this.autoScroll = true;
         this.scanMode = "deep";
         this.targets = [];
+        this.currentVuln = null;
+        this.setupViewOpen = false;
+        this.demoTimer = null;
+
+        // Preserve UI state across re-renders so animations don't flicker
+        this.animatedNodeIds = new Set();
+        this.expandedTools = new Set();
+        this.expandedThoughts = new Set();
 
         this.init();
       }
 
       init() {
-        this.connectWebSocket();
-        this.fetchFullState();
+        this.loadSavedTheme();
+        this.connect();
+        this.pollInterval = setInterval(() => this.fetchUpdates(), 2500);
 
-        // Keyboard shortcuts
         window.addEventListener("keydown", (e) => {
           if (e.key === "Escape") {
             this.closeAllModals();
           }
-          if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
-            if (this.state && this.state.setup_mode) {
-              const startBtn = document.getElementById("btn-start-scan");
-              if (startBtn && !startBtn.disabled) startBtn.click();
-            } else {
-              this.sendSteerMessage();
-            }
-          }
         });
       }
 
-      connectWebSocket() {
-        const proto = window.location.protocol === "https:" ? "wss:" : "ws:";
-        const wsUrl = `${proto}//${window.location.host}/ws`;
-
+      loadSavedTheme() {
         try {
-          this.ws = new WebSocket(wsUrl);
+          const saved = localStorage.getItem("strix_dark_accent");
+          if (saved && ["emerald", "cyan", "violet"].includes(saved)) {
+            this.setTheme(saved, false);
+          }
+        } catch (e) {}
+      }
+
+      setTheme(themeName, notify = true) {
+        document.documentElement.setAttribute("data-theme", themeName);
+        ["emerald", "cyan", "violet"].forEach((t) => {
+          const btn = document.getElementById("theme-" + t);
+          if (btn) btn.classList.toggle("active", t === themeName);
+        });
+        try {
+          localStorage.setItem("strix_dark_accent", themeName);
+        } catch (e) {}
+        if (notify) {
+          this.showToast("Tema gelap diperbarui: " + themeName.toUpperCase());
+        }
+      }
+
+      showToast(message, isError = false) {
+        const stack = document.getElementById("toast-stack");
+        if (!stack) return;
+        const toast = document.createElement("div");
+        toast.className = "strix-toast" + (isError ? " error" : "");
+        toast.innerHTML = `<span>${isError ? "⚠️" : "✓"}</span><span>${this.escape(message)}</span>`;
+        stack.appendChild(toast);
+        setTimeout(() => {
+          toast.style.opacity = "0";
+          toast.style.transform = "translateY(8px)";
+          toast.style.transition = "all 0.2s ease";
+          setTimeout(() => toast.remove(), 220);
+        }, 3200);
+      }
+
+      async apiRequest(endpoint, options = {}) {
+        const base = window.location.origin && window.location.origin !== "null" ? window.location.origin : "";
+        const targetUrl = base + endpoint;
+        return fetch(targetUrl, options);
+      }
+
+      connect() {
+        if (!window.location.host) {
+          this.setConnectionBadge("SIMULASI SIAP", "waiting");
+          return;
+        }
+        const proto = window.location.protocol === "https:" ? "wss:" : "ws:";
+        try {
+          this.ws = new WebSocket(`${proto}//${window.location.host}/ws`);
 
           this.ws.onopen = () => {
             this.wsConnected = true;
-            document.getElementById("ws-status").innerHTML = `<span class="pulse-dot" style="width: 5px; height: 5px;"></span> Live`;
+            this.setConnectionBadge("LIVE", "running");
           };
 
-          this.ws.onmessage = (event) => {
+          this.ws.onmessage = (e) => {
             try {
-              const msg = JSON.parse(event.data);
-              this.handleServerMessage(msg);
+              const data = JSON.parse(e.data);
+              if (data.type === "init") {
+                this.applyState(data.state);
+                this.applyAgents(data.agents);
+                this.applyVulns(data.vulnerabilities);
+                this.eventCursor = data.event_cursor || this.eventCursor;
+                if (data.events && data.events.length > 0) {
+                  this.renderEvents(data.events);
+                }
+              } else if (data.type === "state_update") {
+                this.applyState(data.state);
+                this.applyAgents(data.agents);
+                this.applyVulns(data.vulnerabilities);
+              } else if (data.type === "events") {
+                this.eventCursor = data.cursor || this.eventCursor;
+                this.renderEvents(data.events);
+              }
             } catch (err) {
-              console.error("Failed to parse WS msg", err);
+              console.error(err);
             }
           };
 
           this.ws.onclose = () => {
             this.wsConnected = false;
-            document.getElementById("ws-status").innerHTML = `<span style="color: var(--strix-amber);">●</span> Reconnecting`;
-            setTimeout(() => this.connectWebSocket(), 2000);
+            this.setConnectionBadge("OFFLINE / DEMO", "waiting");
+            setTimeout(() => this.connect(), 3500);
           };
-
-          this.ws.onerror = (err) => {
-            console.debug("WS error, fallback polling active", err);
-          };
-        } catch (e) {
-          console.error("WS connection error", e);
+        } catch (err) {
+          this.setConnectionBadge("SIMULASI", "waiting");
         }
+      }
 
-        // Background polling fallback
-        if (!this.pollTimer) {
-          this.pollTimer = setInterval(() => {
-            if (!this.wsConnected) {
-              this.fetchIncrementalEvents();
-              this.fetchFullState();
+      setConnectionBadge(text, state) {
+        const wsText = document.getElementById("ws-text");
+        const wsDot = document.getElementById("ws-dot");
+        if (wsText) wsText.innerText = text;
+        if (wsDot) {
+          wsDot.className = "pulse-dot " + (state === "running" ? "" : "waiting");
+        }
+      }
+
+      async fetchUpdates() {
+        if (!window.location.host) return;
+        try {
+          const res = await this.apiRequest(`/api/events?cursor=${this.eventCursor}`);
+          if (res.ok) {
+            const data = await res.json();
+            if (data.events && data.events.length > 0) {
+              this.eventCursor = data.cursor || this.eventCursor;
+              this.renderEvents(data.events);
             }
-          }, 2500);
-        }
-      }
-
-      async fetchFullState() {
-        try {
-          const res = await fetch("/api/state");
-          if (!res.ok) return;
-          const data = await res.json();
-          this.applyState(data.state);
-          this.applyAgents(data.agents);
-          this.applyVulnerabilities(data.vulnerabilities);
-          if (data.event_cursor && data.event_cursor > this.eventCursor) {
-            this.fetchIncrementalEvents();
           }
-        } catch (e) {
-          console.debug("Error fetching state", e);
-        }
-      }
-
-      async fetchIncrementalEvents() {
-        try {
-          const res = await fetch(`/api/events?cursor=${this.eventCursor}`);
-          if (!res.ok) return;
-          const data = await res.json();
-          if (data.events && data.events.length > 0) {
-            this.appendEvents(data.events);
-            this.eventCursor = data.cursor || this.eventCursor;
+          const stateRes = await this.apiRequest("/api/state");
+          if (stateRes.ok) {
+            const st = await stateRes.json();
+            this.applyState(st.state);
+            this.applyAgents(st.agents);
+            this.applyVulns(st.vulnerabilities);
           }
-        } catch (e) {
-          console.debug("Error fetching events", e);
-        }
-      }
-
-      handleServerMessage(msg) {
-        if (msg.type === "init") {
-          this.applyState(msg.state);
-          this.applyAgents(msg.agents);
-          this.applyVulnerabilities(msg.vulnerabilities);
-          this.eventCursor = msg.event_cursor || 0;
-          this.events = [];
-          if (msg.events) {
-            this.appendEvents(msg.events);
-          }
-        } else if (msg.type === "state_update") {
-          this.applyState(msg.state);
-          this.applyAgents(msg.agents);
-          this.applyVulnerabilities(msg.vulnerabilities);
-        } else if (msg.type === "events") {
-          this.eventCursor = msg.cursor || this.eventCursor;
-          this.appendEvents(msg.events);
-        }
+        } catch (e) {}
       }
 
       applyState(state) {
         if (!state) return;
         this.state = state;
+        const scanState = (state.scan_state || "ready").toLowerCase();
+        this.isScanning = scanState === "running";
 
-        // Setup vs Live Mode switch
-        const isSetup = Boolean(state.setup_mode && !state.scan_started);
-        document.getElementById("setup-view").style.display = isSetup ? "flex" : "none";
-        document.getElementById("live-view").style.display = isSetup ? "none" : "flex";
-        document.getElementById("nav-center-stats").style.display = isSetup ? "none" : "flex";
-        document.getElementById("btn-stop-scan").style.display = isSetup ? "none" : "inline-flex";
+        const laser = document.getElementById("scan-laser-bar");
+        if (laser) laser.classList.toggle("active", this.isScanning);
 
-        // Setup Mode UI state
-        if (isSetup) {
-          document.getElementById("setup-model-name").innerText = state.model || "Default Model";
-          if (state.targets && this.targets.length === 0) {
+        const statusVal = document.getElementById("val-status");
+        if (statusVal) statusVal.innerText = scanState.toUpperCase();
+
+        const dot = document.getElementById("main-status-dot");
+        if (dot) {
+          let dotClass = "pulse-dot";
+          if (scanState === "waiting") dotClass += " waiting";
+          else if (scanState === "stopped" || scanState === "completed") dotClass += " stopped";
+          else if (scanState === "failed") dotClass += " failed";
+          dot.className = dotClass;
+        }
+
+        const feedBadge = document.getElementById("feed-status-badge");
+        if (feedBadge) {
+          feedBadge.innerText = this.isScanning ? "SCANNING" : scanState.toUpperCase();
+        }
+
+        if (state.model) {
+          document.getElementById("header-model-name").innerText = state.model;
+          const setupModel = document.getElementById("setup-model-name");
+          if (setupModel) setupModel.innerText = state.model;
+        }
+
+        if (state.scan_mode) {
+          const modeBadge = document.getElementById("sidebar-mode-badge");
+          if (modeBadge) modeBadge.innerText = String(state.scan_mode).toUpperCase();
+        }
+
+        if (state.targets && state.targets.length > 0) {
+          document.getElementById("feed-target-text").innerText = state.targets.join(", ");
+          if (this.targets.length === 0) {
             this.targets = [...state.targets];
             this.renderTargetChips();
           }
-          if (state.instruction && !document.getElementById("instruction-input").value) {
-            document.getElementById("instruction-input").value = state.instruction;
-          }
-          if (state.messages && state.messages.length > 0) {
-            const logBox = document.getElementById("setup-log-content");
-            logBox.innerHTML = state.messages.map(m => `<div>[${m.level.toUpperCase()}] ${this.escapeHtml(m.text)}</div>`).join("");
-            logBox.scrollTop = logBox.scrollHeight;
-          }
-          return;
+        } else if (state.working_dir) {
+          document.getElementById("feed-target-text").innerText = state.working_dir;
         }
 
-        // Mount Confirmation Check
         if (state.pending_mount) {
           document.getElementById("mount-dir-path").innerText = state.pending_mount;
           document.getElementById("mount-modal").style.display = "flex";
@@ -1293,329 +2485,670 @@
           document.getElementById("mount-modal").style.display = "none";
         }
 
-        // Live Scan Header Stats
-        const scanStatusText = document.getElementById("scan-status-text");
-        const scanStatusBadge = document.getElementById("scan-status-badge");
-        const status = state.scan_state ? state.scan_state.toUpperCase() : "RUNNING";
-        scanStatusText.innerText = status;
-        scanStatusBadge.className = "badge badge-" + (state.scan_state || "running");
-
-        // Cost & Usage
-        const costVal = state.usage?.cost != null ? `$${Number(state.usage.cost).toFixed(2)}` : "$0.00";
-        document.getElementById("stat-cost").innerText = costVal;
-        if (state.max_budget_usd) {
-          document.getElementById("stat-budget-max").innerText = `/ $${Number(state.max_budget_usd).toFixed(2)}`;
-        }
-
-        // Turns
-        const turnsVal = state.usage?.turns != null ? state.usage.turns : (state.usage?.total_turns || 0);
-        document.getElementById("stat-turns").innerText = state.max_turns ? `${turnsVal} / ${state.max_turns}` : turnsVal;
-
-        // Feed target title
-        const targetStr = (state.targets && state.targets.length > 0) ? state.targets.join(", ") : state.working_dir || "-";
-        document.getElementById("feed-target-text").innerText = targetStr;
-
-        // Caido Proxy link
         if (state.caido_url) {
           document.getElementById("btn-caido").style.display = "inline-flex";
           document.getElementById("caido-info-group").style.display = "block";
           document.getElementById("caido-direct-link").href = state.caido_url;
         }
 
-        // Metrics Tab data
         if (state.usage) {
-          document.getElementById("metric-prompt-tokens").innerText = (state.usage.prompt_tokens || 0).toLocaleString();
-          document.getElementById("metric-comp-tokens").innerText = (state.usage.completion_tokens || 0).toLocaleString();
-          document.getElementById("metric-total-tokens").innerText = (state.usage.total_tokens || 0).toLocaleString();
+          const cost = state.usage.cost != null ? `$${Number(state.usage.cost).toFixed(2)}` : "$0.00";
+          document.getElementById("val-cost").innerText = cost;
+          if (state.max_budget_usd) {
+            document.getElementById("stat-budget-max").innerText = `/ $${Number(state.max_budget_usd).toFixed(2)}`;
+          }
+          const turns = state.usage.turns != null ? state.usage.turns : (state.usage.total_turns || 0);
+          document.getElementById("val-turns").innerText = state.max_turns ? `${turns}/${state.max_turns}` : turns;
+
+          document.getElementById("metric-prompt-tokens").innerText = Number(state.usage.prompt_tokens || 0).toLocaleString();
+          document.getElementById("metric-comp-tokens").innerText = Number(state.usage.completion_tokens || 0).toLocaleString();
+          document.getElementById("metric-total-tokens").innerText = Number(state.usage.total_tokens || 0).toLocaleString();
         }
 
-        // MCP Roster
         if (state.connections && state.connections.length > 0) {
           const mcpContainer = document.getElementById("mcp-roster-list");
-          mcpContainer.innerHTML = state.connections.map(c => `
-            <div style="background: var(--strix-bg-card); padding: 10px 12px; border-radius: 6px; border: 1px solid var(--strix-border); display: flex; justify-content: space-between; align-items: center;">
+          mcpContainer.innerHTML = state.connections.map((c) => `
+            <div style="background: var(--strix-bg-surface); padding: 8px 10px; border-radius: 6px; border: 1px solid var(--strix-border-subtle); display: flex; justify-content: space-between; align-items: center;">
               <div>
-                <strong style="color: #fff; font-size: 13px;">${this.escapeHtml(c.name)}</strong>
-                <div style="font-size: 11px; color: var(--strix-text-dim); margin-top: 2px;">${c.tool_count} tools available</div>
+                <strong style="color: var(--strix-text-primary); font-size: 12px;">${this.escape(c.name)}</strong>
+                <div style="font-size: 10.5px; color: var(--strix-text-muted);">${c.tool_count || 0} tools tersedia</div>
               </div>
-              <span class="badge ${c.dead ? 'badge-failed' : 'badge-running'}">${c.dead ? 'DISCONNECTED' : 'ACTIVE'}</span>
+              <span class="brand-badge" style="font-size: 9.5px;">${c.dead ? "OFFLINE" : "ACTIVE"}</span>
             </div>
           `).join("");
+        }
+
+        if (state.messages && state.messages.length > 0) {
+          const logBox = document.getElementById("setup-log-content");
+          if (logBox) {
+            logBox.innerHTML = state.messages.map((m) => `<div>[${String(m.level || "INFO").toUpperCase()}] ${this.escape(m.text)}</div>`).join("");
+            logBox.scrollTop = logBox.scrollHeight;
+          }
+        }
+
+        if (this.events.length > 0) {
+          const hero = document.getElementById("hero-welcome");
+          if (hero) hero.style.display = "none";
         }
       }
 
       applyAgents(agents) {
         if (!agents) return;
         this.agents = agents;
-        document.getElementById("agent-count-badge").innerText = agents.length;
+        document.getElementById("agent-count").innerText = agents.length;
+        this.renderAgentList();
+      }
 
-        const container = document.getElementById("dynamic-agent-list");
-        container.innerHTML = agents.map(agent => {
-          const isSelected = this.selectedAgentId === agent.id;
-          const status = agent.status || "running";
-          return `
-            <div class="agent-item ${isSelected ? 'selected' : ''}" onclick="app.selectAgent('${agent.id}')">
-              <div class="agent-info">
-                <span class="agent-name">${this.escapeHtml(agent.name || agent.id)}</span>
-                <span class="agent-sub">ID: ${this.escapeHtml(agent.id.slice(0, 8))}</span>
+      filterAgentList() {
+        this.renderAgentList();
+      }
+
+      renderAgentList() {
+        const container = document.getElementById("agent-list");
+        const query = (document.getElementById("agent-search-input")?.value || "").trim().toLowerCase();
+
+        const allCard = `
+          <div class="agent-card ${this.selectedAgent === 'all' ? 'active' : ''}" onclick="app.selectAgent('all')">
+            <div class="agent-card-left">
+              <div class="agent-icon-box">🕸️</div>
+              <div style="min-width: 0;">
+                <span class="agent-card-name">Unified Stream</span>
+                <span class="agent-card-id">Semua Aktivitas Swarm (${this.events.length})</span>
               </div>
-              <span class="badge badge-${status}">${status}</span>
+            </div>
+            <span class="pulse-dot ${this.isScanning ? '' : 'waiting'}" style="width: 6px; height: 6px;"></span>
+          </div>
+        `;
+
+        const filtered = this.agents.filter((a) => {
+          if (!query) return true;
+          const name = String(a.name || a.id || "").toLowerCase();
+          return name.includes(query) || String(a.id || "").toLowerCase().includes(query);
+        });
+
+        const agentCards = filtered.map((a) => {
+          const status = (a.status || "running").toLowerCase();
+          const dotState = status === "running" ? "" : (status === "failed" ? "failed" : (status === "completed" || status === "stopped" ? "stopped" : "waiting"));
+          const icon = a.parent_id ? "🤖" : "👑";
+          return `
+            <div class="agent-card ${this.selectedAgent === a.id ? 'active' : ''}" onclick="app.selectAgent('${this.escape(a.id)}')">
+              <div class="agent-card-left">
+                <div class="agent-icon-box">${icon}</div>
+                <div style="min-width: 0;">
+                  <span class="agent-card-name">${this.escape(a.name || a.id)}</span>
+                  <span class="agent-card-id">${this.escape(String(a.id).slice(0, 8))} · ${this.escape(status.toUpperCase())}</span>
+                </div>
+              </div>
+              <span class="pulse-dot ${dotState}" style="width: 6px; height: 6px;"></span>
             </div>
           `;
         }).join("");
+
+        container.innerHTML = allCard + agentCards;
       }
 
-      applyVulnerabilities(vulns) {
+      applyVulns(vulns) {
         if (!vulns) return;
-        this.vulnerabilities = vulns;
-        document.getElementById("stat-vuln-count").innerText = vulns.length;
-        document.getElementById("tab-vuln-count").innerText = vulns.length;
+        this.vulns = vulns;
+        document.getElementById("val-vulns").innerText = vulns.length;
+        document.getElementById("findings-count").innerText = vulns.length;
 
-        const container = document.getElementById("vulns-list");
-        if (vulns.length === 0) {
+        const counts = { all: vulns.length, critical: 0, high: 0, medium: 0, low: 0 };
+        vulns.forEach((v) => {
+          const s = (v.severity || "info").toLowerCase();
+          if (counts[s] != null) counts[s]++;
+          else counts.low++;
+        });
+
+        ["all", "critical", "high", "medium", "low"].forEach((k) => {
+          const el = document.getElementById("count-sev-" + k);
+          if (el) el.innerText = counts[k];
+        });
+
+        this.renderVulnsList();
+      }
+
+      setSeverityFilter(sev) {
+        this.severityFilter = sev;
+        ["all", "critical", "high", "medium", "low"].forEach((k) => {
+          const pill = document.getElementById("sev-filter-" + k);
+          if (pill) pill.classList.toggle("active", k === sev);
+        });
+        this.renderVulnsList();
+      }
+
+      renderVulnsList() {
+        const container = document.getElementById("findings-list");
+        const filtered = this.vulns.filter((v) => {
+          if (this.severityFilter === "all") return true;
+          return (v.severity || "info").toLowerCase() === this.severityFilter;
+        });
+
+        if (filtered.length === 0) {
           container.innerHTML = `
-            <div style="color: var(--strix-text-muted); text-align: center; margin-top: 40px; font-style: italic;">
-              No vulnerabilities identified yet.<br>Agents are exploring targets...
+            <div style="text-align: center; color: var(--strix-text-muted); margin-top: 48px; font-size: 12.5px; padding: 0 14px;">
+              <div style="font-size: 26px; margin-bottom: 8px; opacity: 0.5;">🛡️</div>
+              ${this.vulns.length === 0 ? "Belum ada kerentanan ditemukan.<br>Agent akan menampilkan laporan temuan secara otomatis saat scanning berlangsung." : "Tidak ada temuan untuk filter severity ini."}
             </div>
           `;
           return;
         }
 
-        container.innerHTML = vulns.map(v => {
+        container.innerHTML = filtered.map((v) => {
           const sev = (v.severity || "info").toLowerCase();
           return `
-            <div class="vuln-item" onclick="app.openVulnModal('${v.id}')">
-              <span class="badge badge-${sev}">${sev.toUpperCase()}</span>
-              <div class="vuln-title">${this.escapeHtml(v.title || "Unnamed Finding")}</div>
-              <div class="vuln-meta">${this.escapeHtml(v.target || v.component || "")}</div>
+            <div class="finding-card" onclick="app.openVuln('${this.escape(v.id)}')">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span class="finding-badge ${sev}">${this.escape(sev.toUpperCase())}</span>
+                <span style="font-size: 10px; font-family: var(--font-mono); color: var(--strix-text-muted);">Lihat PoC →</span>
+              </div>
+              <div class="finding-title">${this.escape(v.title || "Temuan Keamanan")}</div>
+              <div class="finding-loc">${this.escape(v.target || v.url || v.component || "Target Endpoint")}</div>
             </div>
           `;
         }).join("");
       }
 
-      appendEvents(newEvents) {
+      renderEvents(newEvents) {
         if (!newEvents || newEvents.length === 0) return;
+        const feed = document.getElementById("chat-feed");
+        const hero = document.getElementById("hero-welcome");
+        if (hero) hero.style.display = "none";
 
         for (const evt of newEvents) {
-          const existingIdx = this.events.findIndex(e => e.id === evt.id);
-          if (existingIdx >= 0) {
-            this.events[existingIdx] = evt;
-            this.updateEventInDOM(evt);
+          const isNew = !this.animatedNodeIds.has(evt.id);
+          if (isNew) {
+            this.animatedNodeIds.add(evt.id);
+            if (evt.type === "tool" && evt.data?.status === "running") {
+              this.expandedTools.add(String(evt.id));
+            }
+          }
+
+          const idx = this.events.findIndex((e) => e.id === evt.id);
+          if (idx >= 0) {
+            this.events[idx] = evt;
+            const node = document.getElementById(`node-${evt.id}`);
+            if (node) {
+              node.outerHTML = this.eventToHtml(evt, false);
+            }
           } else {
             this.events.push(evt);
-            this.renderSingleEvent(evt);
+            const div = document.createElement("div");
+            div.innerHTML = this.eventToHtml(evt, true);
+            if (div.firstElementChild) feed.appendChild(div.firstElementChild);
           }
         }
 
+        this.renderAgentList();
         if (this.autoScroll) {
           this.scrollToBottom();
         }
       }
 
-      renderSingleEvent(evt) {
-        if (this.selectedAgentId !== "all" && evt.agent_id !== this.selectedAgentId) {
-          return;
+      toggleThought(evtId) {
+        const key = String(evtId);
+        if (this.expandedThoughts.has(key)) this.expandedThoughts.delete(key);
+        else this.expandedThoughts.add(key);
+        const body = document.getElementById("think-body-" + key);
+        if (body) {
+          body.style.display = this.expandedThoughts.has(key) ? "block" : "none";
         }
-
-        const container = document.getElementById("event-feed");
-        const el = document.createElement("div");
-        el.id = `event-node-${evt.id}`;
-        el.className = "event-wrapper";
-        el.innerHTML = this.formatEventHtml(evt);
-        container.appendChild(el);
       }
 
-      updateEventInDOM(evt) {
-        const el = document.getElementById(`event-node-${evt.id}`);
-        if (!el) {
-          this.renderSingleEvent(evt);
-          return;
+      toggleToolDrawer(evtId) {
+        const key = String(evtId);
+        if (this.expandedTools.has(key)) this.expandedTools.delete(key);
+        else this.expandedTools.add(key);
+        const drawer = document.getElementById("tool-drawer-" + key);
+        if (drawer) {
+          drawer.style.display = this.expandedTools.has(key) ? "block" : "none";
         }
-        if (this.selectedAgentId !== "all" && evt.agent_id !== this.selectedAgentId) {
-          el.remove();
-          return;
-        }
-        el.innerHTML = this.formatEventHtml(evt);
       }
 
-      formatEventHtml(evt) {
+      eventToHtml(evt, animate = false) {
+        if (this.selectedAgent !== "all" && evt.agent_id !== this.selectedAgent) {
+          return `<div id="node-${evt.id}" style="display:none;"></div>`;
+        }
+
+        const animClass = animate ? "animate-in" : "";
+        const agentObj = this.agents.find((a) => a.id === evt.agent_id);
+        const agentName = agentObj ? (agentObj.name || agentObj.id) : (evt.agent_id ? String(evt.agent_id).slice(0, 8) : "Root Agent");
+        const timeStr = evt.timestamp ? new Date(evt.timestamp).toLocaleTimeString() : new Date().toLocaleTimeString();
+
         if (evt.type === "chat") {
-          const role = evt.data?.role || "assistant";
-          const rawContent = evt.data?.content || "";
+          const isUser = evt.data?.role === "user";
+          const raw = evt.data?.content || "";
 
-          let thinkingHtml = "";
-          let cleanContent = rawContent;
-          const thinkMatch = rawContent.match(/<thinking>([\s\S]*?)<\/thinking>/);
-          if (thinkMatch) {
-            thinkingHtml = `
-              <div class="thinking-box">
-                <div class="thinking-header" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'">
-                  🧠 Thinking Process (click to toggle)
+          let thinkHtml = "";
+          let clean = raw;
+          const match = raw.match(/<thinking>([\s\S]*?)<\/thinking>/);
+          if (match) {
+            const isOpen = this.expandedThoughts.has(String(evt.id));
+            thinkHtml = `
+              <div class="think-accordion">
+                <div class="think-head" onclick="app.toggleThought('${this.escape(evt.id)}')">
+                  <div class="think-title-row">
+                    <span>🧠</span>
+                    <span>Reasoning Process</span>
+                  </div>
+                  <span style="font-size: 10.5px; opacity: 0.75;">Klik untuk buka/tutup</span>
                 </div>
-                <div class="thinking-content" style="display: none;">${this.escapeHtml(thinkMatch[1].trim())}</div>
+                <div class="think-body" id="think-body-${this.escape(evt.id)}" style="display: ${isOpen ? 'block' : 'none'};">${this.escape(match[1].trim())}</div>
               </div>
             `;
-            cleanContent = rawContent.replace(/<thinking>[\s\S]*?<\/thinking>/, "").trim();
+            clean = raw.replace(/<thinking>[\s\S]*?<\/thinking>/, "").trim();
           }
 
-          const parsedMarkdown = this.renderMarkdown(cleanContent);
-          const isUser = role === "user";
           return `
-            <div class="event-card ${isUser ? 'chat-user' : 'chat-assistant'}">
-              <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 11px; color: var(--strix-text-dim);">
-                <strong style="color: ${isUser ? 'var(--strix-blue)' : 'var(--strix-emerald)'};">${isUser ? 'USER' : 'STRIX AGENT'}</strong>
-                <span>${new Date(evt.timestamp).toLocaleTimeString()}</span>
+            <div class="msg-row ${isUser ? 'user' : 'agent'} ${animClass}" id="node-${evt.id}">
+              <div class="msg-avatar ${isUser ? 'user' : 'agent'}">${isUser ? 'ANDA' : 'AI'}</div>
+              <div class="msg-content-wrapper">
+                <div class="msg-header">
+                  <span class="msg-sender">${isUser ? 'Operator' : 'Strix AI Agent'}</span>
+                  <span class="msg-agent-tag">${this.escape(agentName)}</span>
+                  <span class="msg-time">${timeStr}</span>
+                </div>
+                ${thinkHtml}
+                ${clean ? `<div class="msg-bubble markdown">${this.parseMarkdown(clean)}</div>` : ''}
               </div>
-              ${thinkingHtml}
-              <div class="markdown-body">${parsedMarkdown}</div>
             </div>
           `;
         }
 
         if (evt.type === "tool") {
-          const toolName = evt.data?.tool_name || "tool";
+          const name = evt.data?.tool_name || "tool";
           const args = evt.data?.args || {};
-          const status = evt.data?.status || "running";
-          const result = evt.data?.result;
+          const status = (evt.data?.status || "running").toLowerCase();
+          const res = evt.data?.result;
           const isRunning = status === "running";
+          const isOpen = this.expandedTools.has(String(evt.id)) || isRunning;
 
-          let argsPreview = "";
-          try {
-            argsPreview = JSON.stringify(args);
-          } catch(e) {}
+          let commandPreview = "";
+          if (args.command) {
+            commandPreview = `$ ${args.command}`;
+          } else if (args.url) {
+            commandPreview = `${args.method || 'GET'} ${args.url}`;
+          } else if (args.thought) {
+            commandPreview = args.thought;
+          } else {
+            try { commandPreview = JSON.stringify(args); } catch (e) {}
+          }
 
-          let resultHtml = "";
-          if (result != null) {
-            if (typeof result === "string" && result.startsWith("data:image/")) {
-              resultHtml = `
-                <div style="margin-top: 8px;">
-                  <img src="${result}" style="max-height: 220px; border-radius: 4px; cursor: pointer; border: 1px solid var(--strix-border);" onclick="app.openLightbox('${result}')">
+          let outHtml = "";
+          if (res != null) {
+            if (typeof res === "string" && res.startsWith("data:image/")) {
+              outHtml = `
+                <div class="tool-section-bar" style="margin-top: 10px;">
+                  <span class="tool-section-title">Screenshot Capture:</span>
                 </div>
+                <img src="${res}" alt="Tool Capture" style="max-height: 220px; border-radius: 6px; border: 1px solid var(--strix-border-default); cursor: pointer;" onclick="app.openLightbox('${res}')">
               `;
             } else {
-              const resStr = typeof result === "object" ? JSON.stringify(result, null, 2) : String(result);
-              resultHtml = `
-                <div class="tool-output-block">${this.escapeHtml(resStr)}</div>
+              const outStr = typeof res === "object" ? JSON.stringify(res, null, 2) : String(res);
+              outHtml = `
+                <div class="tool-section-bar" style="margin-top: 10px;">
+                  <span class="tool-section-title">Execution Output:</span>
+                  <button type="button" class="copy-mini-btn" onclick="app.copyTextById('tool-out-${this.escape(evt.id)}')">Salin Output</button>
+                </div>
+                <div id="tool-out-${this.escape(evt.id)}" style="white-space: pre-wrap; color: #e2e8f0;">${this.escape(outStr)}</div>
               `;
             }
           }
 
+          const spinnerHtml = isRunning ? `
+            <svg class="spinner-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" stroke-opacity="0.25"></circle>
+              <path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round"></path>
+            </svg>
+          ` : '';
+
           return `
-            <div class="event-card tool-card">
-              <div class="tool-header" onclick="app.toggleToolBody('${evt.id}')">
-                <div class="tool-title">
-                  <span class="tool-name-badge">${this.escapeHtml(toolName)}</span>
-                  <span class="tool-args-preview">${this.escapeHtml(argsPreview)}</span>
+            <div class="msg-row agent ${animClass}" id="node-${evt.id}">
+              <div class="msg-avatar tool">⚡</div>
+              <div class="msg-content-wrapper">
+                <div class="tool-box ${isRunning ? 'running' : ''}">
+                  <div class="tool-shimmer"></div>
+                  <div class="tool-header-btn" onclick="app.toggleToolDrawer('${this.escape(evt.id)}')">
+                    <div class="tool-header-left">
+                      <div class="window-dots">
+                        <span class="window-dot"></span>
+                        <span class="window-dot"></span>
+                        <span class="window-dot"></span>
+                      </div>
+                      <span class="tool-badge">${this.escape(name)}</span>
+                      <span class="tool-cmd-preview">${this.escape(commandPreview)}</span>
+                    </div>
+                    <div class="tool-status-pill ${status}">
+                      ${spinnerHtml}
+                      <span>${this.escape(status.toUpperCase())}</span>
+                    </div>
+                  </div>
+                  <div class="tool-drawer" id="tool-drawer-${this.escape(evt.id)}" style="display: ${isOpen ? 'block' : 'none'};">
+                    <div class="tool-section-bar">
+                      <span class="tool-section-title">Arguments:</span>
+                      <button type="button" class="copy-mini-btn" onclick="app.copyTextById('tool-arg-${this.escape(evt.id)}')">Salin Argumen</button>
+                    </div>
+                    <div id="tool-arg-${this.escape(evt.id)}" style="margin-bottom: 6px; color: var(--strix-text-secondary); white-space: pre-wrap;">${this.escape(JSON.stringify(args, null, 2))}</div>
+                    ${outHtml}
+                  </div>
                 </div>
-                <span class="badge ${isRunning ? 'badge-waiting' : (status === 'error' ? 'badge-failed' : 'badge-completed')}">
-                  ${isRunning ? 'RUNNING' : status.toUpperCase()}
-                </span>
-              </div>
-              <div class="tool-body" id="tool-body-${evt.id}">
-                <div style="color: var(--strix-text-muted); font-size: 11px; margin-bottom: 4px;">Arguments:</div>
-                <pre style="background: #000; padding: 8px; border-radius: 4px; overflow-x: auto; font-family: var(--font-mono); font-size: 11px; margin-bottom: 8px; border: 1px solid var(--strix-border);">${this.escapeHtml(JSON.stringify(args, null, 2))}</pre>
-                ${result != null ? '<div style="color: var(--strix-text-muted); font-size: 11px; margin-bottom: 4px;">Output:</div>' + resultHtml : ''}
               </div>
             </div>
           `;
         }
 
-        return "";
+        return `<div id="node-${evt.id}"></div>`;
       }
 
-      toggleToolBody(id) {
-        const body = document.getElementById(`tool-body-${id}`);
-        if (body) {
-          body.style.display = body.style.display === "none" ? "block" : "none";
+      copyTextById(elemId) {
+        const el = document.getElementById(elemId);
+        if (!el) return;
+        this.copyToClipboard(el.innerText || el.textContent || "");
+      }
+
+      copyToClipboard(text) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(() => {
+            this.showToast("Berhasil disalin ke clipboard");
+          }).catch(() => {
+            this.fallbackCopy(text);
+          });
+        } else {
+          this.fallbackCopy(text);
         }
       }
 
-      selectAgent(agentId) {
-        this.selectedAgentId = agentId;
-        const targetLabel = document.getElementById("steer-target-label");
+      fallbackCopy(text) {
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        ta.style.position = "fixed";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.select();
+        try {
+          document.execCommand("copy");
+          this.showToast("Berhasil disalin ke clipboard");
+        } catch (e) {
+          this.showToast("Gagal menyalin teks", true);
+        }
+        document.body.removeChild(ta);
+      }
+
+      autoResizeInput(textarea) {
+        if (!textarea) return;
+        textarea.style.height = "42px";
+        textarea.style.height = Math.min(textarea.scrollHeight, 150) + "px";
+      }
+
+      insertQuickText(text) {
+        const inp = document.getElementById("chat-input");
+        if (!inp) return;
+        inp.value = (inp.value ? inp.value.trim() + " " : "") + text;
+        inp.focus();
+        this.autoResizeInput(inp);
+      }
+
+      usePrompt(text) {
+        const inp = document.getElementById("chat-input");
+        if (inp) {
+          inp.value = text;
+          this.sendChatMessage();
+        }
+      }
+
+      async sendChatMessage() {
+        const inp = document.getElementById("chat-input");
+        const msg = inp.value.trim();
+        if (!msg) return;
+
+        inp.value = "";
+        inp.style.height = "42px";
+        const sendBtn = document.getElementById("btn-send");
+        sendBtn.disabled = true;
+
+        try {
+          const payload = {
+            message: msg,
+            agent_id: this.selectedAgent !== "all" ? this.selectedAgent : undefined
+          };
+          const res = await this.apiRequest("/api/command", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ command: "chat.send", payload })
+          });
+          const result = await res.json();
+          if (!result.ok) {
+            this.showToast("Error: " + (result.error || "Perintah ditolak"), true);
+          } else {
+            this.showToast("Instruksi dikirim ke agent");
+          }
+        } catch (e) {
+          // Fallback to interactive live simulation when running in Canvas or without backend
+          this.simulateInteractiveResponse(msg);
+        } finally {
+          sendBtn.disabled = false;
+        }
+      }
+
+      simulateInteractiveResponse(userMsg) {
+        const now = Date.now();
+        const rootId = "agent-root-01";
+        if (this.agents.length === 0) {
+          this.applyAgents([
+            { id: rootId, name: "Strix Orchestrator", status: "running", parent_id: null },
+            { id: "agent-recon-02", name: "Surface Recon & HTTP Prober", status: "running", parent_id: rootId },
+            { id: "agent-exploit-03", name: "Auth & Injection Verifier", status: "waiting", parent_id: rootId }
+          ]);
+        }
+
+        const urlMatch = userMsg.match(/https?:\/\/[^\s]+/);
+        const targetHost = urlMatch ? urlMatch[0] : "https://target.example.com";
+
+        this.applyState({
+          scan_state: "running",
+          scan_mode: this.scanMode,
+          model: "claude-sonnet-4-6(high)",
+          targets: [targetHost],
+          usage: { cost: 0.14, turns: 4, prompt_tokens: 14280, completion_tokens: 2890, total_tokens: 17170 }
+        });
+
+        this.renderEvents([
+          {
+            id: "evt-user-" + now,
+            agent_id: rootId,
+            type: "chat",
+            timestamp: now,
+            data: { role: "user", content: userMsg }
+          }
+        ]);
+
+        setTimeout(() => {
+          this.renderEvents([
+            {
+              id: "evt-think-" + now,
+              agent_id: rootId,
+              type: "chat",
+              timestamp: Date.now(),
+              data: {
+                role: "assistant",
+                content: `<thinking>Menganalisis instruksi pengguna untuk target ${targetHost}.\n1. Memetakan permukaan serangan HTTP/HTTPS dan header keamanan.\n2. Menjalankan sub-agent enumerasi endpoint API dan pemeriksaan kontrol akses (IDOR/Auth Bypass).\n3. Memvalidasi potensi celah dengan payload non-destruktif.</thinking>Memulai pemindaian otonom pada **${targetHost}**. Saya telah mendelegasikan tugas enumerasi endpoint dan pengujian autentikasi ke **Agent Swarm**.`
+              }
+            },
+            {
+              id: "evt-tool-1-" + now,
+              agent_id: "agent-recon-02",
+              type: "tool",
+              timestamp: Date.now(),
+              data: {
+                tool_name: "httpx_probe",
+                status: "running",
+                args: { command: `httpx -u ${targetHost} -status-code -title -tech-detect -json` }
+              }
+            }
+          ]);
+        }, 550);
+
+        setTimeout(() => {
+          this.renderEvents([
+            {
+              id: "evt-tool-1-" + now,
+              agent_id: "agent-recon-02",
+              type: "tool",
+              timestamp: Date.now(),
+              data: {
+                tool_name: "httpx_probe",
+                status: "completed",
+                args: { command: `httpx -u ${targetHost} -status-code -title -tech-detect -json` },
+                result: {
+                  url: targetHost,
+                  status_code: 200,
+                  title: "Enterprise API Gateway",
+                  technologies: ["Nginx 1.24", "Node.js", "Express", "PostgreSQL"],
+                  headers: { "x-powered-by": "Express", "access-control-allow-origin": "*" }
+                }
+              }
+            },
+            {
+              id: "evt-tool-2-" + now,
+              agent_id: "agent-exploit-03",
+              type: "tool",
+              timestamp: Date.now(),
+              data: {
+                tool_name: "idor_auth_fuzzer",
+                status: "completed",
+                args: { method: "GET", url: `${targetHost}/api/v1/users/1002/profile`, headers: { Authorization: "Bearer eyJhbGci..." } },
+                result: "HTTP/1.1 200 OK\nContent-Type: application/json\n\n{\n  \"user_id\": 1002,\n  \"email\": \"admin@example.com\",\n  \"role\": \"superadmin\",\n  \"api_key_hash\": \"sha256:9f86d081884c7d659a2feaa0c55ad015\"\n}"
+              }
+            }
+          ]);
+
+          const newVuln = {
+            id: "vuln-" + now,
+            severity: "critical",
+            title: "Broken Object Level Authorization (IDOR) pada /api/v1/users/{id}/profile",
+            target: `${targetHost}/api/v1/users/1002/profile`,
+            description: `### Ringkasan Kerentanan\nEndpoint \`GET /api/v1/users/{id}/profile\` tidak memverifikasi kepemilikan objek pengguna terhadap sesi token JWT yang aktif. Akun pengguna biasa dapat mengakses profil dan metadata sensitif milik **superadmin**.\n\n### Langkah Reproduksi (PoC)\n\`\`\`bash\ncurl -i -s -k -X 'GET' \\n  -H 'Authorization: Bearer <LOW_PRIV_TOKEN>' \\n  '${targetHost}/api/v1/users/1002/profile'\n\`\`\`\n\n### Dampak Keamanan\nPengambilalihan akun penuh (*Account Takeover*) dan kebocoran data sensitif seluruh pengguna.\n\n### Rekomendasi Remediasi\nValidasi \`req.user.id === Number(req.params.id)\` pada middleware otorisasi sebelum mengembalikan record database.`
+          };
+          this.applyVulns([newVuln, ...this.vulns]);
+          this.applyState({
+            scan_state: "waiting",
+            scan_mode: this.scanMode,
+            model: "claude-sonnet-4-6(high)",
+            targets: [targetHost],
+            usage: { cost: 0.29, turns: 8, prompt_tokens: 28450, completion_tokens: 5410, total_tokens: 33860 }
+          });
+          this.showToast("Temuan baru: CRITICAL IDOR terverifikasi!");
+        }, 1800);
+      }
+
+      runDemoSimulation() {
+        if (this.setupViewOpen) {
+          this.toggleSetupView(false);
+        }
+        this.usePrompt("Scan menyeluruh https://api.strix-demo.io/v1 untuk celah IDOR, SQL Injection, dan misconfiguration");
+      }
+
+      handleKeyDown(e) {
+        if (e.key === "Enter" && !e.shiftKey) {
+          e.preventDefault();
+          this.sendChatMessage();
+        }
+      }
+
+      selectAgent(id) {
+        this.selectedAgent = id;
+        const targetLabel = document.getElementById("current-target-agent");
         const filterTitle = document.getElementById("current-filter-title");
 
-        if (agentId === "all") {
+        if (id === "all") {
           targetLabel.innerText = "Root Agent";
-          filterTitle.innerText = "All Agents Stream";
+          filterTitle.innerText = "Unified Agent Stream";
         } else {
-          const agent = this.agents.find(a => a.id === agentId);
-          const name = agent ? (agent.name || agent.id) : agentId;
+          const agent = this.agents.find((a) => a.id === id);
+          const name = agent ? (agent.name || agent.id) : id;
           targetLabel.innerText = name;
-          filterTitle.innerText = `Agent: ${name}`;
+          filterTitle.innerText = `Stream Agent: ${name}`;
         }
 
-        const container = document.getElementById("event-feed");
-        container.innerHTML = "";
-        for (const evt of this.events) {
-          if (this.selectedAgentId === "all" || evt.agent_id === this.selectedAgentId) {
-            this.renderSingleEvent(evt);
-          }
+        this.renderAgentList();
+
+        const feed = document.getElementById("chat-feed");
+        const hero = document.getElementById("hero-welcome");
+        feed.innerHTML = "";
+        if (hero && this.events.length === 0) {
+          feed.appendChild(hero);
         }
-        this.applyAgents(this.agents);
+        for (const evt of this.events) {
+          const div = document.createElement("div");
+          div.innerHTML = this.eventToHtml(evt, false);
+          if (div.firstElementChild) feed.appendChild(div.firstElementChild);
+        }
         this.scrollToBottom();
       }
 
+      clearFeedView() {
+        this.events = [];
+        this.animatedNodeIds.clear();
+        const feed = document.getElementById("chat-feed");
+        feed.innerHTML = `
+          <div class="hero-welcome" id="hero-welcome">
+            <div class="hero-icon">
+              <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+            </div>
+            <h1 class="hero-title">Strix Autonomous AI Pentester</h1>
+            <p class="hero-desc">Layar stream telah dibersihkan. Ketik instruksi baru atau klik tombol Simulasi untuk menguji alur kerja agent.</p>
+          </div>
+        `;
+        this.showToast("Tampilan layar dibersihkan");
+      }
+
       onFeedScroll() {
-        const feed = document.getElementById("event-feed");
-        const isNearBottom = feed.scrollHeight - feed.scrollTop - feed.clientHeight < 80;
+        const feed = document.getElementById("chat-feed");
+        if (!feed) return;
+        const isNearBottom = feed.scrollHeight - feed.scrollTop - feed.clientHeight < 90;
         this.autoScroll = isNearBottom;
-        document.getElementById("scroll-down-btn").style.display = isNearBottom ? "none" : "block";
+        const btn = document.getElementById("scroll-down-btn");
+        if (btn) btn.style.display = isNearBottom ? "none" : "inline-flex";
       }
 
       scrollToBottom(force = false) {
-        const feed = document.getElementById("event-feed");
+        const feed = document.getElementById("chat-feed");
         if (feed) {
           feed.scrollTop = feed.scrollHeight;
         }
         if (force) {
           this.autoScroll = true;
-          document.getElementById("scroll-down-btn").style.display = "none";
+          const btn = document.getElementById("scroll-down-btn");
+          if (btn) btn.style.display = "none";
         }
       }
 
-      async sendSteerMessage() {
-        const txt = document.getElementById("steer-textarea");
-        const message = txt.value.trim();
-        if (!message) return;
+      /* Setup View Controls */
+      toggleSetupView(forceState) {
+        this.setupViewOpen = typeof forceState === "boolean" ? forceState : !this.setupViewOpen;
+        const setupEl = document.getElementById("setup-view");
+        const feedEl = document.getElementById("chat-feed");
+        const composerEl = document.getElementById("composer-zone");
+        const toggleBtn = document.getElementById("btn-toggle-setup");
 
-        let targetId = this.selectedAgentId;
-        if (targetId === "all" || !targetId) {
-          const root = this.agents.find(a => !a.parent_id) || this.agents[0];
-          targetId = root ? root.id : "";
-        }
-
-        if (!targetId) {
-          alert("No agent is currently active to receive instructions.");
-          return;
-        }
-
-        txt.value = "";
-        try {
-          await this.sendCommand("agent.send_message", {
-            agent_id: targetId,
-            message: message
-          });
-        } catch (e) {
-          alert("Failed to send message: " + e.message);
-        }
-      }
-
-      onSteerKeyDown(e) {
-        if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
-          e.preventDefault();
-          this.sendSteerMessage();
-        }
+        if (setupEl) setupEl.style.display = this.setupViewOpen ? "flex" : "none";
+        if (feedEl) feedEl.style.display = this.setupViewOpen ? "none" : "flex";
+        if (composerEl) composerEl.style.display = this.setupViewOpen ? "none" : "block";
+        if (toggleBtn) toggleBtn.classList.toggle("active", this.setupViewOpen);
       }
 
       addTargetFromInput() {
         const inp = document.getElementById("target-input");
-        const val = inp.value.trim();
-        if (val && !this.targets.includes(val)) {
+        const val = (inp?.value || "").trim();
+        if (!val) return;
+        if (!this.targets.includes(val)) {
           this.targets.push(val);
           inp.value = "";
           this.renderTargetChips();
-          this.sendCommand("setup.add_target", { target: val });
+          this.sendCommandSilent("setup.add_target", { target: val });
+          document.getElementById("feed-target-text").innerText = this.targets.join(", ");
         }
       }
 
@@ -1623,96 +3156,106 @@
         if (!this.targets.includes(target)) {
           this.targets.push(target);
           this.renderTargetChips();
-          this.sendCommand("setup.add_target", { target });
+          this.sendCommandSilent("setup.add_target", { target });
+          document.getElementById("feed-target-text").innerText = this.targets.join(", ");
         }
       }
 
       removeTarget(target) {
-        this.targets = this.targets.filter(t => t !== target);
+        this.targets = this.targets.filter((t) => t !== target);
         this.renderTargetChips();
-        this.sendCommand("setup.remove_target", { target });
+        this.sendCommandSilent("setup.remove_target", { target });
+        document.getElementById("feed-target-text").innerText = this.targets.length ? this.targets.join(", ") : "Belum ada target spesifik";
       }
 
       renderTargetChips() {
         const list = document.getElementById("targets-list");
-        list.innerHTML = this.targets.map(t => `
+        if (!list) return;
+        list.innerHTML = this.targets.map((t) => `
           <div class="target-chip">
-            <span>${this.escapeHtml(t)}</span>
-            <button type="button" class="remove-btn" onclick="app.removeTarget('${this.escapeHtml(t)}')">×</button>
+            <span>🎯 ${this.escape(t)}</span>
+            <button type="button" class="remove-btn" onclick="app.removeTarget('${this.escape(t)}')">×</button>
           </div>
         `).join("");
       }
 
       appendInstruction(text) {
         const inp = document.getElementById("instruction-input");
+        if (!inp) return;
         inp.value = (inp.value ? inp.value.trim() + "\n" : "") + text;
       }
 
       setScanMode(mode) {
         this.scanMode = mode;
-        document.querySelectorAll(".mode-pill").forEach(el => el.classList.remove("active"));
-        const active = document.getElementById(`mode-${mode}`);
-        if (active) active.classList.add("active");
-        this.sendCommand("setup.set_config", { scan_mode: mode });
+        ["quick", "standard", "deep"].forEach((m) => {
+          const el = document.getElementById("mode-" + m);
+          if (el) el.classList.toggle("active", m === mode);
+        });
+        const badge = document.getElementById("sidebar-mode-badge");
+        if (badge) badge.innerText = mode.toUpperCase();
+        this.sendCommandSilent("setup.set_config", { scan_mode: mode });
       }
 
       async onSetupSubmit(e) {
         e.preventDefault();
-        const startBtn = document.getElementById("btn-start-scan");
-        startBtn.disabled = true;
-        startBtn.innerText = "Launching...";
-
-        const instruction = document.getElementById("instruction-input").value.trim();
-        const budgetRaw = document.getElementById("budget-input").value;
-        const turnsRaw = document.getElementById("turns-input").value;
+        const instruction = (document.getElementById("instruction-input")?.value || "").trim();
+        const budgetRaw = document.getElementById("budget-input")?.value;
+        const turnsRaw = document.getElementById("turns-input")?.value;
 
         try {
           if (instruction) {
-            await this.sendCommand("setup.set_instruction", { instruction });
+            await this.sendCommandSilent("setup.set_instruction", { instruction });
           }
-          await this.sendCommand("setup.set_config", {
+          await this.sendCommandSilent("setup.set_config", {
             scan_mode: this.scanMode,
             max_budget_usd: budgetRaw ? parseFloat(budgetRaw) : null,
-            max_turns: turnsRaw ? parseInt(turnsRaw) : 100
+            max_turns: turnsRaw ? parseInt(turnsRaw, 10) : 100
           });
+          await this.sendCommandSilent("setup.start", { mount_working_dir: this.targets.length === 0 });
+        } catch (err) {}
 
-          const mountWorkingDir = this.targets.length === 0;
-          const res = await this.sendCommand("setup.start", { mount_working_dir: mountWorkingDir });
-          if (res && res.started && !mountWorkingDir) {
-            setTimeout(() => { window.location.reload(); }, 600);
-          }
-        } catch (err) {
-          alert("Could not start scan: " + err.message);
-          startBtn.disabled = false;
-          startBtn.innerText = "Launch Penetration Test";
-        }
+        this.toggleSetupView(false);
+        const promptSummary = `Mulai scan (${this.scanMode.toUpperCase()}) pada target ${this.targets.length ? this.targets.join(", ") : "workspace lokal"}. ${instruction}`;
+        this.usePrompt(promptSummary.trim());
       }
 
-      async resolveMount(approved) {
-        document.getElementById("mount-modal").style.display = "none";
+      async sendCommandSilent(command, payload = {}) {
         try {
-          await this.sendCommand("setup.confirm_mount", { approved });
-          setTimeout(() => { window.location.reload(); }, 600);
-        } catch (e) {
-          alert("Mount confirmation failed: " + e.message);
-        }
+          if (this.wsConnected && this.ws && this.ws.readyState === WebSocket.OPEN) {
+            const id = "cmd_" + Math.random().toString(36).substring(2, 9);
+            this.ws.send(JSON.stringify({ type: "command", id, command, payload }));
+            return;
+          }
+          await this.apiRequest("/api/command", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ command, payload })
+          });
+        } catch (e) {}
       }
 
-      openVulnModal(id) {
-        const vuln = this.vulnerabilities.find(v => v.id === id);
-        if (!vuln) return;
-        this.currentVuln = vuln;
+      /* Right Sidebar Tabs */
+      switchRightTab(tab) {
+        document.getElementById("tab-btn-vulns").classList.toggle("active", tab === "vulns");
+        document.getElementById("tab-btn-metrics").classList.toggle("active", tab === "metrics");
+        document.getElementById("tab-content-vulns").style.display = tab === "vulns" ? "flex" : "none";
+        document.getElementById("tab-content-metrics").style.display = tab === "metrics" ? "flex" : "none";
+      }
 
-        const sev = (vuln.severity || "info").toLowerCase();
-        const badge = document.getElementById("vuln-modal-badge");
-        badge.className = `badge badge-${sev}`;
+      /* Modals & Actions */
+      openVuln(id) {
+        const v = this.vulns.find((item) => item.id === id);
+        if (!v) return;
+        this.currentVuln = v;
+        const sev = (v.severity || "info").toLowerCase();
+
+        const badge = document.getElementById("modal-sev");
+        badge.className = `finding-badge ${sev}`;
         badge.innerText = sev.toUpperCase();
 
-        document.getElementById("vuln-modal-title").innerText = vuln.title || "Vulnerability";
-        document.getElementById("vuln-modal-location").innerText = vuln.target || vuln.url || vuln.component || "";
-
-        const bodyContent = vuln.description || vuln.details || vuln.markdown || "No description provided.";
-        document.getElementById("vuln-modal-body").innerHTML = this.renderMarkdown(bodyContent);
+        document.getElementById("modal-title").innerText = v.title || "Finding";
+        document.getElementById("modal-loc").innerText = v.target || v.url || v.component || "";
+        document.getElementById("modal-body").innerHTML = this.parseMarkdown(v.description || v.details || v.markdown || "Tidak ada deskripsi.");
         document.getElementById("vuln-modal").style.display = "flex";
       }
 
@@ -1722,9 +3265,44 @@
 
       copyVulnMarkdown() {
         if (!this.currentVuln) return;
-        const text = `# ${this.currentVuln.title}\nSeverity: ${this.currentVuln.severity}\n\n${this.currentVuln.description || ""}`;
-        navigator.clipboard.writeText(text);
-        alert("Copied finding to clipboard!");
+        const md = `# ${this.currentVuln.title || "Vulnerability"}\nSeverity: ${(this.currentVuln.severity || "INFO").toUpperCase()}\nTarget: ${this.currentVuln.target || "-"}\n\n${this.currentVuln.description || this.currentVuln.details || ""}`;
+        this.copyToClipboard(md);
+      }
+
+      closeModal(e) {
+        document.getElementById("vuln-modal").style.display = "none";
+      }
+
+      confirmStop() {
+        document.getElementById("stop-modal").style.display = "flex";
+      }
+
+      closeStopModal() {
+        document.getElementById("stop-modal").style.display = "none";
+      }
+
+      async executeStopScan() {
+        this.closeStopModal();
+        this.isScanning = false;
+        const laser = document.getElementById("scan-laser-bar");
+        if (laser) laser.classList.remove("active");
+        document.getElementById("val-status").innerText = "STOPPED";
+        document.getElementById("main-status-dot").className = "pulse-dot stopped";
+
+        try {
+          await this.apiRequest("/api/command", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ command: "app.quit", payload: {} })
+          });
+        } catch (e) {}
+        this.showToast("Sesi penetration test telah dihentikan");
+      }
+
+      async resolveMount(approved) {
+        document.getElementById("mount-modal").style.display = "none";
+        await this.sendCommandSilent("setup.confirm_mount", { approved });
+        this.showToast(approved ? "Workspace lokal di-mount" : "Berjalan tanpa mount lokal");
       }
 
       openLightbox(src) {
@@ -1736,61 +3314,20 @@
         document.getElementById("lightbox-modal").style.display = "none";
       }
 
-      confirmStopScan() {
-        document.getElementById("stop-modal").style.display = "flex";
-      }
-
-      closeStopModal() {
-        document.getElementById("stop-modal").style.display = "none";
-      }
-
-      async executeStopScan() {
-        this.closeStopModal();
-        try {
-          await this.sendCommand("app.quit", {});
-        } catch (e) {
-          alert("Failed to stop scan: " + e.message);
-        }
-      }
-
-      closeAllModals() {
-        document.getElementById("vuln-modal").style.display = "none";
-        document.getElementById("lightbox-modal").style.display = "none";
-        document.getElementById("stop-modal").style.display = "none";
-        document.getElementById("mount-modal").style.display = "none";
-      }
-
-      switchTab(tab) {
-        document.getElementById("tab-btn-vulns").classList.toggle("active", tab === "vulns");
-        document.getElementById("tab-btn-metrics").classList.toggle("active", tab === "metrics");
-        document.getElementById("tab-content-vulns").style.display = tab === "vulns" ? "block" : "none";
-        document.getElementById("tab-content-metrics").style.display = tab === "metrics" ? "block" : "none";
-      }
-
       openCaido() {
         if (this.state && this.state.caido_url) {
           window.open(this.state.caido_url, "_blank");
         }
       }
 
-      async sendCommand(command, payload = {}) {
-        if (this.wsConnected && this.ws.readyState === WebSocket.OPEN) {
-          const id = "cmd_" + Math.random().toString(36).substring(2, 9);
-          this.ws.send(JSON.stringify({ type: "command", id, command, payload }));
-          return;
-        }
-
-        const res = await fetch("/api/command", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ command, payload })
-        });
-        const data = await res.json();
-        if (!data.ok) throw new Error(data.error || "Command execution failed");
-        return data.result;
+      closeAllModals() {
+        document.getElementById("vuln-modal").style.display = "none";
+        document.getElementById("stop-modal").style.display = "none";
+        document.getElementById("mount-modal").style.display = "none";
+        document.getElementById("lightbox-modal").style.display = "none";
       }
 
-      escapeHtml(str) {
+      escape(str) {
         if (str == null) return "";
         return String(str)
           .replace(/&/g, "&amp;")
@@ -1800,39 +3337,28 @@
           .replace(/'/g, "&#039;");
       }
 
-      renderMarkdown(md) {
+      parseMarkdown(md) {
         if (!md) return "";
-        let html = this.escapeHtml(md);
-
-        // Code blocks
-        html = html.replace(/```([a-z0-9_-]*)\n([\s\S]*?)```/g, (match, lang, code) => {
+        let s = this.escape(md);
+        s = s.replace(/```([a-z0-9_-]*)\n([\s\S]*?)```/g, (m, lang, code) => {
           return `<pre><code class="language-${lang}">${code}</code></pre>`;
         });
-
-        // Inline code
-        html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
-
-        // Bold & Italic
-        html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
-        html = html.replace(/\*([^*]+)\*/g, '<em>$1</em>');
-
-        // Headers
-        html = html.replace(/^### (.*$)/gim, '<h4 style="color:#fff; margin:10px 0 4px 0;">$1</h4>');
-        html = html.replace(/^## (.*$)/gim, '<h3 style="color:#fff; margin:12px 0 6px 0;">$1</h3>');
-        html = html.replace(/^# (.*$)/gim, '<h2 style="color:#fff; margin:14px 0 8px 0;">$1</h2>');
-
-        // Lists
-        html = html.replace(/^\- (.*$)/gim, '<li>$1</li>');
-        html = html.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
-
-        // Paragraph line breaks
-        html = html.replace(/\n\n/g, '<p></p>');
-
-        return html;
+        s = s.replace(/`([^`]+)`/g, "<code>$1</code>");
+        s = s.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+        s = s.replace(/\*([^*]+)\*/g, "<em>$1</em>");
+        s = s.replace(/^### (.*$)/gim, '<h4 style="color:var(--strix-text-primary); margin:10px 0 4px 0; font-weight:700;">$1</h4>');
+        s = s.replace(/^## (.*$)/gim, '<h3 style="color:var(--strix-text-primary); margin:12px 0 6px 0; font-weight:700;">$1</h3>');
+        s = s.replace(/^# (.*$)/gim, '<h2 style="color:var(--strix-text-primary); margin:14px 0 8px 0; font-weight:800;">$1</h2>');
+        s = s.replace(/^&gt; (.*$)/gim, "<blockquote>$1</blockquote>");
+        s = s.replace(/^\- (.*$)/gim, "<li>$1</li>");
+        s = s.replace(/(<li>.*<\/li>)/s, "<ul>$1</ul>");
+        s = s.replace(/\n\n/g, "<p></p>");
+        return s;
       }
     }
 
-    const app = new StrixApp();
+    const app = new StrixAgentApp();
+    window.app = app;
   </script>
 </body>
 </html>

@@ -76,6 +76,8 @@ class WebServer:
 
         self.app.router.add_get("/", self._handle_index)
         self.app.router.add_get("/logo.png", self._handle_logo)
+        self.app.router.add_get("/static/logo.png", self._handle_logo)
+        self.app.router.add_get("/setup", self._handle_index)
 
         # Strix Official Viewer API endpoints (1:1 with viewer SPA)
         self.app.router.add_get("/api/capabilities", self._handle_capabilities)

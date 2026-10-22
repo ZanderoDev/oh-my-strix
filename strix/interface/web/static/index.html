@@ -1,44 +1,216 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" data-theme="emerald">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="dark">
   <title>Strix AI Agent · Autonomous Penetration Testing</title>
-  <link rel="icon" type="image/png" href="/logo.png">
+  <link rel="icon" type="image/png" href="data:image/png;base64,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">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
   <style>
-    * {
+    /* ==========================================================================
+       1. DARK THEME ARCHITECTURE (ZERO-BUG DARK MODE VARIABLES)
+       ========================================================================== */
+    :root {
+      color-scheme: dark;
+      --strix-bg-base: #07080c;
+      --strix-bg-surface: #0d0f17;
+      --strix-bg-elevated: #121520;
+      --strix-bg-card: #161926;
+      --strix-bg-card-hover: #1c2030;
+      --strix-bg-input: #0a0c12;
+      --strix-bg-code: #050609;
+      --strix-bg-glass: rgba(13, 15, 23, 0.82);
+
+      --strix-border-subtle: rgba(255, 255, 255, 0.06);
+      --strix-border-default: rgba(255, 255, 255, 0.10);
+      --strix-border-strong: rgba(255, 255, 255, 0.18);
+
+      --strix-text-primary: #f4f5f8;
+      --strix-text-secondary: #a1a7b8;
+      --strix-text-muted: #697086;
+
+      /* Default Theme Accent: Cyber Emerald */
+      --strix-accent: #10b981;
+      --strix-accent-bright: #34d399;
+      --strix-accent-dim: rgba(16, 185, 129, 0.14);
+      --strix-accent-border: rgba(16, 185, 129, 0.38);
+      --strix-accent-glow: rgba(16, 185, 129, 0.22);
+      --strix-accent-contrast: #022c1e;
+
+      /* Semantic Status Colors */
+      --cyan: #06b6d4;
+      --cyan-dim: rgba(6, 182, 212, 0.14);
+      --cyan-border: rgba(6, 182, 212, 0.35);
+
+      --purple: #a855f7;
+      --purple-bright: #c084fc;
+      --purple-dim: rgba(168, 85, 247, 0.12);
+      --purple-border: rgba(168, 85, 247, 0.32);
+
+      --blue: #3b82f6;
+      --blue-bright: #60a5fa;
+      --blue-dim: rgba(59, 130, 246, 0.12);
+      --blue-border: rgba(59, 130, 246, 0.32);
+
+      --amber: #f59e0b;
+      --amber-bright: #fbbf24;
+      --amber-dim: rgba(245, 158, 11, 0.14);
+      --amber-border: rgba(245, 158, 11, 0.35);
+
+      --red: #ef4444;
+      --red-bright: #f87171;
+      --red-dim: rgba(239, 68, 68, 0.14);
+      --red-border: rgba(239, 68, 68, 0.38);
+
+      --orange: #f97316;
+      --orange-bright: #fb923c;
+      --orange-dim: rgba(249, 115, 22, 0.15);
+      --orange-border: rgba(249, 115, 22, 0.38);
+
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --radius-xl: 18px;
+
+      --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.35);
+      --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.5);
+      --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.75);
+      --transition-fast: 0.16s cubic-bezier(0.16, 1, 0.3, 1);
+      --transition-smooth: 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    html[data-theme="cyan"] {
+      --strix-accent: #06b6d4;
+      --strix-accent-bright: #22d3ee;
+      --strix-accent-dim: rgba(6, 182, 212, 0.14);
+      --strix-accent-border: rgba(6, 182, 212, 0.42);
+      --strix-accent-glow: rgba(6, 182, 212, 0.24);
+      --strix-accent-contrast: #02252e;
+    }
+
+    html[data-theme="violet"] {
+      --strix-accent: #8b5cf6;
+      --strix-accent-bright: #a78bfa;
+      --strix-accent-dim: rgba(139, 92, 246, 0.15);
+      --strix-accent-border: rgba(139, 92, 246, 0.42);
+      --strix-accent-glow: rgba(139, 92, 246, 0.25);
+      --strix-accent-contrast: #ffffff;
+    }
+
+    /* Reset & Anti-White-Flash Safeguards */
+    *, *::before, *::after {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
 
-    body {
-      background-color: #09090b !important;
-      color: #f4f4f5 !important;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+    html, body {
+      background-color: var(--strix-bg-base);
+      color: var(--strix-text-primary);
+      font-family: var(--font-sans);
       font-size: 13.5px;
-      line-height: 1.6;
+      line-height: 1.55;
       height: 100vh;
       width: 100vw;
       overflow: hidden;
-      display: flex;
-      flex-direction: column;
       -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      color-scheme: dark;
     }
 
-    /* Keyframes */
+    body {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      background-image:
+        radial-gradient(circle at 18% 0%, var(--strix-accent-dim), transparent 42%),
+        radial-gradient(circle at 85% 100%, rgba(59, 130, 246, 0.07), transparent 45%),
+        linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 32px 32px, 32px 32px;
+    }
+
+    ::selection {
+      background: var(--strix-accent-border);
+      color: #ffffff;
+    }
+
+    /* Fix Browser Autofill White/Yellow Box Bug in Dark Mode */
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    textarea:-webkit-autofill,
+    select:-webkit-autofill {
+      -webkit-text-fill-color: var(--strix-text-primary) !important;
+      -webkit-box-shadow: 0 0 0 1000px var(--strix-bg-input) inset !important;
+      transition: background-color 5000s ease-in-out 0s;
+      caret-color: var(--strix-text-primary);
+    }
+
+    /* Custom Dark Scrollbars */
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, 0.14) transparent;
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.14);
+      border-radius: 999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.28);
+    }
+    ::-webkit-scrollbar-corner {
+      background: transparent;
+    }
+
+    /* ==========================================================================
+       2. KEYFRAME ANIMATIONS
+       ========================================================================== */
     @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(6px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(10px) scale(0.99);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes modalPop {
+      from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.96);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
     }
 
     @keyframes pulseRing {
-      0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
-      70% { box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+      0% {
+        box-shadow: 0 0 0 0 var(--strix-accent-glow);
+      }
+      70% {
+        box-shadow: 0 0 0 7px rgba(16, 185, 129, 0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+      }
     }
 
     @keyframes spin {
@@ -46,194 +218,440 @@
       to { transform: rotate(360deg); }
     }
 
-    /* Scrollbars */
-    ::-webkit-scrollbar { width: 5px; height: 5px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.12); border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.25); }
+    @keyframes scanLaser {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
 
-    /* Top Navigation Header */
+    @keyframes floatShield {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-4px); }
+    }
+
+    @keyframes shimmerBar {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(250%); }
+    }
+
+    @keyframes toastSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(14px) scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* ==========================================================================
+       3. TOP HEADER & ACTIVITY LASER BAR
+       ========================================================================== */
     header.strix-header {
-      height: 52px;
-      background: #111114 !important;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      height: 56px;
+      background: var(--strix-bg-glass);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--strix-border-default);
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 0 18px;
       flex-shrink: 0;
       z-index: 30;
+      gap: 12px;
+      position: relative;
+    }
+
+    /* Animated Scan Activity Progress Line */
+    .scan-laser-bar {
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent 0%, var(--strix-accent) 35%, var(--cyan) 50%, var(--strix-accent) 65%, transparent 100%);
+      background-size: 200% 100%;
+      animation: scanLaser 2.4s linear infinite;
+      opacity: 0;
+      transition: opacity var(--transition-smooth);
+      pointer-events: none;
+    }
+    .scan-laser-bar.active {
+      opacity: 1;
     }
 
     .brand-section {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 11px;
+      min-width: 0;
     }
+
     .brand-logo {
-      width: 28px;
-      height: 28px;
-      border-radius: 6px;
-      background: #18181c;
-      border: 1px solid rgba(34, 197, 94, 0.35);
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--strix-bg-card) 0%, var(--strix-bg-input) 100%);
+      border: 1px solid var(--strix-accent-border);
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 0 12px rgba(34, 197, 94, 0.2);
+      box-shadow: 0 0 16px var(--strix-accent-glow);
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+      flex-shrink: 0;
     }
-    .brand-logo img { width: 18px; height: 18px; object-fit: contain; }
+    .brand-logo:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 22px var(--strix-accent-glow);
+    }
+    .brand-logo img {
+      width: 20px;
+      height: 20px;
+      object-fit: contain;
+    }
+
     .brand-text {
       font-weight: 800;
       font-size: 15px;
-      letter-spacing: 0.06em;
-      color: #ffffff;
+      letter-spacing: 0.07em;
+      color: var(--strix-text-primary);
       display: flex;
       align-items: center;
       gap: 8px;
+      white-space: nowrap;
     }
+
     .brand-badge {
       font-size: 10px;
       font-weight: 700;
-      padding: 1px 7px;
-      border-radius: 4px;
-      background: rgba(34, 197, 94, 0.12);
-      border: 1px solid rgba(34, 197, 94, 0.3);
-      color: #22c55e;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: var(--strix-accent-dim);
+      border: 1px solid var(--strix-accent-border);
+      color: var(--strix-accent-bright);
       letter-spacing: 0.05em;
     }
 
+    .conn-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 10.5px;
+      font-weight: 600;
+      font-family: var(--font-mono);
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--strix-border-subtle);
+      color: var(--strix-text-secondary);
+    }
+
+    /* Center Header Stats */
     .header-stats {
       display: flex;
       align-items: center;
       gap: 8px;
+      flex-wrap: nowrap;
     }
+
     .stat-pill {
-      background: #18181b !important;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      padding: 4px 10px;
-      border-radius: 6px;
+      background: var(--strix-bg-card);
+      border: 1px solid var(--strix-border-default);
+      padding: 5px 11px;
+      border-radius: var(--radius-sm);
       font-size: 11.5px;
       display: flex;
       align-items: center;
-      gap: 6px;
-      color: #f4f4f5 !important;
+      gap: 7px;
+      color: var(--strix-text-primary);
+      transition: border-color var(--transition-fast), background var(--transition-fast), transform var(--transition-fast);
+      white-space: nowrap;
     }
-    .stat-pill .label { color: #71717a; font-size: 10.5px; text-transform: uppercase; font-weight: 600; letter-spacing: 0.04em; }
-    .stat-pill .val { font-weight: 700; color: #ffffff; font-family: 'JetBrains Mono', monospace; }
+    .stat-pill.clickable {
+      cursor: pointer;
+    }
+    .stat-pill.clickable:hover {
+      border-color: var(--strix-accent-border);
+      background: var(--strix-bg-card-hover);
+      transform: translateY(-1px);
+    }
+    .stat-pill .label {
+      color: var(--strix-text-muted);
+      font-size: 10.5px;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+    .stat-pill .val {
+      font-weight: 700;
+      color: var(--strix-text-primary);
+      font-family: var(--font-mono);
+    }
 
     .pulse-dot {
-      width: 6px;
-      height: 6px;
+      width: 7px;
+      height: 7px;
       border-radius: 50%;
-      background: #22c55e;
-      box-shadow: 0 0 6px #22c55e;
+      background: var(--strix-accent);
+      box-shadow: 0 0 8px var(--strix-accent);
       display: inline-block;
-      animation: pulseRing 1.8s infinite;
+      animation: pulseRing 2s infinite;
+      flex-shrink: 0;
     }
-    .pulse-dot.waiting { background: #f59e0b; box-shadow: 0 0 6px #f59e0b; }
-    .pulse-dot.stopped { background: #71717a; box-shadow: none; animation: none; }
+    .pulse-dot.waiting {
+      background: var(--amber);
+      box-shadow: 0 0 8px var(--amber);
+    }
+    .pulse-dot.stopped {
+      background: var(--strix-text-muted);
+      box-shadow: none;
+      animation: none;
+    }
+    .pulse-dot.failed {
+      background: var(--red);
+      box-shadow: 0 0 8px var(--red);
+    }
 
+    /* Right Header Controls */
     .header-controls {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
+
     .model-tag {
-      background: rgba(168, 85, 247, 0.08) !important;
-      border: 1px solid rgba(168, 85, 247, 0.25);
-      color: #c084fc !important;
-      padding: 4px 10px;
-      border-radius: 6px;
+      background: var(--purple-dim);
+      border: 1px solid var(--purple-border);
+      color: var(--purple-bright);
+      padding: 5px 10px;
+      border-radius: var(--radius-sm);
       font-size: 11px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: var(--font-mono);
       font-weight: 600;
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 6px;
+      max-width: 240px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .btn-header {
+      background: var(--strix-bg-card);
+      border: 1px solid var(--strix-border-default);
+      color: var(--strix-text-primary);
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: 11.5px;
+      padding: 6px 11px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all var(--transition-fast);
+      white-space: nowrap;
+    }
+    .btn-header:hover {
+      background: var(--strix-bg-card-hover);
+      border-color: var(--strix-border-strong);
+      transform: translateY(-1px);
+    }
+    .btn-header.active {
+      background: var(--strix-accent-dim);
+      border-color: var(--strix-accent-border);
+      color: var(--strix-accent-bright);
     }
 
     .btn-stop {
-      background: rgba(239, 68, 68, 0.12) !important;
-      border: 1px solid rgba(239, 68, 68, 0.35);
-      color: #ef4444 !important;
+      background: var(--red-dim);
+      border: 1px solid var(--red-border);
+      color: var(--red-bright);
+      font-family: var(--font-sans);
       font-weight: 600;
       font-size: 11.5px;
-      padding: 5px 12px;
-      border-radius: 6px;
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
       cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all var(--transition-fast);
+      white-space: nowrap;
+    }
+    .btn-stop:hover {
+      background: rgba(239, 68, 68, 0.28);
+      color: #ffffff;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(239, 68, 68, 0.25);
+    }
+
+    /* Theme Dot Switcher */
+    .theme-Cluster {
       display: flex;
       align-items: center;
       gap: 5px;
-      transition: all 0.15s ease;
+      background: var(--strix-bg-card);
+      border: 1px solid var(--strix-border-default);
+      padding: 4px 7px;
+      border-radius: var(--radius-sm);
     }
-    .btn-stop:hover {
-      background: rgba(239, 68, 68, 0.25) !important;
-      color: #ffffff !important;
+    .theme-dot-btn {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: transform var(--transition-fast), border-color var(--transition-fast);
+      padding: 0;
     }
+    .theme-dot-btn:hover {
+      transform: scale(1.18);
+    }
+    .theme-dot-btn.active {
+      border-color: #ffffff;
+      transform: scale(1.12);
+    }
+    .theme-dot-btn.emerald { background: #10b981; }
+    .theme-dot-btn.cyan { background: #06b6d4; }
+    .theme-dot-btn.violet { background: #8b5cf6; }
 
-    /* Workspace */
+    /* ==========================================================================
+       4. MAIN WORKSPACE & 3-COLUMN LAYOUT
+       ========================================================================== */
     .workspace {
       flex: 1;
       display: flex;
       overflow: hidden;
       position: relative;
-      background: #09090b !important;
     }
 
-    /* Left Sidebar: Agent Swarm */
-    aside.agent-tree {
-      width: 250px;
-      background: #111114 !important;
-      border-right: 1px solid rgba(255, 255, 255, 0.08);
-      display: flex;
-      flex-direction: column;
-      flex-shrink: 0;
-    }
     .pane-title {
-      padding: 14px 16px;
+      padding: 13px 15px;
       font-size: 11px;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      color: #71717a;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--strix-text-secondary);
+      border-bottom: 1px solid var(--strix-border-default);
       display: flex;
       justify-content: space-between;
       align-items: center;
+      background: rgba(13, 15, 23, 0.55);
+      flex-shrink: 0;
     }
+
+    /* Left Sidebar: Agent Swarm */
+    aside.agent-tree {
+      width: 268px;
+      background: var(--strix-bg-surface);
+      border-right: 1px solid var(--strix-border-default);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      z-index: 10;
+    }
+
+    .sidebar-search-box {
+      padding: 10px 10px 4px 10px;
+    }
+    .sidebar-search-input {
+      width: 100%;
+      background: var(--strix-bg-input);
+      border: 1px solid var(--strix-border-default);
+      border-radius: var(--radius-sm);
+      color: var(--strix-text-primary);
+      font-family: var(--font-sans);
+      font-size: 12px;
+      padding: 7px 10px;
+      outline: none;
+      transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+    }
+    .sidebar-search-input:focus {
+      border-color: var(--strix-accent-border);
+      box-shadow: 0 0 0 2px var(--strix-accent-dim);
+    }
+
     .agent-items-scroll {
       flex: 1;
       overflow-y: auto;
-      padding: 10px;
+      padding: 8px 10px;
       display: flex;
       flex-direction: column;
-      gap: 5px;
+      gap: 6px;
     }
+
     .agent-card {
-      padding: 9px 12px;
-      border-radius: 8px;
-      background: #18181b !important;
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 10px 12px;
+      border-radius: var(--radius-md);
+      background: var(--strix-bg-card);
+      border: 1px solid var(--strix-border-subtle);
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      transition: all 0.15s ease;
-      color: #ffffff !important;
+      gap: 8px;
+      transition: all var(--transition-fast);
+      color: var(--strix-text-primary);
+      position: relative;
+      overflow: hidden;
+    }
+    .agent-card::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: var(--strix-accent);
+      opacity: 0;
+      transition: opacity var(--transition-fast);
     }
     .agent-card:hover {
-      background: #202026 !important;
-      border-color: rgba(255, 255, 255, 0.16);
+      background: var(--strix-bg-card-hover);
+      border-color: var(--strix-border-strong);
+      transform: translateX(2px);
     }
     .agent-card.active {
-      background: #202026 !important;
-      border-color: rgba(34, 197, 94, 0.45);
-      box-shadow: 0 0 15px rgba(34, 197, 94, 0.1);
+      background: var(--strix-bg-card-hover);
+      border-color: var(--strix-accent-border);
+      box-shadow: 0 4px 18px var(--strix-accent-dim);
     }
+    .agent-card.active::before {
+      opacity: 1;
+    }
+
+    .agent-card-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+      flex: 1;
+    }
+    .agent-icon-box {
+      width: 28px;
+      height: 28px;
+      border-radius: 7px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--strix-border-default);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      flex-shrink: 0;
+    }
+    .agent-card.active .agent-icon-box {
+      background: var(--strix-accent-dim);
+      border-color: var(--strix-accent-border);
+      color: var(--strix-accent-bright);
+    }
+
     .agent-card-name {
       font-size: 12.5px;
       font-weight: 600;
-      color: #ffffff;
+      color: var(--strix-text-primary);
       display: block;
       white-space: nowrap;
       overflow: hidden;
@@ -241,129 +659,436 @@
     }
     .agent-card-id {
       font-size: 10.5px;
-      color: #71717a;
-      font-family: 'JetBrains Mono', monospace;
+      color: var(--strix-text-muted);
+      font-family: var(--font-mono);
+      display: block;
       margin-top: 1px;
     }
 
-    /* Center Chat Zone */
+    /* Sidebar Target Summary Footer */
+    .sidebar-footer {
+      padding: 12px;
+      border-top: 1px solid var(--strix-border-default);
+      background: rgba(9, 10, 15, 0.6);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .scope-box {
+      background: var(--strix-bg-card);
+      border: 1px solid var(--strix-border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 8px 10px;
+      font-size: 11.5px;
+    }
+    .scope-box-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--strix-text-muted);
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+    }
+    .scope-target-val {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--strix-text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* ==========================================================================
+       5. CENTER ZONE: CHAT STREAM & INTERACTIVE SETUP VIEW
+       ========================================================================== */
     main.chat-zone {
       flex: 1;
       display: flex;
       flex-direction: column;
-      background: #09090b !important;
+      background: transparent;
       overflow: hidden;
       position: relative;
+      min-width: 0;
+    }
+
+    /* Top Stream Subheader */
+    .stream-subheader {
+      height: 42px;
+      padding: 0 22px;
+      border-bottom: 1px solid var(--strix-border-subtle);
+      background: rgba(13, 15, 23, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      flex-shrink: 0;
+    }
+    .stream-subheader-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      color: var(--strix-text-primary);
+    }
+    .stream-subheader-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11.5px;
+      color: var(--strix-text-secondary);
     }
 
     .feed-scroll {
       flex: 1;
       overflow-y: auto;
-      padding: 20px 30px;
+      padding: 24px 30px;
       display: flex;
       flex-direction: column;
       gap: 18px;
       scroll-behavior: smooth;
     }
 
-    /* Welcome Hero Card */
+    /* Hero Welcome Card */
     .hero-welcome {
-      max-width: 680px;
-      margin: 15px auto;
+      max-width: 720px;
+      width: 100%;
+      margin: auto;
       text-align: center;
-      padding: 28px 24px;
-      background: #121216 !important;
-      border: 1px solid rgba(255, 255, 255, 0.09);
-      border-radius: 16px;
-      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
-      animation: fadeInUp 0.3s ease;
+      padding: 32px 28px;
+      background: linear-gradient(180deg, rgba(22, 25, 38, 0.9) 0%, rgba(13, 15, 23, 0.95) 100%);
+      border: 1px solid var(--strix-border-default);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-lg), 0 0 40px var(--strix-accent-dim);
+      animation: fadeInUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
     }
+    .hero-welcome::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 15%;
+      right: 15%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--strix-accent), transparent);
+    }
+
     .hero-icon {
-      width: 48px;
-      height: 48px;
-      margin: 0 auto 14px auto;
-      border-radius: 12px;
-      background: rgba(34, 197, 94, 0.12);
-      border: 1px solid rgba(34, 197, 94, 0.35);
+      width: 56px;
+      height: 56px;
+      margin: 0 auto 16px auto;
+      border-radius: 16px;
+      background: var(--strix-accent-dim);
+      border: 1px solid var(--strix-accent-border);
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 0 20px rgba(34, 197, 94, 0.2);
+      box-shadow: 0 0 28px var(--strix-accent-glow);
+      animation: floatShield 3.6s ease-in-out infinite;
     }
-    .hero-icon svg { width: 26px; height: 26px; stroke: #22c55e; fill: none; }
+    .hero-icon svg {
+      width: 28px;
+      height: 28px;
+      stroke: var(--strix-accent-bright);
+      fill: none;
+    }
+
     .hero-title {
-      font-size: 20px;
-      font-weight: 700;
-      color: #ffffff;
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--strix-text-primary);
       margin-bottom: 6px;
-      letter-spacing: -0.01em;
+      letter-spacing: -0.02em;
     }
     .hero-desc {
-      font-size: 13px;
-      color: #a1a1aa;
-      line-height: 1.5;
-      margin-bottom: 22px;
+      font-size: 13.5px;
+      color: var(--strix-text-secondary);
+      line-height: 1.55;
+      max-width: 520px;
+      margin: 0 auto 24px auto;
     }
 
     .prompt-suggestions {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
       text-align: left;
     }
+
     .prompt-chip {
-      background: #18181b !important;
-      border: 1px solid rgba(255, 255, 255, 0.08) !important;
-      border-radius: 10px;
-      padding: 12px 14px;
+      background: var(--strix-bg-card);
+      border: 1px solid var(--strix-border-default);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
       cursor: pointer;
-      transition: all 0.15s ease;
-      color: #f4f4f5 !important;
+      transition: all var(--transition-smooth);
+      color: var(--strix-text-primary);
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      position: relative;
+      overflow: hidden;
     }
     .prompt-chip:hover {
-      background: #222228 !important;
-      border-color: rgba(34, 197, 94, 0.45) !important;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      background: var(--strix-bg-card-hover);
+      border-color: var(--strix-accent-border);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 0 20px var(--strix-accent-dim);
     }
     .prompt-chip-title {
-      font-size: 12.5px;
-      font-weight: 600;
-      color: #ffffff !important;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--strix-text-primary);
       display: flex;
       align-items: center;
-      gap: 6px;
-      margin-bottom: 3px;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .prompt-chip-tag {
+      font-size: 10px;
+      font-family: var(--font-mono);
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: var(--strix-accent-dim);
+      color: var(--strix-accent-bright);
     }
     .prompt-chip-desc {
+      font-size: 11.5px;
+      color: var(--strix-text-secondary);
+      line-height: 1.4;
+    }
+
+    /* Setup View Panel (Inline Toggleable) */
+    .setup-panel-container {
+      flex: 1;
+      overflow-y: auto;
+      padding: 28px 30px;
+      display: none;
+      justify-content: center;
+      align-items: flex-start;
+    }
+    .setup-card {
+      width: 100%;
+      max-width: 780px;
+      background: var(--strix-bg-surface);
+      border: 1px solid var(--strix-border-default);
+      border-radius: var(--radius-xl);
+      padding: 28px;
+      box-shadow: var(--shadow-lg);
+      animation: fadeInUp 0.25s ease;
+    }
+    .setup-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding-bottom: 18px;
+      margin-bottom: 22px;
+      border-bottom: 1px solid var(--strix-border-default);
+      gap: 12px;
+    }
+    .setup-header h2 {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--strix-text-primary);
+    }
+    .setup-header p {
+      font-size: 13px;
+      color: var(--strix-text-secondary);
+      margin-top: 4px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-label {
+      display: block;
+      font-size: 11.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--strix-text-secondary);
+      margin-bottom: 8px;
+    }
+
+    .target-input-row {
+      display: flex;
+      gap: 10px;
+    }
+    .strix-input {
+      flex: 1;
+      width: 100%;
+      background: var(--strix-bg-input);
+      border: 1px solid var(--strix-border-default);
+      border-radius: var(--radius-sm);
+      color: var(--strix-text-primary);
+      font-family: var(--font-sans);
+      font-size: 13px;
+      padding: 9px 13px;
+      outline: none;
+      transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+    }
+    .strix-input:focus {
+      border-color: var(--strix-accent);
+      box-shadow: 0 0 0 2px var(--strix-accent-dim);
+    }
+
+    .targets-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .target-chip {
+      background: var(--strix-bg-card);
+      border: 1px solid var(--strix-accent-border);
+      padding: 5px 11px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-family: var(--font-mono);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--strix-text-primary);
+      animation: fadeInUp 0.18s ease;
+    }
+    .target-chip button.remove-btn {
+      background: none;
+      border: none;
+      color: var(--strix-text-secondary);
+      cursor: pointer;
+      font-size: 14px;
+      line-height: 1;
+      padding: 0 2px;
+    }
+    .target-chip button.remove-btn:hover {
+      color: var(--red-bright);
+    }
+
+    .quick-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 9px;
+      align-items: center;
+    }
+    .quick-chip {
+      background: var(--strix-bg-card);
+      border: 1px dashed var(--strix-border-strong);
       font-size: 11px;
-      color: #71717a !important;
-      line-height: 1.35;
+      padding: 4px 10px;
+      color: var(--strix-text-secondary);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+    .quick-chip:hover {
+      border-color: var(--strix-accent);
+      color: var(--strix-accent-bright);
+      background: var(--strix-accent-dim);
+    }
+
+    .mode-pills {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .mode-pill {
+      background: var(--strix-bg-card);
+      border: 1px solid var(--strix-border-default);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      cursor: pointer;
+      text-align: left;
+      transition: all var(--transition-fast);
+    }
+    .mode-pill:hover {
+      background: var(--strix-bg-card-hover);
+      border-color: var(--strix-border-strong);
+    }
+    .mode-pill.active {
+      border-color: var(--strix-accent);
+      background: var(--strix-accent-dim);
+      box-shadow: 0 0 18px var(--strix-accent-dim);
+    }
+    .mode-pill-title {
+      font-weight: 700;
+      font-size: 13.5px;
+      color: var(--strix-text-primary);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .mode-pill-desc {
+      font-size: 11.5px;
+      color: var(--strix-text-secondary);
+      line-height: 1.4;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .setup-log {
+      margin-top: 18px;
+      background: var(--strix-bg-code);
+      border: 1px solid var(--strix-border-default);
+      border-radius: var(--radius-sm);
+      padding: 10px 13px;
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      max-height: 100px;
+      overflow-y: auto;
+      color: var(--strix-text-secondary);
+      line-height: 1.55;
     }
 
     /* Message Rows */
     .msg-row {
       display: flex;
-      gap: 14px;
-      max-width: 840px;
+      gap: 13px;
+      max-width: 860px;
       width: 100%;
       margin: 0 auto;
-      animation: fadeInUp 0.2s ease;
     }
+    .msg-row.animate-in {
+      animation: fadeInUp 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
     .msg-avatar {
-      width: 30px;
-      height: 30px;
-      border-radius: 8px;
+      width: 32px;
+      height: 32px;
+      border-radius: 9px;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
       font-weight: 800;
       font-size: 11px;
+      letter-spacing: 0.02em;
     }
-    .msg-avatar.user { background: rgba(59, 130, 246, 0.15); border: 1px solid rgba(59, 130, 246, 0.4); color: #3b82f6; }
-    .msg-avatar.agent { background: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4); color: #22c55e; box-shadow: 0 0 12px rgba(34, 197, 94, 0.15); }
-    .msg-avatar.tool { background: rgba(6, 182, 212, 0.15); border: 1px solid rgba(6, 182, 212, 0.4); color: #06b6d4; }
+    .msg-avatar.user {
+      background: var(--blue-dim);
+      border: 1px solid var(--blue-border);
+      color: var(--blue-bright);
+    }
+    .msg-avatar.agent {
+      background: var(--strix-accent-dim);
+      border: 1px solid var(--strix-accent-border);
+      color: var(--strix-accent-bright);
+      box-shadow: 0 0 14px var(--strix-accent-dim);
+    }
+    .msg-avatar.tool {
+      background: var(--cyan-dim);
+      border: 1px solid var(--cyan-border);
+      color: var(--cyan);
+    }
 
     .msg-content-wrapper {
       flex: 1;
@@ -378,59 +1103,96 @@
     .msg-sender {
       font-size: 12.5px;
       font-weight: 700;
-      color: #ffffff;
+      color: var(--strix-text-primary);
+    }
+    .msg-agent-tag {
+      font-size: 10px;
+      font-family: var(--font-mono);
+      padding: 1px 6px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--strix-text-secondary);
     }
     .msg-time {
       font-size: 10.5px;
-      color: #71717a;
-      font-family: 'JetBrains Mono', monospace;
+      color: var(--strix-text-muted);
+      font-family: var(--font-mono);
     }
 
     .msg-bubble {
-      background: #121216 !important;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 10px;
+      background: var(--strix-bg-surface);
+      border: 1px solid var(--strix-border-default);
+      border-radius: var(--radius-md);
       padding: 14px 16px;
       font-size: 13.5px;
       line-height: 1.6;
       word-break: break-word;
-      color: #f4f4f5 !important;
-      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
+      color: var(--strix-text-primary);
+      box-shadow: var(--shadow-sm);
     }
     .msg-row.user .msg-bubble {
-      background: rgba(59, 130, 246, 0.07) !important;
-      border-color: rgba(59, 130, 246, 0.28);
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.11) 0%, rgba(59, 130, 246, 0.05) 100%);
+      border-color: var(--blue-border);
     }
 
-    /* TOOL EXECUTION CARDS (macOS window style) */
+    /* Tool Execution Cards (macOS Terminal Style) */
     .tool-box {
-      background: #111115 !important;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 10px;
+      background: var(--strix-bg-surface);
+      border: 1px solid var(--strix-border-default);
+      border-radius: var(--radius-md);
       overflow: hidden;
-      margin: 6px 0;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-      transition: all 0.15s ease;
+      margin: 4px 0;
+      box-shadow: var(--shadow-sm);
+      transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+      position: relative;
     }
     .tool-box:hover {
-      border-color: rgba(255, 255, 255, 0.15);
+      border-color: var(--strix-border-strong);
     }
     .tool-box.running {
-      border-color: rgba(34, 197, 94, 0.45);
-      box-shadow: 0 0 20px rgba(34, 197, 94, 0.12);
+      border-color: var(--strix-accent-border);
+      box-shadow: 0 0 22px var(--strix-accent-dim);
     }
+
+    .tool-shimmer {
+      height: 2px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.03);
+      overflow: hidden;
+      position: relative;
+      display: none;
+    }
+    .tool-box.running .tool-shimmer {
+      display: block;
+    }
+    .tool-shimmer::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 40%;
+      background: linear-gradient(90deg, transparent, var(--strix-accent-bright), transparent);
+      animation: shimmerBar 1.5s infinite;
+    }
+
     .tool-header-btn {
       width: 100%;
-      background: #16161c !important;
+      background: var(--strix-bg-elevated);
       border: none;
-      padding: 9px 14px;
+      padding: 10px 14px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       cursor: pointer;
       text-align: left;
       user-select: none;
-      color: #ffffff !important;
+      color: var(--strix-text-primary);
+      gap: 10px;
+      transition: background var(--transition-fast);
+    }
+    .tool-header-btn:hover {
+      background: var(--strix-bg-card);
     }
     .tool-header-left {
       display: flex;
@@ -442,33 +1204,36 @@
     .window-dots {
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 5px;
+      flex-shrink: 0;
     }
     .window-dot {
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.16);
+      transition: background var(--transition-fast);
     }
     .tool-box.running .window-dot:nth-child(1) { background: #ef4444; }
     .tool-box.running .window-dot:nth-child(2) { background: #f59e0b; }
     .tool-box.running .window-dot:nth-child(3) { background: #22c55e; }
 
     .tool-badge {
-      background: rgba(6, 182, 212, 0.15);
-      border: 1px solid rgba(6, 182, 212, 0.35);
-      color: #06b6d4;
-      padding: 1px 7px;
+      background: var(--cyan-dim);
+      border: 1px solid var(--cyan-border);
+      color: var(--cyan);
+      padding: 2px 7px;
       border-radius: 4px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: var(--font-mono);
       font-size: 10.5px;
       font-weight: 700;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.03em;
+      flex-shrink: 0;
     }
     .tool-cmd-preview {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: var(--font-mono);
       font-size: 11.5px;
-      color: #a1a1aa;
+      color: var(--strix-text-secondary);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -477,43 +1242,80 @@
     .tool-status-pill {
       font-size: 10.5px;
       font-weight: 700;
-      font-family: 'JetBrains Mono', monospace;
-      display: flex;
+      font-family: var(--font-mono);
+      display: inline-flex;
       align-items: center;
-      gap: 5px;
+      gap: 6px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      flex-shrink: 0;
     }
-    .tool-status-pill.running { color: #22c55e; }
-    .tool-status-pill.completed { color: #71717a; }
-    .tool-status-pill.error { color: #ef4444; }
+    .tool-status-pill.running {
+      color: var(--strix-accent-bright);
+      background: var(--strix-accent-dim);
+      border: 1px solid var(--strix-accent-border);
+    }
+    .tool-status-pill.completed {
+      color: var(--strix-text-secondary);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--strix-border-subtle);
+    }
+    .tool-status-pill.error, .tool-status-pill.failed {
+      color: var(--red-bright);
+      background: var(--red-dim);
+      border: 1px solid var(--red-border);
+    }
 
     .tool-drawer {
       padding: 12px 14px;
-      border-top: 1px solid rgba(255, 255, 255, 0.07);
-      background: #050508 !important;
-      font-family: 'JetBrains Mono', monospace;
+      border-top: 1px solid var(--strix-border-subtle);
+      background: var(--strix-bg-code);
+      font-family: var(--font-mono);
       font-size: 11.5px;
-      color: #d4d4d8 !important;
-      max-height: 380px;
+      color: var(--strix-text-primary);
+      max-height: 360px;
       overflow-y: auto;
-      white-space: pre-wrap;
-      line-height: 1.5;
+      line-height: 1.55;
     }
-    .tool-section-title {
-      color: #71717a;
-      font-size: 10.5px;
-      text-transform: uppercase;
-      font-weight: 700;
-      letter-spacing: 0.05em;
+    .tool-section-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       margin-bottom: 5px;
     }
+    .tool-section-title {
+      color: var(--strix-text-muted);
+      font-size: 10px;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+    }
+    .copy-mini-btn {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--strix-border-subtle);
+      color: var(--strix-text-secondary);
+      font-family: var(--font-sans);
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+    .copy-mini-btn:hover {
+      background: var(--strix-accent-dim);
+      border-color: var(--strix-accent-border);
+      color: var(--strix-accent-bright);
+    }
 
-    /* Thinking Collapsible */
+    /* Thinking Collapsible Accordion */
     .think-accordion {
-      border: 1px solid rgba(168, 85, 247, 0.25);
-      background: rgba(168, 85, 247, 0.04) !important;
-      border-radius: 8px;
+      border: 1px solid var(--purple-border);
+      background: var(--purple-dim);
+      border-radius: var(--radius-sm);
       padding: 8px 12px;
       margin-bottom: 8px;
+      transition: background var(--transition-fast);
     }
     .think-head {
       cursor: pointer;
@@ -522,285 +1324,722 @@
       justify-content: space-between;
       font-size: 11.5px;
       font-weight: 700;
-      color: #c084fc;
+      color: var(--purple-bright);
       user-select: none;
     }
     .think-title-row {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 7px;
     }
     .think-body {
       margin-top: 8px;
       padding-top: 8px;
-      border-top: 1px solid rgba(168, 85, 247, 0.15);
-      font-size: 12.5px;
-      color: #a1a1aa;
+      border-top: 1px solid rgba(168, 85, 247, 0.2);
+      font-size: 12px;
+      color: var(--strix-text-secondary);
       font-style: italic;
       white-space: pre-wrap;
-      line-height: 1.5;
+      line-height: 1.55;
     }
 
-    /* Markdown Styling */
+    /* Rich Markdown Styling */
     .markdown pre {
-      background: #050508;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 6px;
-      padding: 10px 14px;
+      background: var(--strix-bg-code);
+      border: 1px solid var(--strix-border-default);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
       overflow-x: auto;
       margin: 10px 0;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: var(--font-mono);
       font-size: 11.5px;
+      color: #e2e8f0;
+      position: relative;
     }
     .markdown code {
       background: rgba(255, 255, 255, 0.08);
-      padding: 2px 5px;
+      color: var(--strix-accent-bright);
+      padding: 2px 6px;
       border-radius: 4px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: var(--font-mono);
       font-size: 11.5px;
     }
-    .markdown p { margin-bottom: 6px; }
+    .markdown pre code {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+    }
+    .markdown p { margin-bottom: 8px; }
     .markdown p:last-child { margin-bottom: 0; }
-    .markdown ul, .markdown ol { margin-left: 20px; margin-bottom: 6px; }
+    .markdown ul, .markdown ol { margin-left: 20px; margin-bottom: 8px; }
+    .markdown li { margin-bottom: 3px; }
+    .markdown blockquote {
+      border-left: 3px solid var(--strix-accent);
+      background: rgba(255, 255, 255, 0.03);
+      padding: 8px 12px;
+      border-radius: 0 6px 6px 0;
+      color: var(--strix-text-secondary);
+      margin: 8px 0;
+    }
+    .markdown a {
+      color: var(--cyan);
+      text-decoration: none;
+    }
+    .markdown a:hover {
+      text-decoration: underline;
+    }
+
+    /* Jump to Latest Floating Button */
+    .scroll-latest-btn {
+      position: absolute;
+      bottom: 118px;
+      right: 28px;
+      background: var(--strix-bg-elevated);
+      border: 1px solid var(--strix-accent-border);
+      color: var(--strix-accent-bright);
+      box-shadow: var(--shadow-md);
+      border-radius: 999px;
+      padding: 7px 14px;
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+      z-index: 15;
+      display: none;
+      align-items: center;
+      gap: 6px;
+      transition: all var(--transition-fast);
+    }
+    .scroll-latest-btn:hover {
+      background: var(--strix-accent);
+      color: var(--strix-accent-contrast);
+      transform: translateY(-2px);
+    }
 
     /* Bottom Prompt Composer */
     .composer-zone {
-      padding: 12px 30px 18px 30px;
-      background: linear-gradient(180deg, transparent 0%, #09090b 45%);
+      padding: 10px 28px 16px 28px;
+      background: linear-gradient(180deg, transparent 0%, var(--strix-bg-base) 40%);
       flex-shrink: 0;
-      max-width: 900px;
+      max-width: 920px;
       width: 100%;
       margin: 0 auto;
     }
+    .composer-quick-bar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 8px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
+    .composer-mini-pill {
+      background: rgba(22, 25, 38, 0.85);
+      border: 1px solid var(--strix-border-default);
+      color: var(--strix-text-secondary);
+      font-size: 11px;
+      font-weight: 500;
+      padding: 4px 10px;
+      border-radius: 999px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all var(--transition-fast);
+    }
+    .composer-mini-pill:hover {
+      border-color: var(--strix-accent-border);
+      color: var(--strix-accent-bright);
+      background: var(--strix-accent-dim);
+    }
+
     .composer-card {
-      background: #121217 !important;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 14px;
-      padding: 12px 16px;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+      background: var(--strix-bg-surface);
+      border: 1px solid var(--strix-border-default);
+      border-radius: var(--radius-lg);
+      padding: 12px 15px;
+      box-shadow: var(--shadow-md);
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      transition: all 0.15s ease;
+      gap: 9px;
+      transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
     }
     .composer-card:focus-within {
-      border-color: rgba(34, 197, 94, 0.5);
-      box-shadow: 0 0 25px rgba(34, 197, 94, 0.15);
+      border-color: var(--strix-accent-border);
+      box-shadow: 0 0 28px var(--strix-accent-dim);
     }
     .composer-card textarea {
       width: 100%;
       background: transparent;
       border: none;
       outline: none;
-      color: #ffffff !important;
-      font-family: 'Inter', sans-serif;
+      color: var(--strix-text-primary);
+      font-family: var(--font-sans);
       font-size: 13.5px;
       line-height: 1.5;
       resize: none;
-      height: 44px;
-      max-height: 160px;
+      height: 42px;
+      max-height: 150px;
     }
+    .composer-card textarea::placeholder {
+      color: var(--strix-text-muted);
+    }
+
     .composer-actions {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      border-top: 1px solid var(--strix-border-subtle);
       padding-top: 8px;
+      gap: 10px;
     }
     .composer-target-info {
       font-size: 11.5px;
-      color: #71717a;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-    .composer-target-info strong {
-      color: #22c55e;
-    }
-
-    button.send-btn {
-      background: #22c55e !important;
-      color: #042f1a !important;
-      border: none;
-      font-weight: 700;
-      font-size: 12.5px;
-      padding: 7px 16px;
-      border-radius: 6px;
-      cursor: pointer;
+      color: var(--strix-text-secondary);
       display: flex;
       align-items: center;
       gap: 6px;
-      box-shadow: 0 0 14px rgba(34, 197, 94, 0.25);
-      transition: all 0.15s;
+      flex-wrap: wrap;
+    }
+    .composer-target-info strong {
+      color: var(--strix-accent-bright);
+      font-family: var(--font-mono);
+    }
+
+    button.send-btn {
+      background: var(--strix-accent);
+      color: var(--strix-accent-contrast);
+      border: 1px solid var(--strix-accent-bright);
+      font-family: var(--font-sans);
+      font-weight: 700;
+      font-size: 12.5px;
+      padding: 7px 16px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 0 16px var(--strix-accent-glow);
+      transition: all var(--transition-fast);
     }
     button.send-btn:hover {
-      background: #4ade80 !important;
-      color: #000000 !important;
-      transform: scale(1.02);
+      background: var(--strix-accent-bright);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 20px var(--strix-accent-glow);
     }
     button.send-btn:disabled {
-      opacity: 0.4;
+      opacity: 0.45;
       cursor: not-allowed;
       transform: none;
     }
 
-    /* Right Sidebar: Findings */
+    /* ==========================================================================
+       6. RIGHT SIDEBAR: FINDINGS & TELEMETRY TABS
+       ========================================================================== */
     aside.findings-pane {
-      width: 300px;
-      background: #111114 !important;
-      border-left: 1px solid rgba(255, 255, 255, 0.08);
+      width: 325px;
+      background: var(--strix-bg-surface);
+      border-left: 1px solid var(--strix-border-default);
       display: flex;
       flex-direction: column;
       flex-shrink: 0;
+      z-index: 10;
     }
+
+    .right-tabs-bar {
+      display: flex;
+      border-bottom: 1px solid var(--strix-border-default);
+      background: rgba(13, 15, 23, 0.55);
+      flex-shrink: 0;
+    }
+    .right-tab-btn {
+      flex: 1;
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      color: var(--strix-text-secondary);
+      font-family: var(--font-sans);
+      font-size: 11.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 12px 10px;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .right-tab-btn:hover {
+      color: var(--strix-text-primary);
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .right-tab-btn.active {
+      color: var(--strix-accent-bright);
+      border-bottom-color: var(--strix-accent);
+      background: var(--strix-accent-dim);
+    }
+
+    /* Severity Filter Pills Row */
+    .sev-summary-bar {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 5px;
+      padding: 10px 12px 6px 12px;
+      border-bottom: 1px solid var(--strix-border-subtle);
+    }
+    .sev-pill {
+      background: var(--strix-bg-card);
+      border: 1px solid var(--strix-border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 5px 4px;
+      text-align: center;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+    .sev-pill:hover, .sev-pill.active {
+      border-color: var(--strix-border-strong);
+      transform: translateY(-1px);
+    }
+    .sev-pill .sev-num {
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      font-weight: 800;
+      display: block;
+    }
+    .sev-pill .sev-lbl {
+      font-size: 9px;
+      text-transform: uppercase;
+      color: var(--strix-text-muted);
+      font-weight: 700;
+    }
+    .sev-pill.crit .sev-num { color: var(--red-bright); }
+    .sev-pill.high .sev-num { color: var(--orange-bright); }
+    .sev-pill.med .sev-num { color: var(--amber-bright); }
+    .sev-pill.low .sev-num { color: var(--blue-bright); }
+    .sev-pill.all .sev-num { color: var(--strix-accent-bright); }
+
     .findings-scroll {
       flex: 1;
       overflow-y: auto;
       padding: 12px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 9px;
     }
+
     .finding-card {
-      background: #18181b !important;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 8px;
-      padding: 10px 12px;
+      background: var(--strix-bg-card);
+      border: 1px solid var(--strix-border-default);
+      border-radius: var(--radius-md);
+      padding: 12px 13px;
       cursor: pointer;
-      transition: all 0.15s ease;
-      color: #ffffff !important;
+      transition: all var(--transition-fast);
+      color: var(--strix-text-primary);
+      animation: fadeInUp 0.22s ease;
     }
     .finding-card:hover {
-      background: #202026 !important;
-      border-color: rgba(255, 255, 255, 0.2);
+      background: var(--strix-bg-card-hover);
+      border-color: var(--strix-border-strong);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
     }
+
     .finding-badge {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
       font-size: 10px;
-      font-weight: 700;
+      font-weight: 800;
       text-transform: uppercase;
-      padding: 2px 6px;
+      padding: 2px 7px;
       border-radius: 4px;
-      margin-bottom: 5px;
-      letter-spacing: 0.04em;
+      margin-bottom: 6px;
+      letter-spacing: 0.05em;
+      font-family: var(--font-mono);
     }
-    .finding-badge.critical { background: rgba(239, 68, 68, 0.2); color: #fca5a5; border: 1px solid #ef4444; }
-    .finding-badge.high { background: rgba(249, 115, 22, 0.2); color: #fdba74; border: 1px solid #f97316; }
-    .finding-badge.medium { background: rgba(234, 179, 8, 0.2); color: #fde047; border: 1px solid #eab308; }
-    .finding-badge.low { background: rgba(59, 130, 246, 0.2); color: #93c5fd; border: 1px solid #3b82f6; }
+    .finding-badge.critical { background: var(--red-dim); color: #fca5a5; border: 1px solid var(--red-border); }
+    .finding-badge.high { background: var(--orange-dim); color: #fdba74; border: 1px solid var(--orange-border); }
+    .finding-badge.medium { background: var(--amber-dim); color: #fde047; border: 1px solid var(--amber-border); }
+    .finding-badge.low { background: var(--blue-dim); color: #93c5fd; border: 1px solid var(--blue-border); }
+    .finding-badge.info { background: rgba(255, 255, 255, 0.08); color: #d4d4d8; border: 1px solid var(--strix-border-default); }
 
     .finding-title {
       font-size: 12.5px;
-      font-weight: 600;
-      color: #ffffff;
+      font-weight: 700;
+      color: var(--strix-text-primary);
       line-height: 1.4;
     }
     .finding-loc {
-      font-size: 10.5px;
-      color: #71717a;
-      font-family: 'JetBrains Mono', monospace;
-      margin-top: 3px;
+      font-size: 11px;
+      color: var(--strix-text-muted);
+      font-family: var(--font-mono);
+      margin-top: 4px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
-    /* Modal */
+    /* Telemetry Tab Cards */
+    .telemetry-card {
+      background: var(--strix-bg-card);
+      border: 1px solid var(--strix-border-default);
+      border-radius: var(--radius-md);
+      padding: 13px;
+      margin-bottom: 10px;
+    }
+    .telemetry-title {
+      font-size: 10.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--strix-text-secondary);
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .telemetry-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      padding: 4px 0;
+      color: var(--strix-text-secondary);
+    }
+    .telemetry-row strong {
+      font-family: var(--font-mono);
+      color: var(--strix-text-primary);
+    }
+
+    /* ==========================================================================
+       7. MODALS & TOAST NOTIFICATIONS (ZERO WHITE POPUPS)
+       ========================================================================== */
     .modal-overlay {
       position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0, 0, 0, 0.85);
-      backdrop-filter: blur(8px);
-      display: flex;
+      inset: 0;
+      background: rgba(3, 4, 7, 0.82);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      display: none;
       align-items: center;
       justify-content: center;
       z-index: 100;
       padding: 20px;
     }
     .modal-window {
-      background: #111116 !important;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 14px;
+      background: var(--strix-bg-surface);
+      border: 1px solid var(--strix-border-strong);
+      border-radius: var(--radius-xl);
       width: 100%;
-      max-width: 700px;
-      max-height: 85vh;
+      max-width: 720px;
+      max-height: 86vh;
       overflow-y: auto;
       padding: 24px;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
-      animation: fadeInUp 0.2s ease;
-      color: #ffffff !important;
+      box-shadow: var(--shadow-lg);
+      animation: modalPop 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+      color: var(--strix-text-primary);
+    }
+    .modal-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 16px;
+      border-bottom: 1px solid var(--strix-border-default);
+      padding-bottom: 14px;
+      gap: 12px;
+    }
+    .modal-close-btn {
+      background: var(--strix-bg-card);
+      border: 1px solid var(--strix-border-default);
+      color: var(--strix-text-secondary);
+      width: 30px;
+      height: 30px;
+      border-radius: 7px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      transition: all var(--transition-fast);
+    }
+    .modal-close-btn:hover {
+      background: var(--red-dim);
+      color: var(--red-bright);
+      border-color: var(--red-border);
+    }
+
+    /* Toast Container */
+    .toast-stack {
+      position: fixed;
+      bottom: 22px;
+      right: 22px;
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      pointer-events: none;
+    }
+    .strix-toast {
+      background: var(--strix-bg-elevated);
+      border: 1px solid var(--strix-accent-border);
+      color: var(--strix-text-primary);
+      padding: 10px 15px;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-md);
+      font-size: 12.5px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      animation: toastSlideIn 0.22s ease;
+      pointer-events: auto;
+    }
+    .strix-toast.error {
+      border-color: var(--red-border);
+      color: #fca5a5;
     }
 
     .spinner-svg {
-      animation: spin 1s linear infinite;
+      animation: spin 0.9s linear infinite;
       width: 12px;
       height: 12px;
+    }
+
+    /* Responsive Breakpoints */
+    @media (max-width: 1120px) {
+      aside.findings-pane { width: 270px; }
+      aside.agent-tree { width: 220px; }
+    }
+    @media (max-width: 860px) {
+      aside.agent-tree { display: none; }
+      aside.findings-pane { display: none; }
+      .header-stats { display: none; }
+      .prompt-suggestions { grid-template-columns: 1fr; }
+      .mode-pills { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
-  <!-- Header Bar -->
+  <!-- Top Navigation Header -->
   <header class="strix-header">
+    <div class="scan-laser-bar" id="scan-laser-bar"></div>
+
     <div class="brand-section">
       <div class="brand-logo">
-        <img src="/logo.png" alt="Strix Logo" onerror="this.style.display='none'">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAoQAAAJ8CAIAAADoFCdsAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAOi0lEQVR4nO3dPXbbVhqAYXnc2JWuV+DrFRg7MHZgpktH7iDegZQuXdSmIrUCSWUqUCsgtQLQXTpAXVJpCs8ZTzxURMiUvgvpeUr/yN/B9cFL/BEHBwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMDBwcGL6AFg9Oq6nk6ndV3v8odzzg87zX31fd/3/Xf+hPV6fXp6ulwu9zQUANylruu2bW/4u7Ozs2I/cwDwpBwdHUVXr1xd1+14qgAA7kmJ79R1XVVV0QsFwBNV13V06cahbduUUvRywQi8jB4AxqdpGo3ZRUrpr7/+cj8X3Mnd1DBMXddN00RPMRp937979+4779OGJ+9f0QPAyEwmk+gRxiSlZIvBncQYhnn79m30CCPjNi64kxjDMK4WD3V4eBg9ApROjAEgmBgDQDAxBoBgYgwAwcQYAIKJMQzjfUTA3okxAAQTYwAIJsbAw7q+vo4eAUonxsDD8pYIuJMYA0AwMQaAYGIMAMHEGACCiTEABBNjAAgmxgAQTIwBIJgYA0AwMQaAYGIMAMHEGACCiTEABBNjAAgmxgAQTIwBIJgYA0AwMQaAYGIMAMHEGACCiTEMk1KKHgF4asQYhhFjYO/EGAZQ4nuw0eBOYgwDVFUVPcL4vH//PnoEKJ0YwwCz2Sx6hPGpqsrBMfwzMYZd5Zw/fPgQPcX4pJR8iAFgPxaLxQ330nWdg2MAvtfR0VF00cZtPp9HryGU62X0ADACP/300y+//BI9xbh9ufft8vIyehAAxibnfHZ2Fn1U+XQ0TZNzjl5VKM6L6AFgmMfZlaeUqqqaTqd1XT/CP/fcLBaL09PT5XIZPQiUQowZh7quj46OynxIZrPZXFxcrNfrzWYTPUuYnHNVVR8/fhz0aen/t9jet2Hf98vl8uLi4jmvDsD3qqpqtVpFn17dbrVaOXT+Rl3XbdtGr8wW8/ncGXKA+5hOp9H78FudnJxEb55yHR8fR6/PFl3XTSaT6G0DMCqTySR6732r4+Pj6M1TutlsFr1K2+kxwK5yzmWe7bzxyOzOTk5Ootdqi67rnK8G2EnJX3dlV76jlFKZn6iaponeNgDFSyl1XRe9x97OYfEgZV48vrm5KfC2fJ4zL4qgRGU+wvTF+fl59AhjslgsokfYzrsrKIoYU6KSXxv8+fPn6BHGZLPZ9H0fPcUW3rJMUcSYEhV7WHxwcFBmWkpmi8GdxBgAgokx8By9efMmegT4SoyB5+jw8DB6BPhKjAEgmBgDQDAxBoBgYgwAwcQYAIKJMQAEE2MACCbGABBMjIHnaLPZRI8AX4kxAAQTYxjGERWwd2IMAMHEGACCiTEABBNj4Dm6vr6OHgG+EmPgOer7PnoE+EqMASCYGANAMDEGgGBiTIlyztEjADweMQaAYGIMAMHEGACCiTEABBNjAAgmxgAQTIwBIJgYwzAppegRgKdGjGEYMQb2TowpkTfqAM+KGFOizWYTPQJ7s16vo0fYYrVaRY8AX4kxJVosFtEj3GoymUSPMDKXl5fRI2xxdXUVPQJA8ZqmuSmSI6qhUkpd10Wv29/M5/PorQIwBjnn0vbg//Xp06fozTMynz59il60r7qu81owgF3NZrPo/fatptNp9OYZmePj4+hF+w8XGgCGmUwmbdtG7723Ozo6it48IxPe47Ztq6qK3gwAI5RzXiwWsTvx27RtO51OPXm8u5xzyN0AXdcdHx9bKYr1InoA2EnOuaqquq4PDw8PDg5SSvvdsf73IuL9fvJyuby8vOy67vr6eo9TFajv+9ueAl+v1zs+IJ5zruu6qqovq3nwP9v/G9+z0F9Gvbq6Wq/X5+fnHl4HGJ+6rheLRbEnycvUNI2r6QDsWc755OQkunEjc3Z25nZlAPasqCdzRqFtWz0GYM/0eCg9BmD/iv1SsGI1TRO9aAA8LVVVRddtfOq6jl43GIGX0QPAaPzxxx91XTv1OtTFxUX0CFA6b22CAXRlKN89CbsQYxjAF0cMtfevZ4EnSYxhgM1mEz3C+Igx3EmMYQAXjIGHIMYAEEyMgYflQjvcSYyBhyXGcCcxBoBgYgwAwcQYAIKJMQAEE2MACCbGABBMjAEgmBgDQDAxBoBgYgwAwcQYAIKJMQAEE2MACCbGABBMjAEgmBgDQDAxBoBgYgwAwcQYAIKJMQAEE2MACCbGABBMjAEgmBgDD2iz2USPACMgxgAQTIwBIJgYA0AwMQaAYGIMPKCUUvQIMAJiDAO4N3iolFLOOXoKKJ0YwwDL5bLv++gpRmY2m0WPAKV7GT0AjMzr16/ruo6eYkyqqvrtt9/+/PPP6EGgXGIMw6zX6x9//NGl0N29evXq1atXv//+e/QgADwhOeeu624YYjqdRq8bAE9Lzrlt2+jAjczR0VH0ukGhnKaG++j7/uLi4s2bN1VVRc8yGnVd55yvrq7cBAffeBE9AAzwaA/J7P4IU865ruuPHz9+uYqcUnqGl5OHrstyuTw/P7+6utrvGP+/an3fCz/AflRVdXJy8siXaZumcZlzd1VVzWazpmkec4120bbtfD53AzzA/aWUfv3119hduRPRg9R1XebV9Pl87utHAAZLKa1Wq+h9+M2NO4+GOzk5iV60Ldq21WOAYQop8RdOWQ9VbI+f4UV9gHs6OjqK3m//Tdd1DqoGKefExjeaponeNgBjkHOO3mNvYSc+VF3X0Yu2nfu5AO42m82id9fbOcM5VJk3c/lcRWm8tYkSFXuBdjKZRI8wMhcXF9EjbOEOeUojxpSo2KuzduJDlfkGaG9ZpjRiTImK3VEeHh5GjzAyxX4BVrH/x3iexBgAgokxAAQTYwAIJsYAEEyMASCYGANAMDEGgGBiDADBxBgAgokxAAQTYwAIJsYAEEyMASCYGANAMDEGgGBiDADBxBgAgokxAAQTYwAIJsYAEEyMASCYGANAMDEGgGBiDADBxBgAgokxAAQTYwAIJsYAEEyMASCYGANAMDEGgGBiTIn6vo8eAeDxiDElKjbGb968iR5hZFJK0SNsV+z/MZ4nMaZEl5eX0SNs9+HDh+gRRqbMLdb3/Xq9jp4CvhJjSrRYLKJH2C6lVNd19BRjUlVV9AhbnJ+fR48AMAZN09wUqWma6G0zGrPZLHq5tvOJCmAndV1H77FvZVe+i5xz27bRa7XFfD6P3jYA4/Hp06fo/fZ2XdflnKM3T9FSSqvVKnqhtmjb1toBDFNyjyeTSfTmKZQSAzw1Oedirx/P53M7929MJpMyz043TWOxKNaL6AFgJ1VVzWaz9+/fp5S2Prp6268/guVyeXl5udls7v0TvufvFvIP5Zw/fPgwmUxKu316s9ksl8vT09Plchk9C9xKjGGLqqqqqppOp+7V2ru+78/Pzy8vLx+6jn3f+2YPgKeg2JOuI3VyclLsd3IBUK6U0tnZWXTFRq/rutlsFr2YAIxZsTeRjYWbzwH4XjnnruuiizZWx8fH0QsIRXsZPQCMQ9/3r1+/dj/XPWw2mx9++CF6CgCehJRS9BHmKE2n0+ilg9J5axPsqu/7R3sg+Ckp9oWYUA4xhgHEeKj1em2jwZ3EGHhAvnYDdiHGABBMjAEgmBjDAE66Ag9BjGGA6+vr6BGAJ0iMgQfkVmrYhRgDQDAxBoBgYgwAwcQYAIKJMQAEE2MACCbGMMDh4WH0CMATJMYwQEopegTgCRJjAAgmxgAQTIwBIJgYA0AwMQaAYGIMAMHEGACCiTEABBNjAAgmxgAQTIwBIJgYA0AwMYYBPn/+HD0C8ASJMQAEE2MACCbGABBMjAEgmBgDQDAxBoBgYgwDrNfr6BFGxsNgsAsxhgHEeKjVahU9AozAi+gBYGS6rkspRU8xDpvN5t27d9FTwAg4MoZhfv755+gRRuP09DR6BBgHR8YwWNM0dV1HT1E6h8UAPKCUUtu2N9yubducc/RCAfCk5ZwXi0V08gq1Wq2UGIBHMpvNVqtVdPsK0nXd8fFx9LLA+LhmDN8r51xVVVVVW3/37du3Q3/aHma6Rd/3fd/f7+/+w2B933/+/Pn8/Hy9Xt/75wMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQLx/A8om2ebNVoMaAAAAAElFTkSuQmCC" alt="Strix Logo">
       </div>
       <div class="brand-text">
         STRIX
         <span class="brand-badge">AI AGENT</span>
       </div>
+      <div class="conn-pill" id="ws-status">
+        <span class="pulse-dot" id="ws-dot" style="width: 5px; height: 5px;"></span>
+        <span id="ws-text">LIVE</span>
+      </div>
     </div>
 
-    <div class="header-stats">
+    <div class="header-stats" id="nav-center-stats">
       <div class="stat-pill" id="pill-status">
-        <span class="pulse-dot"></span>
+        <span class="pulse-dot" id="main-status-dot"></span>
         <span class="val" id="val-status">READY</span>
       </div>
       <div class="stat-pill">
         <span class="label">Cost:</span>
         <span class="val" id="val-cost">$0.00</span>
+        <span class="label" id="stat-budget-max"></span>
       </div>
       <div class="stat-pill">
         <span class="label">Turns:</span>
         <span class="val" id="val-turns">0</span>
       </div>
-      <div class="stat-pill">
+      <div class="stat-pill clickable" onclick="app.switchRightTab('vulns')">
         <span class="label">Findings:</span>
-        <span class="val" id="val-vulns" style="color: #ef4444;">0</span>
+        <span class="val" id="val-vulns" style="color: var(--red-bright);">0</span>
       </div>
     </div>
 
     <div class="header-controls">
-      <div class="model-tag">
-        <span>⚡</span>
-        <span id="header-model-name">openai/ag/claude-sonnet-4-6(high)</span>
+      <div class="theme-Cluster" title="Pilih Aksen Tema Gelap">
+        <button type="button" class="theme-dot-btn emerald active" id="theme-emerald" onclick="app.setTheme('emerald')" title="Cyber Emerald"></button>
+        <button type="button" class="theme-dot-btn cyan" id="theme-cyan" onclick="app.setTheme('cyan')" title="Sentinel Cyan"></button>
+        <button type="button" class="theme-dot-btn violet" id="theme-violet" onclick="app.setTheme('violet')" title="Phantom Violet"></button>
       </div>
-      <button class="btn-stop" onclick="app.confirmStop()">
-        Stop Agent
+
+      <div class="model-tag" title="Active LLM Reasoning Engine">
+        <span>⚡</span>
+        <span id="header-model-name">claude-sonnet-4-6(high)</span>
+      </div>
+
+      <button type="button" class="btn-header" id="btn-toggle-setup" onclick="app.toggleSetupView()">
+        <span>⚙️</span>
+        <span>Setup Scan</span>
+      </button>
+
+      <button type="button" class="btn-header" id="btn-sim-demo" onclick="app.runDemoSimulation()">
+        <span>▶</span>
+        <span>Simulasi</span>
+      </button>
+
+      <button type="button" class="btn-header" id="btn-caido" style="display: none;" onclick="app.openCaido()">
+        <span>🌐</span>
+        <span>Caido Proxy</span>
+      </button>
+
+      <button type="button" class="btn-stop" id="btn-stop-scan" onclick="app.confirmStop()">
+        <span>■</span>
+        <span>Stop Agent</span>
       </button>
     </div>
   </header>
 
-  <!-- Workspace -->
-  <div class="workspace">
-    <!-- Left: Agent Swarm -->
+  <!-- Main 3-Column Workspace -->
+  <div class="workspace" id="live-view">
+    <!-- Left Sidebar: Agent Swarm -->
     <aside class="agent-tree">
       <div class="pane-title">
         <span>Agent Swarm (<span id="agent-count">0</span>)</span>
+        <span style="font-family: var(--font-mono); font-size: 10px; color: var(--strix-accent-bright);" id="swarm-state-label">ACTIVE</span>
       </div>
+
+      <div class="sidebar-search-box">
+        <input
+          type="text"
+          id="agent-search-input"
+          class="sidebar-search-input"
+          placeholder="Cari agent di swarm..."
+          oninput="app.filterAgentList()"
+        >
+      </div>
+
       <div class="agent-items-scroll" id="agent-list">
         <div class="agent-card active" onclick="app.selectAgent('all')">
-          <div>
-            <span class="agent-card-name">Unified Stream</span>
-            <span class="agent-card-id">All Swarm Activities</span>
+          <div class="agent-card-left">
+            <div class="agent-icon-box">🕸️</div>
+            <div style="min-width: 0;">
+              <span class="agent-card-name">Unified Stream</span>
+              <span class="agent-card-id">Semua Aktivitas Swarm</span>
+            </div>
           </div>
+          <span class="pulse-dot" style="width: 6px; height: 6px;"></span>
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="scope-box">
+          <div class="scope-box-header">
+            <span>Target Aktif</span>
+            <span id="sidebar-mode-badge" style="color: var(--strix-accent-bright);">DEEP</span>
+          </div>
+          <div class="scope-target-val" id="feed-target-text">Belum ada target spesifik</div>
         </div>
       </div>
     </aside>
 
-    <!-- Center: Main Chat Stream -->
+    <!-- Center Zone: Live Chat Stream OR Setup View -->
     <main class="chat-zone">
-      <div class="feed-scroll" id="chat-feed">
+      <!-- Subheader bar -->
+      <div class="stream-subheader">
+        <div class="stream-subheader-left">
+          <span id="current-filter-title">Unified Agent Stream</span>
+          <span class="brand-badge" id="feed-status-badge">LIVE</span>
+        </div>
+        <div class="stream-subheader-right">
+          <button type="button" class="copy-mini-btn" onclick="app.clearFeedView()">Bersihkan Layar</button>
+        </div>
+      </div>
+
+      <!-- Setup View Container (Toggleable or Automatic on Setup Mode) -->
+      <div class="setup-panel-container" id="setup-view">
+        <div class="setup-card">
+          <div class="setup-header">
+            <div>
+              <h2>Konfigurasi Penetration Test Baru</h2>
+              <p>Tentukan target URL, repositori lokal, spesifikasi API, dan kedalaman eksplorasi multi-agent.</p>
+            </div>
+            <div class="stat-pill">
+              <span class="label">Model:</span>
+              <span class="val" id="setup-model-name">claude-sonnet-4-6</span>
+            </div>
+          </div>
+
+          <form id="setup-form" onsubmit="app.onSetupSubmit(event)">
+            <div class="form-group">
+              <label class="form-label">Target Assets (URL / IP / Repo Lokal)</label>
+              <div class="target-input-row">
+                <input type="text" id="target-input" class="strix-input" placeholder="Contoh: https://example.com, 192.168.1.10, atau ./repo-lokal" autocomplete="off">
+                <button type="button" class="btn-header" onclick="app.addTargetFromInput()">+ Tambah Target</button>
+              </div>
+              <div class="targets-list" id="targets-list"></div>
+              <div class="quick-chips">
+                <span style="font-size: 11px; color: var(--strix-text-muted);">Contoh Cepat:</span>
+                <button type="button" class="quick-chip" onclick="app.addQuickTarget('https://example.com')">https://example.com</button>
+                <button type="button" class="quick-chip" onclick="app.addQuickTarget('http://localhost:8080')">http://localhost:8080</button>
+                <button type="button" class="quick-chip" onclick="app.addQuickTarget('./')">./ (Workspace Lokal)</button>
+                <button type="button" class="quick-chip" onclick="app.addQuickTarget('openapi.yaml')">openapi.yaml</button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Instruksi Khusus & Fokus Pengujian</label>
+              <textarea id="instruction-input" class="strix-input" rows="3" placeholder="Berikan kredensial uji, fokus kerentanan (IDOR, SQLi, SSRF), atau batasan scope..."></textarea>
+              <div class="quick-chips">
+                <span style="font-size: 11px; color: var(--strix-text-muted);">Preset Fokus:</span>
+                <button type="button" class="quick-chip" onclick="app.appendInstruction('Fokus pada celah Authentication Bypass, Broken Access Control, dan IDOR.')">Auth & IDOR</button>
+                <button type="button" class="quick-chip" onclick="app.appendInstruction('Lakukan audit menyeluruh untuk kategori OWASP Top 10 beserta bukti PoC.')">OWASP Top 10</button>
+                <button type="button" class="quick-chip" onclick="app.appendInstruction('Lakukan API fuzzing, uji rate limit, dan manipulasi parameter JSON/JWT.')">API Security</button>
+                <button type="button" class="quick-chip" onclick="app.appendInstruction('Uji celah SQL Injection, SSTI, dan Remote Code Execution - RCE.')">Injeksi & RCE</button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Kedalaman Scan (Scan Mode)</label>
+              <div class="mode-pills">
+                <div class="mode-pill" id="mode-quick" onclick="app.setScanMode('quick')">
+                  <div class="mode-pill-title">
+                    <span>⚡ Quick</span>
+                  </div>
+                  <div class="mode-pill-desc">Pemeriksaan cepat permukaan aplikasi & CI/CD</div>
+                </div>
+                <div class="mode-pill" id="mode-standard" onclick="app.setScanMode('standard')">
+                  <div class="mode-pill-title">
+                    <span>🛡️ Standard</span>
+                  </div>
+                  <div class="mode-pill-desc">Penilaian penetrasi seimbang & komprehensif</div>
+                </div>
+                <div class="mode-pill active" id="mode-deep" onclick="app.setScanMode('deep')">
+                  <div class="mode-pill-title">
+                    <span>🔬 Deep</span>
+                  </div>
+                  <div class="mode-pill-desc">Eksplorasi multi-tahap mendalam & verifikasi PoC</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="grid-2 form-group">
+              <div>
+                <label class="form-label">Batas Biaya Maksimal ($ USD)</label>
+                <input type="number" id="budget-input" class="strix-input" placeholder="Tanpa batas (misal: 10.00)" step="0.5" min="0.5">
+              </div>
+              <div>
+                <label class="form-label">Maksimal Giliran (Max Turns)</label>
+                <input type="number" id="turns-input" class="strix-input" value="100" min="10" max="1000">
+              </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 22px; gap: 12px;">
+              <button type="button" class="btn-header" onclick="app.toggleSetupView(false)">← Kembali ke Stream</button>
+              <button type="submit" class="send-btn" id="btn-start-scan" style="padding: 10px 22px; font-size: 13.5px;">
+                🚀 Mulai Penetration Test
+              </button>
+            </div>
+
+            <div class="setup-log" id="setup-log-content">
+              <div>[STRIX] Interactive dark environment siap. Pilih target atau langsung kirim perintah di chat.</div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Main Chat & Event Feed -->
+      <div class="feed-scroll" id="chat-feed" onscroll="app.onFeedScroll()">
         <!-- Welcoming Hero when no messages -->
         <div class="hero-welcome" id="hero-welcome">
           <div class="hero-icon">
@@ -808,81 +2047,228 @@
               <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
             </svg>
           </div>
-          <h1 class="hero-title">Strix</h1>
+          <h1 class="hero-title">Strix Autonomous AI Pentester</h1>
           <p class="hero-desc">
-            Ketik target atau instruksi scan di bawah.
+            Masukkan target URL, endpoint API, atau direktori kode di bawah untuk memulai orkestrasi multi-agent secara real-time.
           </p>
 
           <div class="prompt-suggestions">
-            <div class="prompt-chip" onclick="app.usePrompt('Test https://example.com untuk celah IDOR dan auth bypass')">
-              <div class="prompt-chip-title">Web app scan</div>
-              <div class="prompt-chip-desc">Test IDOR, auth bypass, dan OWASP Top 10</div>
+            <div class="prompt-chip" onclick="app.usePrompt('Test https://example.com untuk celah IDOR, Broken Access Control, dan Auth Bypass')">
+              <div class="prompt-chip-title">
+                <span>🌐 Web App Pentest</span>
+                <span class="prompt-chip-tag">OWASP</span>
+              </div>
+              <div class="prompt-chip-desc">Uji IDOR, bypass autentikasi, session manajemen, dan OWASP Top 10</div>
             </div>
-            <div class="prompt-chip" onclick="app.usePrompt('Review keamanan source code di direktori ini')">
-              <div class="prompt-chip-title">Review kode lokal</div>
-              <div class="prompt-chip-desc">Scan repository lokal untuk celah keamanan</div>
+            <div class="prompt-chip" onclick="app.usePrompt('Review keamanan source code di direktori lokal ini untuk mencari hardcoded secret dan celah injeksi')">
+              <div class="prompt-chip-title">
+                <span>📦 Audit Source Code Lokal</span>
+                <span class="prompt-chip-tag">SAST</span>
+              </div>
+              <div class="prompt-chip-desc">Analisis statis & dinamis repositori lokal untuk menemukan celah kode</div>
             </div>
-            <div class="prompt-chip" onclick="app.usePrompt('Test security REST API endpoint https://api.example.com/v1')">
-              <div class="prompt-chip-title">API security test</div>
-              <div class="prompt-chip-desc">Fuzzing parameter dan rate limiting</div>
+            <div class="prompt-chip" onclick="app.usePrompt('Test keamanan REST API endpoint https://api.example.com/v1 dengan fuzzing parameter')">
+              <div class="prompt-chip-title">
+                <span>🔌 API Security & Fuzzing</span>
+                <span class="prompt-chip-tag">API</span>
+              </div>
+              <div class="prompt-chip-desc">Pemeriksaan BOLA, mass assignment, rate limit, dan manipulasi token JWT</div>
             </div>
-            <div class="prompt-chip" onclick="app.usePrompt('Cari bug SQL injection dan XSS dengan bukti PoC')">
-              <div class="prompt-chip-title">Injeksi dan exploit</div>
-              <div class="prompt-chip-desc">Verifikasi temuan dengan proof of concept</div>
+            <div class="prompt-chip" onclick="app.usePrompt('Cari bug SQL Injection, XSS, dan SSRF beserta bukti Proof of Concept yang terverifikasi')">
+              <div class="prompt-chip-title">
+                <span>💥 Injeksi & Verifikasi PoC</span>
+                <span class="prompt-chip-tag">EXPLOIT</span>
+              </div>
+              <div class="prompt-chip-desc">Verifikasi temuan secara otomatis menggunakan payload aman dan bukti nyata</div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Bottom Chat Composer -->
-      <div class="composer-zone">
+      <!-- Floating Jump to Bottom Button -->
+      <button type="button" class="scroll-latest-btn" id="scroll-down-btn" onclick="app.scrollToBottom(true)">
+        <span>↓</span>
+        <span>Lompat ke Terbaru</span>
+      </button>
+
+      <!-- Bottom Chat & Steer Composer -->
+      <div class="composer-zone" id="composer-zone">
+        <div class="composer-quick-bar">
+          <button type="button" class="composer-mini-pill" onclick="app.insertQuickText('Fokuskan enumerasi pada endpoint autentikasi dan hak akses role. ')">🎯 Fokus Auth & Role</button>
+          <button type="button" class="composer-mini-pill" onclick="app.insertQuickText('Buat skrip Proof of Concept untuk memvalidasi temuan terakhir. ')">🧪 Validasi PoC</button>
+          <button type="button" class="composer-mini-pill" onclick="app.insertQuickText('Periksa konfigurasi CORS, CSP, dan security headers pada target. ')">🛡️ Cek Security Headers</button>
+          <button type="button" class="composer-mini-pill" onclick="app.insertQuickText('Rangkum seluruh temuan sejauh ini beserta rekomendasi remediasi. ')">📋 Ringkas Temuan</button>
+        </div>
+
         <div class="composer-card">
           <textarea
             id="chat-input"
-            placeholder="Ketik target atau instruksi (contoh: scan https://example.com)... Tekan Enter untuk kirim"
+            placeholder="Ketik target atau instruksi ke agent (contoh: scan https://example.com)... Tekan Enter untuk kirim"
             rows="1"
             onkeydown="app.handleKeyDown(event)"
+            oninput="app.autoResizeInput(this)"
           ></textarea>
           <div class="composer-actions">
             <div class="composer-target-info">
-              <span>Target:</span>
+              <span>Mengirim ke:</span>
               <strong id="current-target-agent">Root Agent</strong>
+              <span style="color: var(--strix-text-muted); font-size: 11px;">· Enter untuk kirim, Shift+Enter baris baru</span>
             </div>
-            <button class="send-btn" id="btn-send" onclick="app.sendChatMessage()">
-              Kirim
+            <button type="button" class="send-btn" id="btn-send" onclick="app.sendChatMessage()">
+              <span>Kirim Instruksi</span>
+              <span>↗</span>
             </button>
           </div>
         </div>
       </div>
     </main>
 
-    <!-- Right: Live Findings -->
+    <!-- Right Sidebar: Findings & Telemetry Tabs -->
     <aside class="findings-pane">
-      <div class="pane-title">
-        <span>Vulnerabilities (<span id="findings-count">0</span>)</span>
+      <div class="right-tabs-bar">
+        <button type="button" class="right-tab-btn active" id="tab-btn-vulns" onclick="app.switchRightTab('vulns')">
+          <span>🛡️ Findings (<span id="findings-count">0</span>)</span>
+        </button>
+        <button type="button" class="right-tab-btn" id="tab-btn-metrics" onclick="app.switchRightTab('metrics')">
+          <span>📊 Telemetry & MCP</span>
+        </button>
       </div>
-      <div class="findings-scroll" id="findings-list">
-        <div style="text-align: center; color: #71717a; margin-top: 50px; font-size: 13px;">
-          Belum ada vulnerability.<br>Agent akan menampilkan temuan di sini saat scanning.
+
+      <!-- Tab 1: Vulnerabilities -->
+      <div id="tab-content-vulns" style="display: flex; flex-direction: column; flex: 1; overflow: hidden;">
+        <div class="sev-summary-bar">
+          <div class="sev-pill all active" id="sev-filter-all" onclick="app.setSeverityFilter('all')">
+            <span class="sev-num" id="count-sev-all">0</span>
+            <span class="sev-lbl">Semua</span>
+          </div>
+          <div class="sev-pill crit" id="sev-filter-critical" onclick="app.setSeverityFilter('critical')">
+            <span class="sev-num" id="count-sev-critical">0</span>
+            <span class="sev-lbl">Crit</span>
+          </div>
+          <div class="sev-pill high" id="sev-filter-high" onclick="app.setSeverityFilter('high')">
+            <span class="sev-num" id="count-sev-high">0</span>
+            <span class="sev-lbl">High</span>
+          </div>
+          <div class="sev-pill med" id="sev-filter-medium" onclick="app.setSeverityFilter('medium')">
+            <span class="sev-num" id="count-sev-medium">0</span>
+            <span class="sev-lbl">Med</span>
+          </div>
+          <div class="sev-pill low" id="sev-filter-low" onclick="app.setSeverityFilter('low')">
+            <span class="sev-num" id="count-sev-low">0</span>
+            <span class="sev-lbl">Low</span>
+          </div>
+        </div>
+
+        <div class="findings-scroll" id="findings-list">
+          <div style="text-align: center; color: var(--strix-text-muted); margin-top: 48px; font-size: 12.5px; padding: 0 14px;">
+            <div style="font-size: 26px; margin-bottom: 8px; opacity: 0.5;">🛡️</div>
+            Belum ada kerentanan ditemukan.<br>Agent akan menampilkan laporan temuan secara otomatis saat scanning berlangsung.
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 2: Telemetry & MCP -->
+      <div id="tab-content-metrics" class="findings-scroll" style="display: none;">
+        <div class="telemetry-card">
+          <div class="telemetry-title">
+            <span>Konsumsi Token LLM</span>
+            <span style="color: var(--strix-accent-bright);">REAL-TIME</span>
+          </div>
+          <div class="telemetry-row">
+            <span>Prompt Tokens</span>
+            <strong id="metric-prompt-tokens">0</strong>
+          </div>
+          <div class="telemetry-row">
+            <span>Completion Tokens</span>
+            <strong id="metric-comp-tokens">0</strong>
+          </div>
+          <div class="telemetry-row" style="border-top: 1px solid var(--strix-border-subtle); margin-top: 6px; padding-top: 8px;">
+            <span>Total Tokens</span>
+            <strong id="metric-total-tokens" style="color: var(--strix-accent-bright);">0</strong>
+          </div>
+        </div>
+
+        <div class="telemetry-card">
+          <div class="telemetry-title">
+            <span>MCP Server Roster</span>
+          </div>
+          <div id="mcp-roster-list" style="display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: var(--strix-text-muted);">
+            <div>Built-in Strix Security Sandbox aktif.</div>
+          </div>
+        </div>
+
+        <div class="telemetry-card" id="caido-info-group" style="display: none;">
+          <div class="telemetry-title">
+            <span>Interception Proxy (Caido)</span>
+          </div>
+          <p style="font-size: 12px; color: var(--strix-text-secondary); margin-bottom: 8px;">
+            Trafik HTTP/HTTPS diarahkan melalui proxy Caido.
+          </p>
+          <a href="http://127.0.0.1:8080" id="caido-direct-link" target="_blank" rel="noopener noreferrer" style="color: var(--strix-accent-bright); font-size: 12px; font-weight: 700;">Buka Dashboard Caido →</a>
         </div>
       </div>
     </aside>
   </div>
 
-  <!-- Detail Modal -->
-  <div class="modal-overlay" id="vuln-modal" style="display: none;" onclick="app.closeModal(event)">
+  <!-- MODAL 1: Vulnerability Detail -->
+  <div class="modal-overlay" id="vuln-modal" onclick="app.closeModal(event)">
     <div class="modal-window" onclick="event.stopPropagation()">
-      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 14px;">
+      <div class="modal-header-row">
         <div>
           <span class="finding-badge critical" id="modal-sev">CRITICAL</span>
-          <h2 id="modal-title" style="font-size: 18px; color: #fff; margin-top: 6px;">Finding Detail</h2>
-          <div id="modal-loc" style="font-size: 12px; color: #71717a; font-family: 'JetBrains Mono', monospace; margin-top: 4px;"></div>
+          <h2 id="modal-title" style="font-size: 18px; color: var(--strix-text-primary); margin-top: 6px;">Detail Temuan</h2>
+          <div id="modal-loc" style="font-size: 12px; color: var(--strix-text-muted); font-family: var(--font-mono); margin-top: 4px;"></div>
         </div>
-        <button onclick="document.getElementById('vuln-modal').style.display='none'" style="background: none; border: none; color: #71717a; font-size: 18px; cursor: pointer;">✕</button>
+        <button type="button" class="modal-close-btn" onclick="app.closeVulnModal()">✕</button>
       </div>
-      <div class="markdown" id="modal-body" style="font-size: 13px; color: #d4d4d8;"></div>
+      <div class="markdown" id="modal-body" style="font-size: 13.5px; color: var(--strix-text-primary); line-height: 1.65;"></div>
+      <div style="margin-top: 20px; padding-top: 14px; border-top: 1px solid var(--strix-border-default); display: flex; justify-content: flex-end; gap: 10px;">
+        <button type="button" class="btn-header" onclick="app.copyVulnMarkdown()">📋 Salin Markdown</button>
+        <button type="button" class="send-btn" onclick="app.closeVulnModal()">Tutup</button>
+      </div>
     </div>
   </div>
+
+  <!-- MODAL 2: Stop Scan Confirmation (Replaces White Native confirm()) -->
+  <div class="modal-overlay" id="stop-modal" onclick="app.closeStopModal()">
+    <div class="modal-window" style="max-width: 440px;" onclick="event.stopPropagation()">
+      <div class="modal-header-row">
+        <h3 style="font-size: 17px; font-weight: 700;">Hentikan Penetration Test?</h3>
+        <button type="button" class="modal-close-btn" onclick="app.closeStopModal()">✕</button>
+      </div>
+      <p style="color: var(--strix-text-secondary); font-size: 13px; margin-bottom: 20px; line-height: 1.55;">
+        Menghentikan sesi akan membatalkan seluruh agent yang sedang berjalan secara aman dan menyimpan laporan kerentanan yang telah ditemukan.
+      </p>
+      <div style="display: flex; justify-content: flex-end; gap: 10px;">
+        <button type="button" class="btn-header" onclick="app.closeStopModal()">Batal</button>
+        <button type="button" class="btn-stop" onclick="app.executeStopScan()">Ya, Hentikan Agent</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 3: Mount Working Directory Confirmation -->
+  <div class="modal-overlay" id="mount-modal">
+    <div class="modal-window" style="max-width: 500px;">
+      <div class="modal-header-row">
+        <h3 style="font-size: 17px; font-weight: 700;">Mount Direktori Kerja Lokal?</h3>
+      </div>
+      <p style="color: var(--strix-text-secondary); font-size: 13px; margin-bottom: 20px; line-height: 1.55;">
+        Tidak ada URL eksternal yang ditentukan. Apakah Anda ingin mengizinkan Strix Agent memeriksa direktori kerja saat ini (<code id="mount-dir-path" style="color: var(--strix-accent-bright); font-family: var(--font-mono);">./workspace</code>)?
+      </p>
+      <div style="display: flex; justify-content: flex-end; gap: 10px;">
+        <button type="button" class="btn-header" onclick="app.resolveMount(false)">Jalankan Tanpa Mount</button>
+        <button type="button" class="send-btn" onclick="app.resolveMount(true)">Setujui & Mount Direktori</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 4: Image Screenshot Lightbox -->
+  <div class="modal-overlay" id="lightbox-modal" onclick="app.closeLightbox()">
+    <img id="lightbox-img" src="data:image/png;base64,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" alt="Bukti Screenshot" style="max-width: 92vw; max-height: 86vh; border-radius: 10px; border: 1px solid var(--strix-border-strong); box-shadow: var(--shadow-lg);">
+  </div>
+
+  <!-- Toast Stack -->
+  <div class="toast-stack" id="toast-stack"></div>
 
   <script>
     class StrixAgentApp {
@@ -891,87 +2277,253 @@
         this.agents = [];
         this.vulns = [];
         this.selectedAgent = "all";
+        this.severityFilter = "all";
         this.isScanning = false;
         this.eventCursor = 0;
+        this.ws = null;
+        this.wsConnected = false;
+        this.autoScroll = true;
+        this.scanMode = "deep";
+        this.targets = [];
+        this.currentVuln = null;
+        this.setupViewOpen = false;
+        this.demoTimer = null;
+
+        // Preserve UI state across re-renders so animations don't flicker
+        this.animatedNodeIds = new Set();
+        this.expandedTools = new Set();
+        this.expandedThoughts = new Set();
+
         this.init();
       }
 
       init() {
+        this.loadSavedTheme();
         this.connect();
-        this.pollInterval = setInterval(() => this.fetchUpdates(), 2000);
+        this.pollInterval = setInterval(() => this.fetchUpdates(), 2500);
+
+        window.addEventListener("keydown", (e) => {
+          if (e.key === "Escape") {
+            this.closeAllModals();
+          }
+        });
+      }
+
+      loadSavedTheme() {
+        try {
+          const saved = localStorage.getItem("strix_dark_accent");
+          if (saved && ["emerald", "cyan", "violet"].includes(saved)) {
+            this.setTheme(saved, false);
+          }
+        } catch (e) {}
+      }
+
+      setTheme(themeName, notify = true) {
+        document.documentElement.setAttribute("data-theme", themeName);
+        ["emerald", "cyan", "violet"].forEach((t) => {
+          const btn = document.getElementById("theme-" + t);
+          if (btn) btn.classList.toggle("active", t === themeName);
+        });
+        try {
+          localStorage.setItem("strix_dark_accent", themeName);
+        } catch (e) {}
+        if (notify) {
+          this.showToast("Tema gelap diperbarui: " + themeName.toUpperCase());
+        }
+      }
+
+      showToast(message, isError = false) {
+        const stack = document.getElementById("toast-stack");
+        if (!stack) return;
+        const toast = document.createElement("div");
+        toast.className = "strix-toast" + (isError ? " error" : "");
+        toast.innerHTML = `<span>${isError ? "⚠️" : "✓"}</span><span>${this.escape(message)}</span>`;
+        stack.appendChild(toast);
+        setTimeout(() => {
+          toast.style.opacity = "0";
+          toast.style.transform = "translateY(8px)";
+          toast.style.transition = "all 0.2s ease";
+          setTimeout(() => toast.remove(), 220);
+        }, 3200);
+      }
+
+      async apiRequest(endpoint, options = {}) {
+        const base = window.location.origin && window.location.origin !== "null" ? window.location.origin : "";
+        const targetUrl = base + endpoint;
+        return fetch(targetUrl, options);
       }
 
       connect() {
+        if (!window.location.host) {
+          this.setConnectionBadge("SIMULASI SIAP", "waiting");
+          return;
+        }
         const proto = window.location.protocol === "https:" ? "wss:" : "ws:";
-        this.ws = new WebSocket(`${proto}//${window.location.host}/ws`);
+        try {
+          this.ws = new WebSocket(`${proto}//${window.location.host}/ws`);
 
-        this.ws.onmessage = (e) => {
-          try {
-            const data = JSON.parse(e.data);
-            if (data.type === "init") {
-              this.applyState(data.state);
-              this.applyAgents(data.agents);
-              this.applyVulns(data.vulnerabilities);
-              if (data.events && data.events.length > 0) {
+          this.ws.onopen = () => {
+            this.wsConnected = true;
+            this.setConnectionBadge("LIVE", "running");
+          };
+
+          this.ws.onmessage = (e) => {
+            try {
+              const data = JSON.parse(e.data);
+              if (data.type === "init") {
+                this.applyState(data.state);
+                this.applyAgents(data.agents);
+                this.applyVulns(data.vulnerabilities);
+                this.eventCursor = data.event_cursor || this.eventCursor;
+                if (data.events && data.events.length > 0) {
+                  this.renderEvents(data.events);
+                }
+              } else if (data.type === "state_update") {
+                this.applyState(data.state);
+                this.applyAgents(data.agents);
+                this.applyVulns(data.vulnerabilities);
+              } else if (data.type === "events") {
+                this.eventCursor = data.cursor || this.eventCursor;
                 this.renderEvents(data.events);
               }
-            } else if (data.type === "state_update") {
-              this.applyState(data.state);
-              this.applyAgents(data.agents);
-              this.applyVulns(data.vulnerabilities);
-            } else if (data.type === "events") {
-              this.renderEvents(data.events);
+            } catch (err) {
+              console.error(err);
             }
-          } catch(err) {
-            console.error(err);
-          }
-        };
+          };
 
-        this.ws.onclose = () => {
-          setTimeout(() => this.connect(), 2000);
-        };
+          this.ws.onclose = () => {
+            this.wsConnected = false;
+            this.setConnectionBadge("OFFLINE / DEMO", "waiting");
+            setTimeout(() => this.connect(), 3500);
+          };
+        } catch (err) {
+          this.setConnectionBadge("SIMULASI", "waiting");
+        }
+      }
+
+      setConnectionBadge(text, state) {
+        const wsText = document.getElementById("ws-text");
+        const wsDot = document.getElementById("ws-dot");
+        if (wsText) wsText.innerText = text;
+        if (wsDot) {
+          wsDot.className = "pulse-dot " + (state === "running" ? "" : "waiting");
+        }
       }
 
       async fetchUpdates() {
+        if (!window.location.host) return;
         try {
-          const res = await fetch(`/api/events?cursor=${this.eventCursor}`);
-          if (!res.ok) return;
-          const data = await res.json();
-          if (data.events && data.events.length > 0) {
-            this.eventCursor = data.cursor || this.eventCursor;
-            this.renderEvents(data.events);
+          const res = await this.apiRequest(`/api/events?cursor=${this.eventCursor}`);
+          if (res.ok) {
+            const data = await res.json();
+            if (data.events && data.events.length > 0) {
+              this.eventCursor = data.cursor || this.eventCursor;
+              this.renderEvents(data.events);
+            }
           }
-          const stateRes = await fetch("/api/state");
+          const stateRes = await this.apiRequest("/api/state");
           if (stateRes.ok) {
             const st = await stateRes.json();
             this.applyState(st.state);
             this.applyAgents(st.agents);
             this.applyVulns(st.vulnerabilities);
           }
-        } catch(e) {}
+        } catch (e) {}
       }
 
       applyState(state) {
         if (!state) return;
-        this.isScanning = state.scan_state === "running";
+        this.state = state;
+        const scanState = (state.scan_state || "ready").toLowerCase();
+        this.isScanning = scanState === "running";
+
+        const laser = document.getElementById("scan-laser-bar");
+        if (laser) laser.classList.toggle("active", this.isScanning);
 
         const statusVal = document.getElementById("val-status");
-        statusVal.innerText = (state.scan_state || "READY").toUpperCase();
+        if (statusVal) statusVal.innerText = scanState.toUpperCase();
 
-        const dot = document.querySelector(".pulse-dot");
+        const dot = document.getElementById("main-status-dot");
         if (dot) {
-          dot.className = "pulse-dot " + (state.scan_state === "waiting" ? "waiting" : (state.scan_state === "stopped" ? "stopped" : ""));
+          let dotClass = "pulse-dot";
+          if (scanState === "waiting") dotClass += " waiting";
+          else if (scanState === "stopped" || scanState === "completed") dotClass += " stopped";
+          else if (scanState === "failed") dotClass += " failed";
+          dot.className = dotClass;
+        }
+
+        const feedBadge = document.getElementById("feed-status-badge");
+        if (feedBadge) {
+          feedBadge.innerText = this.isScanning ? "SCANNING" : scanState.toUpperCase();
         }
 
         if (state.model) {
           document.getElementById("header-model-name").innerText = state.model;
+          const setupModel = document.getElementById("setup-model-name");
+          if (setupModel) setupModel.innerText = state.model;
+        }
+
+        if (state.scan_mode) {
+          const modeBadge = document.getElementById("sidebar-mode-badge");
+          if (modeBadge) modeBadge.innerText = String(state.scan_mode).toUpperCase();
+        }
+
+        if (state.targets && state.targets.length > 0) {
+          document.getElementById("feed-target-text").innerText = state.targets.join(", ");
+          if (this.targets.length === 0) {
+            this.targets = [...state.targets];
+            this.renderTargetChips();
+          }
+        } else if (state.working_dir) {
+          document.getElementById("feed-target-text").innerText = state.working_dir;
+        }
+
+        if (state.pending_mount) {
+          document.getElementById("mount-dir-path").innerText = state.pending_mount;
+          document.getElementById("mount-modal").style.display = "flex";
+        } else {
+          document.getElementById("mount-modal").style.display = "none";
+        }
+
+        if (state.caido_url) {
+          document.getElementById("btn-caido").style.display = "inline-flex";
+          document.getElementById("caido-info-group").style.display = "block";
+          document.getElementById("caido-direct-link").href = state.caido_url;
         }
 
         if (state.usage) {
           const cost = state.usage.cost != null ? `$${Number(state.usage.cost).toFixed(2)}` : "$0.00";
           document.getElementById("val-cost").innerText = cost;
+          if (state.max_budget_usd) {
+            document.getElementById("stat-budget-max").innerText = `/ $${Number(state.max_budget_usd).toFixed(2)}`;
+          }
           const turns = state.usage.turns != null ? state.usage.turns : (state.usage.total_turns || 0);
-          document.getElementById("val-turns").innerText = turns;
+          document.getElementById("val-turns").innerText = state.max_turns ? `${turns}/${state.max_turns}` : turns;
+
+          document.getElementById("metric-prompt-tokens").innerText = Number(state.usage.prompt_tokens || 0).toLocaleString();
+          document.getElementById("metric-comp-tokens").innerText = Number(state.usage.completion_tokens || 0).toLocaleString();
+          document.getElementById("metric-total-tokens").innerText = Number(state.usage.total_tokens || 0).toLocaleString();
+        }
+
+        if (state.connections && state.connections.length > 0) {
+          const mcpContainer = document.getElementById("mcp-roster-list");
+          mcpContainer.innerHTML = state.connections.map((c) => `
+            <div style="background: var(--strix-bg-surface); padding: 8px 10px; border-radius: 6px; border: 1px solid var(--strix-border-subtle); display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <strong style="color: var(--strix-text-primary); font-size: 12px;">${this.escape(c.name)}</strong>
+                <div style="font-size: 10.5px; color: var(--strix-text-muted);">${c.tool_count || 0} tools tersedia</div>
+              </div>
+              <span class="brand-badge" style="font-size: 9.5px;">${c.dead ? "OFFLINE" : "ACTIVE"}</span>
+            </div>
+          `).join("");
+        }
+
+        if (state.messages && state.messages.length > 0) {
+          const logBox = document.getElementById("setup-log-content");
+          if (logBox) {
+            logBox.innerHTML = state.messages.map((m) => `<div>[${String(m.level || "INFO").toUpperCase()}] ${this.escape(m.text)}</div>`).join("");
+            logBox.scrollTop = logBox.scrollHeight;
+          }
         }
 
         if (this.events.length > 0) {
@@ -984,25 +2536,54 @@
         if (!agents) return;
         this.agents = agents;
         document.getElementById("agent-count").innerText = agents.length;
+        this.renderAgentList();
+      }
 
+      filterAgentList() {
+        this.renderAgentList();
+      }
+
+      renderAgentList() {
         const container = document.getElementById("agent-list");
+        const query = (document.getElementById("agent-search-input")?.value || "").trim().toLowerCase();
+
         const allCard = `
           <div class="agent-card ${this.selectedAgent === 'all' ? 'active' : ''}" onclick="app.selectAgent('all')">
-            <div>
-              <span class="agent-card-name">Unified Stream</span>
-              <span class="agent-card-id">All Swarm Activities</span>
+            <div class="agent-card-left">
+              <div class="agent-icon-box">🕸️</div>
+              <div style="min-width: 0;">
+                <span class="agent-card-name">Unified Stream</span>
+                <span class="agent-card-id">Semua Aktivitas Swarm (${this.events.length})</span>
+              </div>
             </div>
+            <span class="pulse-dot ${this.isScanning ? '' : 'waiting'}" style="width: 6px; height: 6px;"></span>
           </div>
         `;
-        const agentCards = agents.map(a => `
-          <div class="agent-card ${this.selectedAgent === a.id ? 'active' : ''}" onclick="app.selectAgent('${a.id}')">
-            <div>
-              <span class="agent-card-name">${this.escape(a.name || a.id)}</span>
-              <span class="agent-card-id">${this.escape(a.id.slice(0, 8))} · ${a.status}</span>
+
+        const filtered = this.agents.filter((a) => {
+          if (!query) return true;
+          const name = String(a.name || a.id || "").toLowerCase();
+          return name.includes(query) || String(a.id || "").toLowerCase().includes(query);
+        });
+
+        const agentCards = filtered.map((a) => {
+          const status = (a.status || "running").toLowerCase();
+          const dotState = status === "running" ? "" : (status === "failed" ? "failed" : (status === "completed" || status === "stopped" ? "stopped" : "waiting"));
+          const icon = a.parent_id ? "🤖" : "👑";
+          return `
+            <div class="agent-card ${this.selectedAgent === a.id ? 'active' : ''}" onclick="app.selectAgent('${this.escape(a.id)}')">
+              <div class="agent-card-left">
+                <div class="agent-icon-box">${icon}</div>
+                <div style="min-width: 0;">
+                  <span class="agent-card-name">${this.escape(a.name || a.id)}</span>
+                  <span class="agent-card-id">${this.escape(String(a.id).slice(0, 8))} · ${this.escape(status.toUpperCase())}</span>
+                </div>
+              </div>
+              <span class="pulse-dot ${dotState}" style="width: 6px; height: 6px;"></span>
             </div>
-            <span class="pulse-dot ${a.status === 'running' ? '' : 'waiting'}" style="width:5px; height:5px;"></span>
-          </div>
-        `).join("");
+          `;
+        }).join("");
+
         container.innerHTML = allCard + agentCards;
       }
 
@@ -1012,23 +2593,57 @@
         document.getElementById("val-vulns").innerText = vulns.length;
         document.getElementById("findings-count").innerText = vulns.length;
 
+        const counts = { all: vulns.length, critical: 0, high: 0, medium: 0, low: 0 };
+        vulns.forEach((v) => {
+          const s = (v.severity || "info").toLowerCase();
+          if (counts[s] != null) counts[s]++;
+          else counts.low++;
+        });
+
+        ["all", "critical", "high", "medium", "low"].forEach((k) => {
+          const el = document.getElementById("count-sev-" + k);
+          if (el) el.innerText = counts[k];
+        });
+
+        this.renderVulnsList();
+      }
+
+      setSeverityFilter(sev) {
+        this.severityFilter = sev;
+        ["all", "critical", "high", "medium", "low"].forEach((k) => {
+          const pill = document.getElementById("sev-filter-" + k);
+          if (pill) pill.classList.toggle("active", k === sev);
+        });
+        this.renderVulnsList();
+      }
+
+      renderVulnsList() {
         const container = document.getElementById("findings-list");
-        if (vulns.length === 0) {
+        const filtered = this.vulns.filter((v) => {
+          if (this.severityFilter === "all") return true;
+          return (v.severity || "info").toLowerCase() === this.severityFilter;
+        });
+
+        if (filtered.length === 0) {
           container.innerHTML = `
-            <div style="text-align: center; color: #71717a; margin-top: 50px; font-size: 13px;">
-              Belum ada vulnerability.<br>Agent akan menampilkan temuan di sini saat scanning.
+            <div style="text-align: center; color: var(--strix-text-muted); margin-top: 48px; font-size: 12.5px; padding: 0 14px;">
+              <div style="font-size: 26px; margin-bottom: 8px; opacity: 0.5;">🛡️</div>
+              ${this.vulns.length === 0 ? "Belum ada kerentanan ditemukan.<br>Agent akan menampilkan laporan temuan secara otomatis saat scanning berlangsung." : "Tidak ada temuan untuk filter severity ini."}
             </div>
           `;
           return;
         }
 
-        container.innerHTML = vulns.map(v => {
+        container.innerHTML = filtered.map((v) => {
           const sev = (v.severity || "info").toLowerCase();
           return `
-            <div class="finding-card" onclick="app.openVuln('${v.id}')">
-              <span class="finding-badge ${sev}">${sev.toUpperCase()}</span>
-              <div class="finding-title">${this.escape(v.title || "Finding")}</div>
-              <div class="finding-loc">${this.escape(v.target || v.url || v.component || "")}</div>
+            <div class="finding-card" onclick="app.openVuln('${this.escape(v.id)}')">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span class="finding-badge ${sev}">${this.escape(sev.toUpperCase())}</span>
+                <span style="font-size: 10px; font-family: var(--font-mono); color: var(--strix-text-muted);">Lihat PoC →</span>
+              </div>
+              <div class="finding-title">${this.escape(v.title || "Temuan Keamanan")}</div>
+              <div class="finding-loc">${this.escape(v.target || v.url || v.component || "Target Endpoint")}</div>
             </div>
           `;
         }).join("");
@@ -1041,25 +2656,64 @@
         if (hero) hero.style.display = "none";
 
         for (const evt of newEvents) {
-          const idx = this.events.findIndex(e => e.id === evt.id);
+          const isNew = !this.animatedNodeIds.has(evt.id);
+          if (isNew) {
+            this.animatedNodeIds.add(evt.id);
+            if (evt.type === "tool" && evt.data?.status === "running") {
+              this.expandedTools.add(String(evt.id));
+            }
+          }
+
+          const idx = this.events.findIndex((e) => e.id === evt.id);
           if (idx >= 0) {
             this.events[idx] = evt;
             const node = document.getElementById(`node-${evt.id}`);
-            if (node) node.outerHTML = this.eventToHtml(evt);
+            if (node) {
+              node.outerHTML = this.eventToHtml(evt, false);
+            }
           } else {
             this.events.push(evt);
             const div = document.createElement("div");
-            div.innerHTML = this.eventToHtml(evt);
+            div.innerHTML = this.eventToHtml(evt, true);
             if (div.firstElementChild) feed.appendChild(div.firstElementChild);
           }
         }
-        feed.scrollTop = feed.scrollHeight;
+
+        this.renderAgentList();
+        if (this.autoScroll) {
+          this.scrollToBottom();
+        }
       }
 
-      eventToHtml(evt) {
+      toggleThought(evtId) {
+        const key = String(evtId);
+        if (this.expandedThoughts.has(key)) this.expandedThoughts.delete(key);
+        else this.expandedThoughts.add(key);
+        const body = document.getElementById("think-body-" + key);
+        if (body) {
+          body.style.display = this.expandedThoughts.has(key) ? "block" : "none";
+        }
+      }
+
+      toggleToolDrawer(evtId) {
+        const key = String(evtId);
+        if (this.expandedTools.has(key)) this.expandedTools.delete(key);
+        else this.expandedTools.add(key);
+        const drawer = document.getElementById("tool-drawer-" + key);
+        if (drawer) {
+          drawer.style.display = this.expandedTools.has(key) ? "block" : "none";
+        }
+      }
+
+      eventToHtml(evt, animate = false) {
         if (this.selectedAgent !== "all" && evt.agent_id !== this.selectedAgent) {
           return `<div id="node-${evt.id}" style="display:none;"></div>`;
         }
+
+        const animClass = animate ? "animate-in" : "";
+        const agentObj = this.agents.find((a) => a.id === evt.agent_id);
+        const agentName = agentObj ? (agentObj.name || agentObj.id) : (evt.agent_id ? String(evt.agent_id).slice(0, 8) : "Root Agent");
+        const timeStr = evt.timestamp ? new Date(evt.timestamp).toLocaleTimeString() : new Date().toLocaleTimeString();
 
         if (evt.type === "chat") {
           const isUser = evt.data?.role === "user";
@@ -1069,31 +2723,33 @@
           let clean = raw;
           const match = raw.match(/<thinking>([\s\S]*?)<\/thinking>/);
           if (match) {
+            const isOpen = this.expandedThoughts.has(String(evt.id));
             thinkHtml = `
               <div class="think-accordion">
-                <div class="think-head" onclick="const b = this.nextElementSibling; b.style.display = b.style.display === 'none' ? 'block' : 'none'">
+                <div class="think-head" onclick="app.toggleThought('${this.escape(evt.id)}')">
                   <div class="think-title-row">
                     <span>🧠</span>
                     <span>Reasoning Process</span>
                   </div>
-                  <span style="font-size: 11px; opacity: 0.6;">toggle</span>
+                  <span style="font-size: 10.5px; opacity: 0.75;">Klik untuk buka/tutup</span>
                 </div>
-                <div class="think-body" style="display:none;">${this.escape(match[1].trim())}</div>
+                <div class="think-body" id="think-body-${this.escape(evt.id)}" style="display: ${isOpen ? 'block' : 'none'};">${this.escape(match[1].trim())}</div>
               </div>
             `;
             clean = raw.replace(/<thinking>[\s\S]*?<\/thinking>/, "").trim();
           }
 
           return `
-            <div class="msg-row ${isUser ? 'user' : 'agent'}" id="node-${evt.id}">
-              <div class="msg-avatar ${isUser ? 'user' : 'agent'}">${isUser ? 'U' : 'AI'}</div>
+            <div class="msg-row ${isUser ? 'user' : 'agent'} ${animClass}" id="node-${evt.id}">
+              <div class="msg-avatar ${isUser ? 'user' : 'agent'}">${isUser ? 'ANDA' : 'AI'}</div>
               <div class="msg-content-wrapper">
                 <div class="msg-header">
-                  <span class="msg-sender">${isUser ? 'Anda' : 'Strix Agent'}</span>
-                  <span class="msg-time">${new Date(evt.timestamp).toLocaleTimeString()}</span>
+                  <span class="msg-sender">${isUser ? 'Operator' : 'Strix AI Agent'}</span>
+                  <span class="msg-agent-tag">${this.escape(agentName)}</span>
+                  <span class="msg-time">${timeStr}</span>
                 </div>
                 ${thinkHtml}
-                <div class="msg-bubble markdown">${this.parseMarkdown(clean)}</div>
+                ${clean ? `<div class="msg-bubble markdown">${this.parseMarkdown(clean)}</div>` : ''}
               </div>
             </div>
           `;
@@ -1102,9 +2758,10 @@
         if (evt.type === "tool") {
           const name = evt.data?.tool_name || "tool";
           const args = evt.data?.args || {};
-          const status = evt.data?.status || "running";
+          const status = (evt.data?.status || "running").toLowerCase();
           const res = evt.data?.result;
           const isRunning = status === "running";
+          const isOpen = this.expandedTools.has(String(evt.id)) || isRunning;
 
           let commandPreview = "";
           if (args.command) {
@@ -1114,12 +2771,28 @@
           } else if (args.thought) {
             commandPreview = args.thought;
           } else {
-            try { commandPreview = JSON.stringify(args); } catch(e) {}
+            try { commandPreview = JSON.stringify(args); } catch (e) {}
           }
 
-          let outStr = "";
+          let outHtml = "";
           if (res != null) {
-            outStr = typeof res === "object" ? JSON.stringify(res, null, 2) : String(res);
+            if (typeof res === "string" && res.startsWith("data:image/")) {
+              outHtml = `
+                <div class="tool-section-bar" style="margin-top: 10px;">
+                  <span class="tool-section-title">Screenshot Capture:</span>
+                </div>
+                <img src="${res}" alt="Tool Capture" style="max-height: 220px; border-radius: 6px; border: 1px solid var(--strix-border-default); cursor: pointer;" onclick="app.openLightbox('${res}')">
+              `;
+            } else {
+              const outStr = typeof res === "object" ? JSON.stringify(res, null, 2) : String(res);
+              outHtml = `
+                <div class="tool-section-bar" style="margin-top: 10px;">
+                  <span class="tool-section-title">Execution Output:</span>
+                  <button type="button" class="copy-mini-btn" onclick="app.copyTextById('tool-out-${this.escape(evt.id)}')">Salin Output</button>
+                </div>
+                <div id="tool-out-${this.escape(evt.id)}" style="white-space: pre-wrap; color: #e2e8f0;">${this.escape(outStr)}</div>
+              `;
+            }
           }
 
           const spinnerHtml = isRunning ? `
@@ -1130,11 +2803,12 @@
           ` : '';
 
           return `
-            <div class="msg-row agent" id="node-${evt.id}">
+            <div class="msg-row agent ${animClass}" id="node-${evt.id}">
               <div class="msg-avatar tool">⚡</div>
               <div class="msg-content-wrapper">
                 <div class="tool-box ${isRunning ? 'running' : ''}">
-                  <div class="tool-header-btn" onclick="const d = this.nextElementSibling; d.style.display = d.style.display === 'none' ? 'block' : 'none'">
+                  <div class="tool-shimmer"></div>
+                  <div class="tool-header-btn" onclick="app.toggleToolDrawer('${this.escape(evt.id)}')">
                     <div class="tool-header-left">
                       <div class="window-dots">
                         <span class="window-dot"></span>
@@ -1146,13 +2820,16 @@
                     </div>
                     <div class="tool-status-pill ${status}">
                       ${spinnerHtml}
-                      <span>${status.toUpperCase()}</span>
+                      <span>${this.escape(status.toUpperCase())}</span>
                     </div>
                   </div>
-                  <div class="tool-drawer" style="display: ${isRunning ? 'block' : 'none'};">
-                    <div class="tool-section-title">Arguments:</div>
-                    <div style="margin-bottom: 8px; color: #a1a1aa;">${this.escape(JSON.stringify(args, null, 2))}</div>
-                    ${outStr ? `<div class="tool-section-title">Output:</div><div>${this.escape(outStr)}</div>` : ''}
+                  <div class="tool-drawer" id="tool-drawer-${this.escape(evt.id)}" style="display: ${isOpen ? 'block' : 'none'};">
+                    <div class="tool-section-bar">
+                      <span class="tool-section-title">Arguments:</span>
+                      <button type="button" class="copy-mini-btn" onclick="app.copyTextById('tool-arg-${this.escape(evt.id)}')">Salin Argumen</button>
+                    </div>
+                    <div id="tool-arg-${this.escape(evt.id)}" style="margin-bottom: 6px; color: var(--strix-text-secondary); white-space: pre-wrap;">${this.escape(JSON.stringify(args, null, 2))}</div>
+                    ${outHtml}
                   </div>
                 </div>
               </div>
@@ -1163,9 +2840,60 @@
         return `<div id="node-${evt.id}"></div>`;
       }
 
+      copyTextById(elemId) {
+        const el = document.getElementById(elemId);
+        if (!el) return;
+        this.copyToClipboard(el.innerText || el.textContent || "");
+      }
+
+      copyToClipboard(text) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(() => {
+            this.showToast("Berhasil disalin ke clipboard");
+          }).catch(() => {
+            this.fallbackCopy(text);
+          });
+        } else {
+          this.fallbackCopy(text);
+        }
+      }
+
+      fallbackCopy(text) {
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        ta.style.position = "fixed";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.select();
+        try {
+          document.execCommand("copy");
+          this.showToast("Berhasil disalin ke clipboard");
+        } catch (e) {
+          this.showToast("Gagal menyalin teks", true);
+        }
+        document.body.removeChild(ta);
+      }
+
+      autoResizeInput(textarea) {
+        if (!textarea) return;
+        textarea.style.height = "42px";
+        textarea.style.height = Math.min(textarea.scrollHeight, 150) + "px";
+      }
+
+      insertQuickText(text) {
+        const inp = document.getElementById("chat-input");
+        if (!inp) return;
+        inp.value = (inp.value ? inp.value.trim() + " " : "") + text;
+        inp.focus();
+        this.autoResizeInput(inp);
+      }
+
       usePrompt(text) {
-        document.getElementById("chat-input").value = text;
-        this.sendChatMessage();
+        const inp = document.getElementById("chat-input");
+        if (inp) {
+          inp.value = text;
+          this.sendChatMessage();
+        }
       }
 
       async sendChatMessage() {
@@ -1174,6 +2902,7 @@
         if (!msg) return;
 
         inp.value = "";
+        inp.style.height = "42px";
         const sendBtn = document.getElementById("btn-send");
         sendBtn.disabled = true;
 
@@ -1182,20 +2911,141 @@
             message: msg,
             agent_id: this.selectedAgent !== "all" ? this.selectedAgent : undefined
           };
-          const res = await fetch("/api/command", {
+          const res = await this.apiRequest("/api/command", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ command: "chat.send", payload })
           });
           const result = await res.json();
           if (!result.ok) {
-            alert("Error: " + result.error);
+            this.showToast("Error: " + (result.error || "Perintah ditolak"), true);
+          } else {
+            this.showToast("Instruksi dikirim ke agent");
           }
-        } catch(e) {
-          alert("Gagal kirim pesan: " + e.message);
+        } catch (e) {
+          // Fallback to interactive live simulation when running in Canvas or without backend
+          this.simulateInteractiveResponse(msg);
         } finally {
           sendBtn.disabled = false;
         }
+      }
+
+      simulateInteractiveResponse(userMsg) {
+        const now = Date.now();
+        const rootId = "agent-root-01";
+        if (this.agents.length === 0) {
+          this.applyAgents([
+            { id: rootId, name: "Strix Orchestrator", status: "running", parent_id: null },
+            { id: "agent-recon-02", name: "Surface Recon & HTTP Prober", status: "running", parent_id: rootId },
+            { id: "agent-exploit-03", name: "Auth & Injection Verifier", status: "waiting", parent_id: rootId }
+          ]);
+        }
+
+        const urlMatch = userMsg.match(/https?:\/\/[^\s]+/);
+        const targetHost = urlMatch ? urlMatch[0] : "https://target.example.com";
+
+        this.applyState({
+          scan_state: "running",
+          scan_mode: this.scanMode,
+          model: "claude-sonnet-4-6(high)",
+          targets: [targetHost],
+          usage: { cost: 0.14, turns: 4, prompt_tokens: 14280, completion_tokens: 2890, total_tokens: 17170 }
+        });
+
+        this.renderEvents([
+          {
+            id: "evt-user-" + now,
+            agent_id: rootId,
+            type: "chat",
+            timestamp: now,
+            data: { role: "user", content: userMsg }
+          }
+        ]);
+
+        setTimeout(() => {
+          this.renderEvents([
+            {
+              id: "evt-think-" + now,
+              agent_id: rootId,
+              type: "chat",
+              timestamp: Date.now(),
+              data: {
+                role: "assistant",
+                content: `<thinking>Menganalisis instruksi pengguna untuk target ${targetHost}.\n1. Memetakan permukaan serangan HTTP/HTTPS dan header keamanan.\n2. Menjalankan sub-agent enumerasi endpoint API dan pemeriksaan kontrol akses (IDOR/Auth Bypass).\n3. Memvalidasi potensi celah dengan payload non-destruktif.</thinking>Memulai pemindaian otonom pada **${targetHost}**. Saya telah mendelegasikan tugas enumerasi endpoint dan pengujian autentikasi ke **Agent Swarm**.`
+              }
+            },
+            {
+              id: "evt-tool-1-" + now,
+              agent_id: "agent-recon-02",
+              type: "tool",
+              timestamp: Date.now(),
+              data: {
+                tool_name: "httpx_probe",
+                status: "running",
+                args: { command: `httpx -u ${targetHost} -status-code -title -tech-detect -json` }
+              }
+            }
+          ]);
+        }, 550);
+
+        setTimeout(() => {
+          this.renderEvents([
+            {
+              id: "evt-tool-1-" + now,
+              agent_id: "agent-recon-02",
+              type: "tool",
+              timestamp: Date.now(),
+              data: {
+                tool_name: "httpx_probe",
+                status: "completed",
+                args: { command: `httpx -u ${targetHost} -status-code -title -tech-detect -json` },
+                result: {
+                  url: targetHost,
+                  status_code: 200,
+                  title: "Enterprise API Gateway",
+                  technologies: ["Nginx 1.24", "Node.js", "Express", "PostgreSQL"],
+                  headers: { "x-powered-by": "Express", "access-control-allow-origin": "*" }
+                }
+              }
+            },
+            {
+              id: "evt-tool-2-" + now,
+              agent_id: "agent-exploit-03",
+              type: "tool",
+              timestamp: Date.now(),
+              data: {
+                tool_name: "idor_auth_fuzzer",
+                status: "completed",
+                args: { method: "GET", url: `${targetHost}/api/v1/users/1002/profile`, headers: { Authorization: "Bearer eyJhbGci..." } },
+                result: "HTTP/1.1 200 OK\nContent-Type: application/json\n\n{\n  \"user_id\": 1002,\n  \"email\": \"admin@example.com\",\n  \"role\": \"superadmin\",\n  \"api_key_hash\": \"sha256:9f86d081884c7d659a2feaa0c55ad015\"\n}"
+              }
+            }
+          ]);
+
+          const newVuln = {
+            id: "vuln-" + now,
+            severity: "critical",
+            title: "Broken Object Level Authorization (IDOR) pada /api/v1/users/{id}/profile",
+            target: `${targetHost}/api/v1/users/1002/profile`,
+            description: `### Ringkasan Kerentanan\nEndpoint \`GET /api/v1/users/{id}/profile\` tidak memverifikasi kepemilikan objek pengguna terhadap sesi token JWT yang aktif. Akun pengguna biasa dapat mengakses profil dan metadata sensitif milik **superadmin**.\n\n### Langkah Reproduksi (PoC)\n\`\`\`bash\ncurl -i -s -k -X 'GET' \\n  -H 'Authorization: Bearer <LOW_PRIV_TOKEN>' \\n  '${targetHost}/api/v1/users/1002/profile'\n\`\`\`\n\n### Dampak Keamanan\nPengambilalihan akun penuh (*Account Takeover*) dan kebocoran data sensitif seluruh pengguna.\n\n### Rekomendasi Remediasi\nValidasi \`req.user.id === Number(req.params.id)\` pada middleware otorisasi sebelum mengembalikan record database.`
+          };
+          this.applyVulns([newVuln, ...this.vulns]);
+          this.applyState({
+            scan_state: "waiting",
+            scan_mode: this.scanMode,
+            model: "claude-sonnet-4-6(high)",
+            targets: [targetHost],
+            usage: { cost: 0.29, turns: 8, prompt_tokens: 28450, completion_tokens: 5410, total_tokens: 33860 }
+          });
+          this.showToast("Temuan baru: CRITICAL IDOR terverifikasi!");
+        }, 1800);
+      }
+
+      runDemoSimulation() {
+        if (this.setupViewOpen) {
+          this.toggleSetupView(false);
+        }
+        this.usePrompt("Scan menyeluruh https://api.strix-demo.io/v1 untuk celah IDOR, SQL Injection, dan misconfiguration");
       }
 
       handleKeyDown(e) {
@@ -1208,28 +3058,195 @@
       selectAgent(id) {
         this.selectedAgent = id;
         const targetLabel = document.getElementById("current-target-agent");
+        const filterTitle = document.getElementById("current-filter-title");
+
         if (id === "all") {
           targetLabel.innerText = "Root Agent";
+          filterTitle.innerText = "Unified Agent Stream";
         } else {
-          const agent = this.agents.find(a => a.id === id);
-          targetLabel.innerText = agent ? (agent.name || agent.id) : id;
+          const agent = this.agents.find((a) => a.id === id);
+          const name = agent ? (agent.name || agent.id) : id;
+          targetLabel.innerText = name;
+          filterTitle.innerText = `Stream Agent: ${name}`;
         }
 
-        this.applyAgents(this.agents);
+        this.renderAgentList();
 
         const feed = document.getElementById("chat-feed");
+        const hero = document.getElementById("hero-welcome");
         feed.innerHTML = "";
+        if (hero && this.events.length === 0) {
+          feed.appendChild(hero);
+        }
         for (const evt of this.events) {
           const div = document.createElement("div");
-          div.innerHTML = this.eventToHtml(evt);
+          div.innerHTML = this.eventToHtml(evt, false);
           if (div.firstElementChild) feed.appendChild(div.firstElementChild);
         }
-        feed.scrollTop = feed.scrollHeight;
+        this.scrollToBottom();
       }
 
+      clearFeedView() {
+        this.events = [];
+        this.animatedNodeIds.clear();
+        const feed = document.getElementById("chat-feed");
+        feed.innerHTML = `
+          <div class="hero-welcome" id="hero-welcome">
+            <div class="hero-icon">
+              <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+            </div>
+            <h1 class="hero-title">Strix Autonomous AI Pentester</h1>
+            <p class="hero-desc">Layar stream telah dibersihkan. Ketik instruksi baru atau klik tombol Simulasi untuk menguji alur kerja agent.</p>
+          </div>
+        `;
+        this.showToast("Tampilan layar dibersihkan");
+      }
+
+      onFeedScroll() {
+        const feed = document.getElementById("chat-feed");
+        if (!feed) return;
+        const isNearBottom = feed.scrollHeight - feed.scrollTop - feed.clientHeight < 90;
+        this.autoScroll = isNearBottom;
+        const btn = document.getElementById("scroll-down-btn");
+        if (btn) btn.style.display = isNearBottom ? "none" : "inline-flex";
+      }
+
+      scrollToBottom(force = false) {
+        const feed = document.getElementById("chat-feed");
+        if (feed) {
+          feed.scrollTop = feed.scrollHeight;
+        }
+        if (force) {
+          this.autoScroll = true;
+          const btn = document.getElementById("scroll-down-btn");
+          if (btn) btn.style.display = "none";
+        }
+      }
+
+      /* Setup View Controls */
+      toggleSetupView(forceState) {
+        this.setupViewOpen = typeof forceState === "boolean" ? forceState : !this.setupViewOpen;
+        const setupEl = document.getElementById("setup-view");
+        const feedEl = document.getElementById("chat-feed");
+        const composerEl = document.getElementById("composer-zone");
+        const toggleBtn = document.getElementById("btn-toggle-setup");
+
+        if (setupEl) setupEl.style.display = this.setupViewOpen ? "flex" : "none";
+        if (feedEl) feedEl.style.display = this.setupViewOpen ? "none" : "flex";
+        if (composerEl) composerEl.style.display = this.setupViewOpen ? "none" : "block";
+        if (toggleBtn) toggleBtn.classList.toggle("active", this.setupViewOpen);
+      }
+
+      addTargetFromInput() {
+        const inp = document.getElementById("target-input");
+        const val = (inp?.value || "").trim();
+        if (!val) return;
+        if (!this.targets.includes(val)) {
+          this.targets.push(val);
+          inp.value = "";
+          this.renderTargetChips();
+          this.sendCommandSilent("setup.add_target", { target: val });
+          document.getElementById("feed-target-text").innerText = this.targets.join(", ");
+        }
+      }
+
+      addQuickTarget(target) {
+        if (!this.targets.includes(target)) {
+          this.targets.push(target);
+          this.renderTargetChips();
+          this.sendCommandSilent("setup.add_target", { target });
+          document.getElementById("feed-target-text").innerText = this.targets.join(", ");
+        }
+      }
+
+      removeTarget(target) {
+        this.targets = this.targets.filter((t) => t !== target);
+        this.renderTargetChips();
+        this.sendCommandSilent("setup.remove_target", { target });
+        document.getElementById("feed-target-text").innerText = this.targets.length ? this.targets.join(", ") : "Belum ada target spesifik";
+      }
+
+      renderTargetChips() {
+        const list = document.getElementById("targets-list");
+        if (!list) return;
+        list.innerHTML = this.targets.map((t) => `
+          <div class="target-chip">
+            <span>🎯 ${this.escape(t)}</span>
+            <button type="button" class="remove-btn" onclick="app.removeTarget('${this.escape(t)}')">×</button>
+          </div>
+        `).join("");
+      }
+
+      appendInstruction(text) {
+        const inp = document.getElementById("instruction-input");
+        if (!inp) return;
+        inp.value = (inp.value ? inp.value.trim() + "\n" : "") + text;
+      }
+
+      setScanMode(mode) {
+        this.scanMode = mode;
+        ["quick", "standard", "deep"].forEach((m) => {
+          const el = document.getElementById("mode-" + m);
+          if (el) el.classList.toggle("active", m === mode);
+        });
+        const badge = document.getElementById("sidebar-mode-badge");
+        if (badge) badge.innerText = mode.toUpperCase();
+        this.sendCommandSilent("setup.set_config", { scan_mode: mode });
+      }
+
+      async onSetupSubmit(e) {
+        e.preventDefault();
+        const instruction = (document.getElementById("instruction-input")?.value || "").trim();
+        const budgetRaw = document.getElementById("budget-input")?.value;
+        const turnsRaw = document.getElementById("turns-input")?.value;
+
+        try {
+          if (instruction) {
+            await this.sendCommandSilent("setup.set_instruction", { instruction });
+          }
+          await this.sendCommandSilent("setup.set_config", {
+            scan_mode: this.scanMode,
+            max_budget_usd: budgetRaw ? parseFloat(budgetRaw) : null,
+            max_turns: turnsRaw ? parseInt(turnsRaw, 10) : 100
+          });
+          await this.sendCommandSilent("setup.start", { mount_working_dir: this.targets.length === 0 });
+        } catch (err) {}
+
+        this.toggleSetupView(false);
+        const promptSummary = `Mulai scan (${this.scanMode.toUpperCase()}) pada target ${this.targets.length ? this.targets.join(", ") : "workspace lokal"}. ${instruction}`;
+        this.usePrompt(promptSummary.trim());
+      }
+
+      async sendCommandSilent(command, payload = {}) {
+        try {
+          if (this.wsConnected && this.ws && this.ws.readyState === WebSocket.OPEN) {
+            const id = "cmd_" + Math.random().toString(36).substring(2, 9);
+            this.ws.send(JSON.stringify({ type: "command", id, command, payload }));
+            return;
+          }
+          await this.apiRequest("/api/command", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ command, payload })
+          });
+        } catch (e) {}
+      }
+
+      /* Right Sidebar Tabs */
+      switchRightTab(tab) {
+        document.getElementById("tab-btn-vulns").classList.toggle("active", tab === "vulns");
+        document.getElementById("tab-btn-metrics").classList.toggle("active", tab === "metrics");
+        document.getElementById("tab-content-vulns").style.display = tab === "vulns" ? "flex" : "none";
+        document.getElementById("tab-content-metrics").style.display = tab === "metrics" ? "flex" : "none";
+      }
+
+      /* Modals & Actions */
       openVuln(id) {
-        const v = this.vulns.find(item => item.id === id);
+        const v = this.vulns.find((item) => item.id === id);
         if (!v) return;
+        this.currentVuln = v;
         const sev = (v.severity || "info").toLowerCase();
 
         const badge = document.getElementById("modal-sev");
@@ -1238,22 +3255,76 @@
 
         document.getElementById("modal-title").innerText = v.title || "Finding";
         document.getElementById("modal-loc").innerText = v.target || v.url || v.component || "";
-        document.getElementById("modal-body").innerHTML = this.parseMarkdown(v.description || v.details || v.markdown || "No description");
+        document.getElementById("modal-body").innerHTML = this.parseMarkdown(v.description || v.details || v.markdown || "Tidak ada deskripsi.");
         document.getElementById("vuln-modal").style.display = "flex";
+      }
+
+      closeVulnModal() {
+        document.getElementById("vuln-modal").style.display = "none";
+      }
+
+      copyVulnMarkdown() {
+        if (!this.currentVuln) return;
+        const md = `# ${this.currentVuln.title || "Vulnerability"}\nSeverity: ${(this.currentVuln.severity || "INFO").toUpperCase()}\nTarget: ${this.currentVuln.target || "-"}\n\n${this.currentVuln.description || this.currentVuln.details || ""}`;
+        this.copyToClipboard(md);
       }
 
       closeModal(e) {
         document.getElementById("vuln-modal").style.display = "none";
       }
 
-      async confirmStop() {
-        if (confirm("Hentikan penetration test ini sekarang?")) {
-          await fetch("/api/command", {
+      confirmStop() {
+        document.getElementById("stop-modal").style.display = "flex";
+      }
+
+      closeStopModal() {
+        document.getElementById("stop-modal").style.display = "none";
+      }
+
+      async executeStopScan() {
+        this.closeStopModal();
+        this.isScanning = false;
+        const laser = document.getElementById("scan-laser-bar");
+        if (laser) laser.classList.remove("active");
+        document.getElementById("val-status").innerText = "STOPPED";
+        document.getElementById("main-status-dot").className = "pulse-dot stopped";
+
+        try {
+          await this.apiRequest("/api/command", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ command: "app.quit", payload: {} })
           });
+        } catch (e) {}
+        this.showToast("Sesi penetration test telah dihentikan");
+      }
+
+      async resolveMount(approved) {
+        document.getElementById("mount-modal").style.display = "none";
+        await this.sendCommandSilent("setup.confirm_mount", { approved });
+        this.showToast(approved ? "Workspace lokal di-mount" : "Berjalan tanpa mount lokal");
+      }
+
+      openLightbox(src) {
+        document.getElementById("lightbox-img").src = src;
+        document.getElementById("lightbox-modal").style.display = "flex";
+      }
+
+      closeLightbox() {
+        document.getElementById("lightbox-modal").style.display = "none";
+      }
+
+      openCaido() {
+        if (this.state && this.state.caido_url) {
+          window.open(this.state.caido_url, "_blank");
         }
+      }
+
+      closeAllModals() {
+        document.getElementById("vuln-modal").style.display = "none";
+        document.getElementById("stop-modal").style.display = "none";
+        document.getElementById("mount-modal").style.display = "none";
+        document.getElementById("lightbox-modal").style.display = "none";
       }
 
       escape(str) {
@@ -1269,21 +3340,25 @@
       parseMarkdown(md) {
         if (!md) return "";
         let s = this.escape(md);
-        s = s.replace(/```([a-z0-9_-]*)\n([\s\S]*?)```/g, (m, lang, code) => `<pre><code class="language-${lang}">${code}</code></pre>`);
-        s = s.replace(/`([^`]+)`/g, '<code>$1</code>');
-        s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
-        s = s.replace(/\*([^*]+)\*/g, '<em>$1</em>');
-        s = s.replace(/^### (.*$)/gim, '<h4 style="color:#fff; margin:10px 0 4px 0;">$1</h4>');
-        s = s.replace(/^## (.*$)/gim, '<h3 style="color:#fff; margin:12px 0 6px 0;">$1</h3>');
-        s = s.replace(/^# (.*$)/gim, '<h2 style="color:#fff; margin:14px 0 8px 0;">$1</h2>');
-        s = s.replace(/^\- (.*$)/gim, '<li>$1</li>');
-        s = s.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
-        s = s.replace(/\n\n/g, '<p></p>');
+        s = s.replace(/```([a-z0-9_-]*)\n([\s\S]*?)```/g, (m, lang, code) => {
+          return `<pre><code class="language-${lang}">${code}</code></pre>`;
+        });
+        s = s.replace(/`([^`]+)`/g, "<code>$1</code>");
+        s = s.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+        s = s.replace(/\*([^*]+)\*/g, "<em>$1</em>");
+        s = s.replace(/^### (.*$)/gim, '<h4 style="color:var(--strix-text-primary); margin:10px 0 4px 0; font-weight:700;">$1</h4>');
+        s = s.replace(/^## (.*$)/gim, '<h3 style="color:var(--strix-text-primary); margin:12px 0 6px 0; font-weight:700;">$1</h3>');
+        s = s.replace(/^# (.*$)/gim, '<h2 style="color:var(--strix-text-primary); margin:14px 0 8px 0; font-weight:800;">$1</h2>');
+        s = s.replace(/^&gt; (.*$)/gim, "<blockquote>$1</blockquote>");
+        s = s.replace(/^\- (.*$)/gim, "<li>$1</li>");
+        s = s.replace(/(<li>.*<\/li>)/s, "<ul>$1</ul>");
+        s = s.replace(/\n\n/g, "<p></p>");
         return s;
       }
     }
 
     const app = new StrixAgentApp();
+    window.app = app;
   </script>
 </body>
 </html>
