@@ -170,28 +170,24 @@ Advanced multi-agent orchestration for comprehensive automated penetration testi
 
 ---
 
-## 🌐 Interactive Web Agent Mode (`strix --web`)
+## Web Interface (`strix --web`)
 
-Launch Strix in a full-featured, real-time AI Agent Web interface instead of the terminal:
+Run Strix through a local browser interface instead of the terminal:
 
 ```bash
-# Start interactive web interface on default port 1400 (automatically opens Chrome)
+# Start the web UI on 127.0.0.1:1400 (opens Chrome automatically)
 strix --web
 
-# Custom port
-strix --web --port 1400
-
-# Start directly with target and instructions
-strix --web --target https://your-app.com --instruction "Focus on authentication bypass and IDOR"
+# Bind to another port
+strix --web --port 8080
 ```
 
-Features of the Interactive Web Agent UI:
-- **Direct Chat Interface**: Natural conversation with your pentest agent. Mention targets and instructions naturally in chat (e.g. *"test https://target.com and search for IDOR"*). The agent parses and launches testing automatically.
-- **Real-Time Swarm Observation**: Live agent graph and status badges showing active subagents (`running`, `waiting`, `completed`).
-- **Interactive Tool Inspection**: Modern macOS-styled terminal widgets displaying executed shell commands, HTTP proxy requests, and live command outputs with collapsible drawers.
-- **Reasoning / Thinking Visualizer**: Collapsible glowing blocks showing internal model reasoning and planning steps.
-- **Live Findings Panel**: Interactive vulnerability cards ranked by CVSS severity with formatted markdown PoCs and code snippets.
-- **Bi-directional Steering**: Send real-time follow-up instructions and guidance to running agents mid-scan.
+The web interface lets you:
+- Send prompts directly without filling out setup forms. Targets mentioned in your message are extracted and scanned automatically.
+- Watch subagents as they are spawned and coordinated across tasks.
+- Inspect tool calls, executed shell commands, HTTP proxy requests, and output logs.
+- Review vulnerability reports and proof of concept snippets as findings arrive.
+- Send steering instructions to running agents mid-scan.
 
 ---
 

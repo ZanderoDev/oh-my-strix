@@ -808,27 +808,27 @@
               <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
             </svg>
           </div>
-          <h1 class="hero-title">Strix Autonomous Security Agent</h1>
+          <h1 class="hero-title">Strix</h1>
           <p class="hero-desc">
-            Asisten AI otonom untuk reconnaissance, vulnerability discovery, dan automated penetration testing. Cukup ketik perintah di bawah dan agent akan bekerja sendiri.
+            Ketik target atau instruksi scan di bawah.
           </p>
 
           <div class="prompt-suggestions">
-            <div class="prompt-chip" onclick="app.usePrompt('Coba lakukan penetration test dan cari vulnerability di https://example.com')">
-              <div class="prompt-chip-title">🌐 Scan Web Application</div>
-              <div class="prompt-chip-desc">Uji OWASP Top 10, Auth bypass, IDOR di target web</div>
+            <div class="prompt-chip" onclick="app.usePrompt('Test https://example.com untuk celah IDOR dan auth bypass')">
+              <div class="prompt-chip-title">Web app scan</div>
+              <div class="prompt-chip-desc">Test IDOR, auth bypass, dan OWASP Top 10</div>
             </div>
-            <div class="prompt-chip" onclick="app.usePrompt('Audit keamanan dan cari vulnerability di source code project lokal ini')">
-              <div class="prompt-chip-title">🛡️ Audit Local Code</div>
-              <div class="prompt-chip-desc">White-box code review untuk mencari celah keamanan</div>
+            <div class="prompt-chip" onclick="app.usePrompt('Review keamanan source code di direktori ini')">
+              <div class="prompt-chip-title">Review kode lokal</div>
+              <div class="prompt-chip-desc">Scan repository lokal untuk celah keamanan</div>
             </div>
-            <div class="prompt-chip" onclick="app.usePrompt('Lakukan security test pada REST API endpoint https://api.example.com/v1')">
-              <div class="prompt-chip-title">⚡ API Security Scan</div>
-              <div class="prompt-chip-desc">Fuzzing parameter, authorization testing & rate limits</div>
+            <div class="prompt-chip" onclick="app.usePrompt('Test security REST API endpoint https://api.example.com/v1')">
+              <div class="prompt-chip-title">API security test</div>
+              <div class="prompt-chip-desc">Fuzzing parameter dan rate limiting</div>
             </div>
-            <div class="prompt-chip" onclick="app.usePrompt('Cari bug SQL Injection dan XSS di target dengan bukti PoC')">
-              <div class="prompt-chip-title">🔍 Injection & Exploits</div>
-              <div class="prompt-chip-desc">Uji vulnerability injection dengan PoC lengkap</div>
+            <div class="prompt-chip" onclick="app.usePrompt('Cari bug SQL injection dan XSS dengan bukti PoC')">
+              <div class="prompt-chip-title">Injeksi dan exploit</div>
+              <div class="prompt-chip-desc">Verifikasi temuan dengan proof of concept</div>
             </div>
           </div>
         </div>
@@ -839,7 +839,7 @@
         <div class="composer-card">
           <textarea
             id="chat-input"
-            placeholder="Perintahkan Strix Agent (contoh: 'hack https://target.com dan cari celah IDOR')... Tekan Enter untuk kirim"
+            placeholder="Ketik target atau instruksi (contoh: scan https://example.com)... Tekan Enter untuk kirim"
             rows="1"
             onkeydown="app.handleKeyDown(event)"
           ></textarea>
@@ -849,7 +849,7 @@
               <strong id="current-target-agent">Root Agent</strong>
             </div>
             <button class="send-btn" id="btn-send" onclick="app.sendChatMessage()">
-              Kirim Perintah →
+              Kirim
             </button>
           </div>
         </div>
