@@ -150,6 +150,7 @@ def _build_server(config: McpConnectionConfig) -> BuiltMcpServer:
                 name=config.name,
                 tool_filter=tool_filter,
                 cache_tools_list=True,
+                client_session_timeout_seconds=config.session_timeout_seconds,
             ),
             None,
         )
