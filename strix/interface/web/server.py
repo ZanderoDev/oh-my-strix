@@ -68,13 +68,16 @@ class WebServer:
         self._setup_routes()
 
     def _setup_routes(self) -> None:
-        # Static assets from the official Strix viewer bundle
-        official_bundle = bundle_dir()
-        assets_dir = official_bundle / "assets"
-        if assets_dir.is_dir():
-            self.app.router.add_static("/assets", assets_dir, follow_symlinks=True)
+        static_path = web_static_dir()
+        assets_path = static_path / "assets"
+        if assets_path.is_dir():
+            self.app.router.add_static("/assets", assets_path, follow_symlinks=True)
+        if static_path.is_dir():
+            self.app.router.add_static("/static", static_path, follow_symlinks=True)
 
         self.app.router.add_get("/", self._handle_index)
+        self.app.router.add_get("/manus-base.css", self._handle_manus_css)
+        self.app.router.add_get("/favicon.ico", self._handle_favicon)
         self.app.router.add_get("/logo.png", self._handle_logo)
         self.app.router.add_get("/static/logo.png", self._handle_logo)
         self.app.router.add_get("/setup", self._handle_index)
@@ -95,6 +98,18 @@ class WebServer:
         self.app.router.add_get("/api/events", self._handle_get_events)
         self.app.router.add_post("/api/command", self._handle_post_command)
         self.app.router.add_get("/ws", self._handle_ws)
+
+    async def _handle_manus_css(self, _request: web.Request) -> web.Response:
+        css_file = web_static_dir() / "manus-base.css"
+        if css_file.is_file():
+            return web.Response(body=css_file.read_bytes(), content_type="text/css")
+        return web.Response(status=404)
+
+    async def _handle_favicon(self, _request: web.Request) -> web.Response:
+        fav_file = web_static_dir() / "assets" / "favicon.ico"
+        if fav_file.is_file():
+            return web.Response(body=fav_file.read_bytes(), content_type="image/x-icon")
+        return web.Response(status=404)
 
     async def _handle_index(self, _request: web.Request) -> web.Response:
         index_file = web_static_dir() / "index.html"
